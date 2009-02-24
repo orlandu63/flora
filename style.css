@@ -1,0 +1,95 @@
+html {
+width: 100%
+}
+
+body {
+font: 1em Arial;
+color: black;
+background: white;
+}
+
+.postinfo, #pages {
+margin: 0;
+padding: 0;
+list-style: none
+}
+
+.postinfo li, #pages li {
+display: inline;
+}
+
+.reply-wrap {
+padding-left: .5em;
+background: white
+}
+
+.postinfo li + li:before {
+content: ' '
+}
+
+.postinfo li, #pages li + li {
+margin-left: .4em;
+}
+
+.postinfo {
+background: #eef
+}
+
+.post {
+margin-top: 1em;
+padding: 0 0 0 .4em;
+border: 1px dotted black;
+border-right: none;
+border-bottom: none
+}
+
+body > .post {
+	border-right: 1px dotted black
+}
+
+.topiclist, table {
+background: #eee
+}
+
+.topiclist {
+width: 100%
+}
+
+.topiclist {
+	border: 1px solid green
+}
+
+.topiclist .odd {
+	background: #eee
+}
+
+.topiclist td {
+	padding: .15em
+}
+
+.topiclist .even {
+	background: #ddd
+}
+
+.topiclist th, th {
+background: green;
+color: white
+}
+
+.tc-indicator, .sticky-symbol {
+color: red
+}
+
+#footer {
+font-size: small;
+}
+
+a {
+	color: blue;
+	text-decoration: none
+}
+
+.time {
+	font-size: small;
+	color: #555
+}
