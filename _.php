@@ -6,7 +6,7 @@ require 'utilities.php';
 require 'db.php';
 require 'stemplator.php';
 
-define('VERSION', '0.3.3');
+define('VERSION', '0.3.4');
 
 
 class User {
