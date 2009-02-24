@@ -115,7 +115,7 @@ class Topics extends Posts {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT 1 FROM topic_info WHERE id = ?', $id)
+		return $DB->q('SELECT SQL_NO_CACHE 1 FROM topic_info WHERE id = ?', $id)
 			->fetchColumn();
 	}
 	
@@ -135,7 +135,7 @@ class Topics extends Posts {
 	
 	public static function getIdFromThread($id) {
 		global $DB;
-		return $DB->q('SELECT topic FROM thread_info WHERE id = ?', $id)
+		return $DB->q('SELECT SQL_NO_CACHE topic FROM thread_info WHERE id = ?', $id)
 			->fetchColumn();
 	}
 }
