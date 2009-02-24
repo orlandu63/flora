@@ -57,14 +57,14 @@ class Posts {
 	
 	public static function isFlooding() {
 		global $DB;
-			return $DB->q('SELECT SQL_NO_CACHE 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', User::$ip)
+			return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', User::$ip)
 				->fetchColumn();
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
 			if($parent !== null) {
-				$topic = $DB->q('SELECT SQL_NO_CACHE topic FROM post_info WHERE id = ?', $parent)
+				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)
 					->fetchColumn();
 			} elseif($topic === null) {
 				die("ERROR: LOST CHILD. \$parent = $parent, \$topic = $topic");
@@ -80,13 +80,13 @@ class Posts {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE 1 FROM post_info WHERE id = ?', $id)
+		return $DB->q('SELECT 1 FROM post_info WHERE id = ?', $id)
 			->fetchColumn();
 	}
 	
 	public static function getPostInfo($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE post_info.id id, topic, parent, author, toc, ip, num_children, body
+		return $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
 			FROM post_info
 				LEFT JOIN post_data ON post_info.id = post_data.id
 			WHERE post_info.id = ?', $id)->fetch();
@@ -115,13 +115,13 @@ class Topics extends Posts {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE 1 FROM topic_info WHERE id = ?', $id)
+		return $DB->q('SELECT 1 FROM topic_info WHERE id = ?', $id)
 			->fetchColumn();
 	}
 	
 	public static function getTotal() {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE COUNT(*) FROM topic_info')
+		return $DB->q('SELECT COUNT(*) FROM topic_info')
 			->fetchColumn();
 	}
 	
@@ -135,7 +135,7 @@ class Topics extends Posts {
 	
 	public static function getIdFromThread($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE topic FROM thread_info WHERE id = ?', $id)
+		return $DB->q('SELECT topic FROM thread_info WHERE id = ?', $id)
 			->fetchColumn();
 	}
 }
