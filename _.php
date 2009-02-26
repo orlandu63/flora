@@ -22,6 +22,7 @@ class User {
 }
 
 class Page extends STemplator {
+	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
 	private $wd;
 
 	public function __construct() {

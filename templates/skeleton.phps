@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1 id="header"><a href=".">Flora</a></h1>
-<p><?php echo coalesce(get($announcement), 'unmoderated anonymous message board') ?></p>
+<p><?php echo coalesce(get($announcement), Page::DEFAULT_ANNOUNCEMENT) ?></p>
 <?php echo $contents ?>
 <hr/>
 <p id="footer">Exec(new Flora('<?php echo VERSION ?>')) → <a href="?source"><?php echo round(xdebug_time_index(), 3) ?></a></p></body></html>
