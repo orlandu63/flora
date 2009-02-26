@@ -152,12 +152,13 @@ class Input {
 				$header = 'Reply';
 				$action = 'post.php?post=' . filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
 				$legend = 'Post Info';
-
+				$submit_value = 'Post Reply';
 				break;
 			case self::FORM_TOPIC:
 				$header = 'Start a Topic';
 				$action = 'post.php';
 				$legend = 'Topic Info';
+				$submit_value = 'Make Topic';
 				break;
 		}
 		echo '<h2>', $header , '</h2>',
@@ -170,7 +171,7 @@ class Input {
 		}
 		echo 'Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>
 			<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS , '">', filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS) ,'</textarea><br/>',
-			'<input type="submit" value="Make Topic" name="submit"/> ',
+			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',
 			'</form>';
