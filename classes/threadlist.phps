@@ -23,7 +23,7 @@ class ThreadList {
 			echo '<ul class="postinfo" id="m', $thread['id'], '">',
 				'<li>By ', ($thread['author'] ? $thread['author'] : 'Anon'), ($this->topic_info['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''), '</li>',
 				'<li>', Input::formatTime($thread['toc']), '</li>',
-				'<li><a href="post.php?post=', $thread['id'], '">Reply</a></li>',
+				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>',
 				($parent !== null ? '<li class="nav"><a href="#m' . $parent . '">↖</a></li>' : ''),
 				(isset($children[$key+1]) ? '<li class="nav"><a href="#m' . $children[$key+1]['id'] . '">↓</a></li>' : ''),
 				(isset($children[$key-1]) ? '<li class="nav"><a href="#m' . $children[$key-1]['id'] . '">↑</a></li>' : ''),

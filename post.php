@@ -2,14 +2,14 @@
 require '_.php';
 require 'markdown.php';
 $Page->title = 'Post';
-$post = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
+$thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 try {
 	if(Posts::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
 	}
-	if($post && !Posts::exists($post)) {
+	if($thread && !Posts::exists($thread)) {
 		throw new Exception('Post does not exist.');
 	}
 
@@ -29,7 +29,7 @@ try {
 		if(strlen($body) > Posts::MAX_BODY_LENGTH) {
 			throw new Exception('Body must be no more than ' . Posts::MAX_BODY_LENGTH . ' characters.');
 		}
-		if(!$post) {
+		if(!$thread) {
 			$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
 			if(!$title) {
 				throw new Exception('Please input a title.');
@@ -40,21 +40,21 @@ try {
 		}
 	}
 	
-	if($post) {
+	if($thread) {
 		echo '<h3>Replying to:</h3>';
-		Posts::displayPost($post);
+		Posts::displayPost($thread);
 	}
 
 	if($preview) {
 		echo '<h3>Preview: ';
-		if(!$post) {
+		if(!$thread) {
 			echo ' ', $title;
 		}
 		echo '</h3>';
 		Posts::displayPost(array('body' => $body, 'author' => $author, 'toc' => time()));
 	} elseif($submit) {
-		if($post) {
-			$new_info = Posts::make($post, $author, $body);
+		if($thread) {
+			$new_info = Posts::make($thread, $author, $body);
 		} else {
 			$new_info = Topics::make($title, $author, $body);
 		}
@@ -67,4 +67,4 @@ try {
 	return;
 }
 
-Input::showContentCreationForm(($post ? Input::FORM_THREAD : Input::FORM_TOPIC));
+Input::showContentCreationForm(($thread ? Input::FORM_THREAD : Input::FORM_TOPIC));

@@ -151,7 +151,7 @@ class Input {
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$action = 'post.php?post=' . filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
+				$action = 'post.php?thread=' . filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;
