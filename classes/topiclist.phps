@@ -34,6 +34,9 @@ class TopicList {
 	
 	public function pagination() {
 		$total = Topics::getTotal();
+		if($total <= self::PER_PAGE) {
+			return;
+		}
 		$num_pages = (int)(($total - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
