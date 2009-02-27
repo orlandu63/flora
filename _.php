@@ -170,7 +170,7 @@ class Input {
 		if($type === self::FORM_TOPIC) {
 			echo 'Title: <input type="text" size="', Topics::MAX_TITLE_LENGTH , '" value="', filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),'" name="title" maxlength="80"/><br/>';
 		}
-		echo 'Body: (You may use <a href="http://hobix.com/textile/#quick-phrase-modifiers">Markdown</a>)<br/>
+		echo 'Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>
 			<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS , '">', filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS) ,'</textarea><br/>',
 			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
 			'<input type="submit" value="Preview" name="preview"/>',
