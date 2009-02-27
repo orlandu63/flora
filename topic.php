@@ -1,5 +1,5 @@
 <?php
-require '_.php';
+require '_.phps';
 require 'classes/threadlist.phps';
 
 $Page->title = 'Topic';

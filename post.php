@@ -1,5 +1,5 @@
 <?php
-require '_.php';
+require '_.phps';
 require 'markdown.php';
 $Page->title = 'Post';
 $thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);

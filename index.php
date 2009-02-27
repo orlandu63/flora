@@ -1,5 +1,5 @@
 <?php
-require '_.php';
+require '_.phps';
 require 'classes/topiclist.phps';
 
 $Page->title = 'Topic Index';
