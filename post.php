@@ -14,29 +14,10 @@ try {
 	}
 
 	if($submit || $preview) {
-		$author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
-		if(Input::getUserAuthor() !== $author) {
-			setcookie('author', $author); #FIX COOKIE ISSUE D:
-		}
-		if(strlen($author) > Posts::MAX_AUTHOR_LENGTH) {
-			throw new Exception('Name must be no more than ' . Posts::MAX_AUTHOR_LENGTH . ' characters');
-		}
-		$body = trim(filter_input(INPUT_POST, 'body'));
-		if(!$body) {
-			throw new Exception('Body must be at least 1 char');
-		}
-		$body = Markdown($body);
-		if(strlen($body) > Posts::MAX_BODY_LENGTH) {
-			throw new Exception('Body must be no more than ' . Posts::MAX_BODY_LENGTH . ' characters.');
-		}
+		$author = Input::validate(Input::VALIDATE_AUTHOR);
+		$body = Input::validate(Input::VALIDATE_BODY);
 		if(!$thread) {
-			$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
-			if(!$title) {
-				throw new Exception('Please input a title.');
-			}
-			if(strlen($title) > Topics::MAX_TITLE_LENGTH) {
-				throw new Exception('Title must be no more than ' . Topics::MAX_TITLE_LENGTH . ' characters.');
-			}
+			$title = Input::validate(INPUT::VALIDATE_TITLE);
 		}
 	}
 	

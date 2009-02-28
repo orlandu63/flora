@@ -146,6 +146,9 @@ class Input {
 	const TEXTAREA_ROWS = 10;
 	const FORM_THREAD = 0;
 	const FORM_TOPIC = 1;
+	const VALIDATE_AUTHOR = 0;
+	const VALIDATE_BODY = 1;
+	const VALIDATE_TITLE = 2;
 	
 	public static function showContentCreationForm($type) {
 		switch($type) {
@@ -176,6 +179,63 @@ class Input {
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',
 			'</form>';
+	}
+	
+	public static function validate($type, $sub = null) {
+		switch($type) {
+			case self::VALIDATE_AUTHOR:
+				return self::validateAuthor($sub);
+			case self::VALIDATE_BODY:
+				return self::validateBody($sub);
+			case self::VALIDATE_TITLE:
+				return self::validateTitle($sub);
+		}
+	}
+	
+	protected static function validateAuthor($sub = null) {
+		if($sub === null) {
+			$author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
+		} else {
+			$author = $sub;
+		}
+		if(self::getUserAuthor() !== $author) {
+			setcookie('author', $author); #FIX COOKIE ISSUE D:
+		}
+		if(strlen($author) > Posts::MAX_AUTHOR_LENGTH) {
+			throw new Exception('Name must be no more than ' . Posts::MAX_AUTHOR_LENGTH . ' characters');
+		}
+		return $author;
+	}
+	
+	protected static function validateBody($sub = null) {
+		if($sub === null) {
+			$body = trim(filter_input(INPUT_POST, 'body'));
+		} else {
+			$body = $sub;
+		}
+		if(!$body) {
+			throw new Exception('Body must be at least 1 char');
+		}
+		$body = Markdown($body);
+		if(strlen($body) > Posts::MAX_BODY_LENGTH) {
+			throw new Exception('Body must be no more than ' . Posts::MAX_BODY_LENGTH . ' characters.');
+		}
+		return $body;
+	}
+	
+	protected static function validateTitle($sub = null) {
+		if($sub === null) {
+			$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
+		} else {
+			$title = $sub;
+		}
+		if(!$title) {
+			throw new Exception('Please input a title.');
+		}
+		if(strlen($title) > Topics::MAX_TITLE_LENGTH) {
+			throw new Exception('Title must be no more than ' . Topics::MAX_TITLE_LENGTH . ' characters.');
+		}
+		return $title;
 	}
 
 	public static function getUserAuthor() {
