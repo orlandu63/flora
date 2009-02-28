@@ -1,6 +1,6 @@
 <?php
 class ThreadList {
-	public $topic_info = array(), $threads = array();
+	public $topic_info = array(), $children = array();
 
 	public function __construct($id) {
 		global $DB;
@@ -11,24 +11,36 @@ class ThreadList {
 				LEFT JOIN post_data ON post_info.id = post_data.id
 			WHERE topic = ?', $id)->fetchAll();
 		foreach($posts as $post) {
-			$this->threads[$post['parent']][] = $post;
+			$this->children[$post['parent']][] = $post;
 		}
 	}
 	
 	protected function renderThread($parent) {
-		$children = $this->threads[$parent];
+		$children = $this->children[$parent];
 		foreach($children as $key => $thread) {
-			$thread_has_children = isset($this->threads[$thread['id']]);
+			$thread_has_children = isset($this->children[$thread['id']]);
 			echo '<div class="post">';
 			echo '<ul class="postinfo" id="m', $thread['id'], '">',
 				'<li>By ', ($thread['author'] ? $thread['author'] : 'Anon'), ($this->topic_info['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''), '</li>',
 				'<li>', Input::formatTime($thread['toc']), '</li>',
-				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>',
-				($parent !== null ? '<li class="nav"><a href="#m' . $parent . '">↖</a></li>' : ''),
-				(isset($children[$key+1]) ? '<li class="nav"><a href="#m' . $children[$key+1]['id'] . '">↓</a></li>' : ''),
-				(isset($children[$key-1]) ? '<li class="nav"><a href="#m' . $children[$key-1]['id'] . '">↑</a></li>' : ''),
-				($thread_has_children ? '<li class="nav"><a href="#m' . $this->threads[$thread['id']][0]['id'] . '">↘<small><sup>1</sup></small></a></li>' : ''),
-				'<li><small><a href="#m', $thread['id'], '">#', $thread['id'], '</a></small></li>',
+				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
+				$nav_links = array();
+				if($parent !== null) {
+					$nav_links['↖'] = $parent;
+				}
+				if(isset($children[$key+1])) {
+					$nav_links['↓'] = $children[$key+1]['id'];
+				}
+				if(isset($children[$key-1])) {
+					$nav_links['↑'] = $children[$key-1]['id'];
+				}
+				if($thread_has_children) {
+					$nav_links['↘<small><sup>1</sup></small>'] = $this->children[$thread['id']][0]['id'];
+				}
+				foreach($nav_links as $text => $message_id) {
+					echo '<li class="nav"><a href="#m', $message_id, '">', $text, '</a></li>';
+				}
+				echo '<li class="nav"><small><a href="#m', $thread['id'], '">#', $thread['id'], '</a></small></li>',
 				'</ul>',
 				$thread['body'];
 			if($thread_has_children) {
