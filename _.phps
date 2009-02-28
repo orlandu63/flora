@@ -199,11 +199,7 @@ class Input {
 	}
 	
 	public static function validateAuthor($sub = null) {
-		if($sub === null) {
-			$author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
-		} else {
-			$author = $sub;
-		}
+		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
 		if(self::getUserAuthor() !== $author) {
 			setcookie('author', $author); #FIX COOKIE ISSUE D:
 		}
@@ -214,11 +210,7 @@ class Input {
 	}
 	
 	public static function validateBody($sub = null) {
-		if($sub === null) {
-			$body = trim(filter_input(INPUT_POST, 'body'));
-		} else {
-			$body = $sub;
-		}
+		$body = ($sub === null ? trim(filter_input(INPUT_POST, 'body')) : $sub);
 		if(!$body) {
 			throw new Exception('Body must be at least 1 char');
 		}
@@ -231,11 +223,7 @@ class Input {
 	}
 	
 	public static function validateTitle($sub = null) {
-		if($sub === null) {
-			$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
-		} else {
-			$title = $sub;
-		}
+		$title = ($sub === null ?trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)) : null);
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
