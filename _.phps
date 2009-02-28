@@ -195,7 +195,7 @@ class Input {
 		if(has_flag($flags, self::VALIDATE_TITLE)) {
 			$return[] = self::validateTitle();
 		}
-		return count($return) === 1 ? $return[0] : $return;
+		return (count($return) === 1 ? $return[0] : $return);
 	}
 	
 	public static function validateAuthor($sub = null) {
@@ -222,7 +222,8 @@ class Input {
 		if(!$body) {
 			throw new Exception('Body must be at least 1 char');
 		}
-		$body = Markdown($body);
+		$parser = Markdown::getInstance();
+		$body = $parser->transform($body);
 		if(strlen($body) > Posts::MAX_BODY_LENGTH) {
 			throw new Exception('Body must be no more than ' . Posts::MAX_BODY_LENGTH . ' characters.');
 		}
@@ -275,7 +276,7 @@ class Input {
 		}
 
 		if(empty($durations)) {
-			$durations[0] = 'a few seconds';
+			$durations = array('a few seconds');
 		} else {
 			$num_durations = count($durations);
 			if($num_durations > 2) {
