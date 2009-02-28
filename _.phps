@@ -1,5 +1,5 @@
 <?php
-//todo: clean up queries, make post_link function, something with make[post|topic]info
+//todo: clean up queries, something with make[post|topic]info (i have no idea what "something" is anymore :[)
 if(isset($_GET['source'])) {
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
@@ -142,6 +142,10 @@ class Topics extends Posts {
 		global $DB;
 		return $DB->q('SELECT SQL_NO_CACHE topic FROM thread_info WHERE id = ?', $id)
 			->fetchColumn();
+	}
+	
+	public static function link($id, $post_id = null) {
+		return sprintf('topic.php?id=%d%s', $id, ($post_id ? '#' . $post_id : ''));
 	}
 }
 
