@@ -18,7 +18,7 @@ class TopicList {
 		}
 	}
 	
-	public function display() {
+	public function render() {
 		$affinity = 0;
 		echo '<table class="topiclist"><thead><tr><th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th></tr></thead><tbody>';
 		foreach($this->topics as $topic) {
@@ -32,7 +32,7 @@ class TopicList {
 		echo '</tbody></table>';
 	}
 	
-	public function pagination() {
+	public function renderPagination() {
 		$total = Topics::getTotal();
 		if($total <= self::PER_PAGE) {
 			return;

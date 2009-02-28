@@ -15,7 +15,7 @@ class ThreadList {
 		}
 	}
 	
-	protected function displayThread($parent) {
+	protected function renderThread($parent) {
 		$children = $this->threads[$parent];
 		foreach($children as $key => $thread) {
 			$thread_has_children = isset($this->threads[$thread['id']]);
@@ -33,15 +33,15 @@ class ThreadList {
 				$thread['body'];
 			if($thread_has_children) {
 				echo '<div class="reply-wrap">';
-					$this->displayThread($thread['id']);
+					$this->renderThread($thread['id']);
 				echo '</div>';
 			}
 			echo '</div>';
 		}
 	}
 
-	public function display() {
+	public function render() {
 		echo '<h1>', $this->topic_info['title'], '</h1>';
-		$this->displayThread(null);
+		$this->renderThread(null);
 	}
 }

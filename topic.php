@@ -10,4 +10,4 @@ if(!Topics::exists($topic)) {
 
 $Threadlist = new ThreadList($topic);
 $Page->title = $Threadlist->topic_info['title'];
-$Threadlist->display();
+$Threadlist->render();
