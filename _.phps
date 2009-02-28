@@ -21,6 +21,7 @@ class User {
 	}
 }
 
+#this is fucked up
 class Page extends STemplator {
 	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
 	private $wd;
@@ -58,8 +59,8 @@ class Posts {
 	
 	public static function isFlooding() {
 		global $DB;
-			return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', User::$ip)
-				->fetchColumn();
+		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', User::$ip)
+			->fetchColumn();
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -98,7 +99,8 @@ class Posts {
 		echo '<div class="post"><ul class="postinfo">',
 			'<li>By ', ($post['author'] ? $post['author'] : 'Anon'), '</li>',
 			'<li>', Input::formatTime($post['toc']), '</li>',
-			'</ul>', $post['body'], '</div>';
+			'</ul>',
+			$post['body'], '</div>';
 	}
 }
 
@@ -180,19 +182,24 @@ class Input {
 			'</fieldset>',
 			'</form>';
 	}
-	
-	public static function validate($type, $sub = null) {
-		switch($type) {
-			case self::VALIDATE_AUTHOR:
-				return self::validateAuthor($sub);
-			case self::VALIDATE_BODY:
-				return self::validateBody($sub);
-			case self::VALIDATE_TITLE:
-				return self::validateTitle($sub);
+
+	public static function validate($type) {
+		#this is useless
+		$flags = $type;
+		$return = array();
+		if(has_flag($flags, self::VALIDATE_AUTHOR)) {
+			$return[] = self::validateAuthor();
 		}
+		if(has_flag($flags, self::VALIDATE_BODY)) {
+			$return[] = self::validateBody();
+		}
+		if(has_flag($flags, self::VALIDATE_TITLE)) {
+			$return[] = self::validateTitle();
+		}
+		return count($return) === 1 ? $return[0] : $return;
 	}
 	
-	protected static function validateAuthor($sub = null) {
+	public static function validateAuthor($sub = null) {
 		if($sub === null) {
 			$author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
 		} else {
@@ -207,7 +214,7 @@ class Input {
 		return $author;
 	}
 	
-	protected static function validateBody($sub = null) {
+	public static function validateBody($sub = null) {
 		if($sub === null) {
 			$body = trim(filter_input(INPUT_POST, 'body'));
 		} else {
@@ -223,7 +230,7 @@ class Input {
 		return $body;
 	}
 	
-	protected static function validateTitle($sub = null) {
+	public static function validateTitle($sub = null) {
 		if($sub === null) {
 			$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
 		} else {
