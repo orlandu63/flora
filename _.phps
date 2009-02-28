@@ -118,8 +118,7 @@ class Topics extends Posts {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE 1 FROM topic_info WHERE id = ?', $id)
-			->fetchColumn();
+		return $DB->q('SELECT SQL_NO_CACHE 1 FROM topic_info WHERE id = ?', $id)->fetchColumn();
 	}
 	
 	public static function getTotal() {
@@ -190,13 +189,13 @@ class Input {
 		#this is useless
 		$return = array();
 		if(has_flag($flags, self::VALIDATE_AUTHOR)) {
-			$return[] = self::validateAuthor();
+			$return['author'] = self::validateAuthor();
 		}
 		if(has_flag($flags, self::VALIDATE_BODY)) {
-			$return[] = self::validateBody();
+			$return['body'] = self::validateBody();
 		}
 		if(has_flag($flags, self::VALIDATE_TITLE)) {
-			$return[] = self::validateTitle();
+			$return['title'] = self::validateTitle();
 		}
 		return (count($return) === 1 ? $return[0] : $return);
 	}

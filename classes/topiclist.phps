@@ -42,11 +42,11 @@ class TopicList {
 	}
 	
 	public function renderPagination() {
-		$total = Topics::getTotal();
+		$total = Topics::getTotal() - 1;
 		if($total <= self::PER_PAGE) {
 			return;
 		}
-		$num_pages = (int)(($total - 1) / self::PER_PAGE);
+		$num_pages = (int)($total / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
 			echo '<li>[<a href="?page=', $cur_page, '">', $cur_page, '</a>]</li>';
