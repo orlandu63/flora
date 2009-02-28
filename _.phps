@@ -223,7 +223,7 @@ class Input {
 	}
 	
 	public static function validateTitle($sub = null) {
-		$title = ($sub === null ? trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)) : null);
+		$title = ($sub === null ? trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
