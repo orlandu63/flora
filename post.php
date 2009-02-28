@@ -27,7 +27,7 @@ try {
 	}
 
 	if($preview) {
-		echo '<h3>Preview: ';
+		echo '<h3>Preview:';
 		if(!$thread) {
 			echo ' ', $title;
 		}
