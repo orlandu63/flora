@@ -26,22 +26,22 @@ class ThreadList {
 				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
-					$nav_links['↖'] = $parent;
+					$nav_links[$parent] = '↖';
 				}
 				if(isset($children[$key+1])) {
-					$nav_links['↓'] = $children[$key+1]['id'];
+					$nav_links[$children[$key+1]['id']] = '↓';
 				}
 				if(isset($children[$key-1])) {
-					$nav_links['↑'] = $children[$key-1]['id'];
+					$nav_links[$children[$key-1]['id']] = '↑';
 				}
 				if($thread_has_children) {
-					$nav_links['↘<small><sup>1</sup></small>'] = $this->children[$thread['id']][0]['id'];
+					$nav_links[$this->children[$thread['id']][0]['id']] = '↘<small><sup>1</sup></small>';
 				}
-				foreach($nav_links as $text => $message_id) {
-					echo '<li class="nav"><a href="#m', $message_id, '">', $text, '</a></li>';
+				$nav_links[$thread['id']] = '#' . $thread['id'];
+				foreach($nav_links as $message_id => $text) {
+					echo '<li class="nav"><a href="', Topics::link($this->topic_info['id'], $message_id), '">', $text, '</a></li>';
 				}
-				echo '<li class="nav"><small><a href="#m', $thread['id'], '">#', $thread['id'], '</a></small></li>',
-				'</ul>',
+				echo '</ul>',
 				$thread['body'];
 			if($thread_has_children) {
 				echo '<div class="reply-wrap">';
