@@ -144,11 +144,11 @@ class Topics extends Posts {
 class Input {
 	const TEXTAREA_COLS = 80;
 	const TEXTAREA_ROWS = 10;
-	const FORM_THREAD = 0;
-	const FORM_TOPIC = 1;
-	const VALIDATE_AUTHOR = 0;
-	const VALIDATE_BODY = 1;
-	const VALIDATE_TITLE = 2;
+	const FORM_THREAD = 1;
+	const FORM_TOPIC = 2;
+	const VALIDATE_AUTHOR = 1;
+	const VALIDATE_BODY = 2;
+	const VALIDATE_TITLE = 4;
 	
 	public static function showContentCreationForm($type) {
 		switch($type) {

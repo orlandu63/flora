@@ -44,7 +44,7 @@ try {
 		die;
 	}
 } catch(Exception $exception) {
-	echo '<p>',  $exception->getMessage(), '<br/>Note that &lt;, &gt;, &amp; and " are considered as 4, 4, 5, ?? characters in web form.</p>';
+	echo '<p>',  $exception->getMessage(), '<br/>Note that &lt;, &gt;, &amp; and " are actually 4, 4, 5, ?? characters in web form.</p>';
 	return;
 }
 
