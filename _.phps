@@ -145,7 +145,7 @@ class Topics extends Posts {
 	}
 	
 	public static function link($id, $post_id = null) {
-		return 'topic.php?id=' . $id . ($post_id ? '#' . $post_id : '');
+		return 'topic.php?id=' . $id . ($post_id ? '#m' . $post_id : '');
 	}
 }
 
