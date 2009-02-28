@@ -183,9 +183,8 @@ class Input {
 			'</form>';
 	}
 
-	public static function validate($type) {
+	public static function validate($flags) {
 		#this is useless
-		$flags = $type;
 		$return = array();
 		if(has_flag($flags, self::VALIDATE_AUTHOR)) {
 			$return[] = self::validateAuthor();
