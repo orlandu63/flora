@@ -18,7 +18,7 @@ class TopicList {
 		}
 	}
 	
-	public function render() {
+	public function render($with_pagination = true) {
 		$affinity = 0;
 		echo '<table class="topiclist"><thead><tr><th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th></tr></thead><tbody>';
 		foreach($this->topics as $topic) {
@@ -30,6 +30,9 @@ class TopicList {
 				'</tr>';
 		}
 		echo '</tbody></table>';
+		if($with_pagination) {
+			$this->renderPagination();
+		}
 	}
 	
 	public function renderPagination() {
