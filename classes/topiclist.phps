@@ -8,10 +8,11 @@ class TopicList {
 		global $DB;
 		$this->page = $page;
 		$offset = $this->page * self::PER_PAGE;
-		$this->topics = $DB->query('SELECT topic_info.id id, title, is_sticky, last_post, author, replies
+		$this->topics = $DB->query('SELECT topic_info.id id, title, is_sticky, last_post_id, last_post_info.toc last_post, last_post_info.author last_post_author, post_info.author author, replies
 			FROM topic_info
 				LEFT JOIN post_info ON topic_info.thread = post_info.id
-			ORDER BY is_sticky DESC, last_post DESC
+				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
+			ORDER BY is_sticky DESC, last_post_id DESC
 			LIMIT ' . $offset . ', ' . self::PER_PAGE)->fetchAll();
 		if(count($this->topics)) {
 			Page::cache($this->topics[0]['last_post']);
@@ -23,10 +24,15 @@ class TopicList {
 		echo '<table class="topiclist"><thead><tr><th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th></tr></thead><tbody>';
 		foreach($this->topics as $topic) {
 			echo '<tr class="', (++$affinity & 1 ? 'odd' : 'even') ,'">',
-				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''), '<a href="topic.php?id=', $topic['id'], '">', $topic['title'], '</a></td>',
+				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
+					'<a href="topic.php?id=', $topic['id'], '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', ($topic['author'] ? $topic['author'] : 'Anon'), '</td>',
-				'<td>', Input::formatTime($topic['last_post']), '</td>',
+				'<td>',
+					'<a href="topic.php?id=', $topic['id'], '#m', $topic['last_post_id'], '">',
+						Input::formatTime($topic['last_post']),
+					'</a> by ', $topic['last_post_author'], 
+				'</td>',
 				'</tr>';
 		}
 		echo '</tbody></table>';

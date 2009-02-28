@@ -1,4 +1,5 @@
 <?php
+//todo: clean up queries, make post_link function, something with make[post|topic]info
 if(isset($_GET['source'])) {
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
@@ -76,7 +77,7 @@ class Posts {
 			$thread_id = $DB->lastInsertId();
 			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
 			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
-			$DB->q('UPDATE topic_info SET last_post = UNIX_TIMESTAMP(), replies = replies + 1 WHERE id = ?', $topic);
+			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?', $thread_id, $topic);
 		return array('topic' => $topic, 'thread' => $thread_id);
 	}
 	
@@ -130,9 +131,10 @@ class Topics extends Posts {
 	
 	public static function getTopicInfo($id) {
 		global $DB;
-		return $DB->q('SELECT topic_info.id id, thread, title, last_post, author, toc, ip, num_children
+		return $DB->q('SELECT topic_info.id id, thread, title, last_post_id, last_post_info.toc last_post, post_info.author author, post_info.toc, post_info.ip, post_info.num_children
 			FROM topic_info
 				LEFT JOIN post_info ON topic_info.id = post_info.topic
+				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
 			WHERE topic_info.id = ?', $id)->fetch();
 	}
 	
