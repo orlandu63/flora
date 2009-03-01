@@ -6,10 +6,7 @@ class ThreadList {
 		global $DB;
 		$this->topic = Topic::getInfo($id);
 		Page::cache($this->topic['last_post']);
-		$posts = $DB->q('SELECT post_info.id id, parent, author, ip, toc, body
-			FROM post_info
-				LEFT JOIN post_data ON post_info.id = post_data.id
-			WHERE topic = ?', $id)->fetchAll();
+		$posts = $DB->q('SELECT * FROM posts WHERE topic = ?', $id)->fetchAll();
 		foreach($posts as $post) {
 			$this->children[$post['parent']][] = $post;
 		}

@@ -8,10 +8,7 @@ class TopicList {
 		global $DB;
 		$this->page = $page;
 		$offset = $this->page * self::PER_PAGE;
-		$this->topics = $DB->query('SELECT topic_info.id id, title, is_sticky, last_post_id, last_post_info.toc last_post, last_post_info.author last_post_author, post_info.author author, replies
-			FROM topic_info
-				LEFT JOIN post_info ON topic_info.thread = post_info.id
-				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
+		$this->topics = $DB->query('SELECT * FROM topics
 			ORDER BY is_sticky DESC, last_post_id DESC
 			LIMIT ' . $offset . ', ' . self::PER_PAGE)->fetchAll();
 		if(count($this->topics)) {

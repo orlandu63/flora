@@ -75,10 +75,8 @@ class Post extends ArrayAccessHelper {
 	
 	public static function getInfo($id) {
 		global $DB;
-		return (is_array($id) ? $id : $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
-			FROM post_info
-				LEFT JOIN post_data ON post_info.id = post_data.id
-			WHERE post_info.id = ?', $id)->fetch());
+		return (is_array($id) ? $id : $DB->q('SELECT * FROM posts
+			WHERE id = ?', $id)->fetch());
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -126,11 +124,7 @@ class Topic extends ArrayAccessHelper {
 	public static function getInfo($id) {
 		global $DB;
 		return (is_array($id) ? $id :
-			$DB->q('SELECT topic_info.id id, title, is_sticky, post_info.ip, last_post_id, last_post_info.toc last_post, last_post_info.author last_post_author, post_info.author author, replies
-			FROM topic_info
-				LEFT JOIN post_info ON topic_info.thread = post_info.id
-				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
-			WHERE topic_info.id = ?', $id)->fetch());
+			$DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch());
 	}
 	
 	public static function make($title, $author, $body) {
