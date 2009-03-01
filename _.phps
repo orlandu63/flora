@@ -11,6 +11,7 @@ define('VERSION', '0.4');
 
 
 class User {
+	const ANON_NAME = 'Anon';
 	public static $ip;
 	
 	public function __construct() {
@@ -23,8 +24,8 @@ class User {
 	
 	public static function isFlooding() {
 		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', self::$ip)
-			->fetchColumn();
+		return $DB->q('SELECT 1 FROM post_info WHERE
+			ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', self::$ip)->fetchColumn();
 	}
 }
 
@@ -68,12 +69,16 @@ class Post extends ArrayAccessHelper {
 	protected $info = array();
 	
 	public function __construct($id) {
-		global $DB;
 		$this->array_name = 'info';
-		$this->info = $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
+		$this->info = self::getInfo($id);
+	}
+	
+	public static function getInfo($id) {
+		global $DB;
+		return (is_array($id) ? $id : $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
 			FROM post_info
 				LEFT JOIN post_data ON post_info.id = post_data.id
-			WHERE post_info.id = ?', $id)->fetch();
+			WHERE post_info.id = ?', $id)->fetch());
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -89,7 +94,8 @@ class Post extends ArrayAccessHelper {
 			$thread_id = $DB->lastInsertId();
 			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
 			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
-			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?', $thread_id, $topic);
+			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
+				$thread_id, $topic);
 		return new self($thread_id);
 	}
 	
@@ -99,9 +105,9 @@ class Post extends ArrayAccessHelper {
 	}
 	
 	public static function display($id) {
-		$post = is_array($id) ? $id : new self($id);
+		$post = (is_array($id) ? $id : self::getInfo($id));
 		echo '<div class="post"><ul class="postinfo">',
-			'<li>By ', ($post['author'] ? $post['author'] : 'Anon'), '</li>',
+			'<li>By ', ($post['author'] ? $post['author'] : User::ANON_NAME), '</li>',
 			'<li>', Input::formatTime($post['toc']), '</li>',
 			'</ul>',
 			$post['body'], '</div>';
@@ -113,13 +119,18 @@ class Topic extends ArrayAccessHelper {
 	protected $info = array();
 	
 	public function __construct($id) {
-		global $DB;
 		$this->array_name = 'info';
-		$this->info = $DB->q('SELECT topic_info.id id, thread, title, last_post_id, last_post_info.toc last_post, post_info.author author, post_info.toc, post_info.ip, post_info.num_children
+		$this->info = self::getInfo($id);
+	}
+	
+	public static function getInfo($id) {
+		global $DB;
+		return (is_array($id) ? $id :
+			$DB->q('SELECT topic_info.id id, title, is_sticky, post_info.ip, last_post_id, last_post_info.toc last_post, last_post_info.author last_post_author, post_info.author author, replies
 			FROM topic_info
-				LEFT JOIN post_info ON topic_info.id = post_info.topic
+				LEFT JOIN post_info ON topic_info.thread = post_info.id
 				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
-			WHERE topic_info.id = ?', $id)->fetch();
+			WHERE topic_info.id = ?', $id)->fetch());
 	}
 	
 	public static function make($title, $author, $body) {
@@ -146,7 +157,7 @@ class Topic extends ArrayAccessHelper {
 		return $DB->q('SELECT SQL_NO_CACHE topic FROM thread_info WHERE id = ?', $id)->fetchColumn();
 	}
 	
-	public static function link($id, $post_id = null) {
+	public static function link($id = null, $post_id = null) {
 		return 'topic.php?id=' . $id . ($post_id ? '#m' . $post_id : '');
 	}
 }

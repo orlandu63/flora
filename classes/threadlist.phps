@@ -1,11 +1,11 @@
 <?php
 class ThreadList {
-	public $topic_info = array(), $children = array();
+	public $topic = array(), $children = array();
 
 	public function __construct($id) {
 		global $DB;
-		$this->topic_info = new Topic($id);
-		Page::cache($this->topic_info['last_post']);
+		$this->topic = Topic::getInfo($id);
+		Page::cache($this->topic['last_post']);
 		$posts = $DB->q('SELECT post_info.id id, parent, author, ip, toc, body
 			FROM post_info
 				LEFT JOIN post_data ON post_info.id = post_data.id
@@ -21,7 +21,7 @@ class ThreadList {
 			$thread_has_children = isset($this->children[$thread['id']]);
 			echo '<div class="post">';
 			echo '<ul class="postinfo" id="m', $thread['id'], '">',
-				'<li>By ', ($thread['author'] ? $thread['author'] : 'Anon'), ($this->topic_info['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''), '</li>',
+				'<li>By ', ($thread['author'] ? $thread['author'] : 'Anon'), ($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''), '</li>',
 				'<li>', Input::formatTime($thread['toc']), '</li>',
 				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
 				$nav_links = array();
@@ -39,7 +39,7 @@ class ThreadList {
 				}
 				$nav_links[$thread['id']] = '#' . $thread['id'];
 				foreach($nav_links as $message_id => $text) {
-					echo '<li class="nav"><a href="', Topic::link($this->topic_info['id'], $message_id), '">', $text, '</a></li>';
+					echo '<li class="nav"><a href="', Topic::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
 				}
 				echo '</ul>',
 				$thread['body'];
@@ -53,7 +53,7 @@ class ThreadList {
 	}
 
 	public function render() {
-		echo '<h1>', $this->topic_info['title'], '</h1>';
+		echo '<h1>', $this->topic['title'], '</h1>';
 		$this->renderThread(null);
 	}
 }

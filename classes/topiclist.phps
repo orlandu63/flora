@@ -29,7 +29,7 @@ class TopicList {
 				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
 					'<a href="', Topic::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
-				'<td>', ($topic['author'] ? $topic['author'] : 'Anon'), '</td>',
+				'<td>', ($topic['author'] ? $topic['author'] : User::ANON_NAME), '</td>',
 				'<td>',
 					'<a href="', Topic::link($topic['id'], $topic['last_post_id']), '">',
 						Input::formatTime($topic['last_post']),
