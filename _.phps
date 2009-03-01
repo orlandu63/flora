@@ -94,7 +94,7 @@ class Post {
 			WHERE post_info.id = ?', $id)->fetch();
 	}
 	
-	public static function displayPost($id) {
+	public static function display($id) {
 		$post = is_array($id) ? $id : self::getPostInfo($id);
 		echo '<div class="post"><ul class="postinfo">',
 			'<li>By ', ($post['author'] ? $post['author'] : 'Anon'), '</li>',
@@ -154,11 +154,19 @@ class Input {
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
 	
-	public static function showContentCreationForm($type) {
+	public static function showContentCreationForm($type, array $data = array()) {
+		if(empty($data)) {
+			$data = array(
+				'thread' => filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT),
+				'author' => self::getAuthorCookie(),
+				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
+				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
+			);
+		}
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$action = 'post.php?thread=' . filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
+				$action = 'post.php?thread=' . $data['thread'];
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;
@@ -173,12 +181,12 @@ class Input {
 			'<form action="', $action , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'Name: <input type="text" size="', Post::MAX_AUTHOR_LENGTH , '" value="', self::getAuthorCookie(), '" name="author" maxlength="10"/> <small>opt</small><br/>';
+			'Name: <input type="text" size="', Post::MAX_AUTHOR_LENGTH , '" value="', $data['author'], '" name="author" maxlength="10"/> <small>opt</small><br/>';
 		if($type === self::FORM_TOPIC) {
-			echo 'Title: <input type="text" size="', Topic::MAX_TITLE_LENGTH , '" value="', filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),'" name="title" maxlength="80"/><br/>';
+			echo 'Title: <input type="text" size="', Topic::MAX_TITLE_LENGTH , '" value="', $data['title'],'" name="title" maxlength="80"/><br/>';
 		}
-		echo 'Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>
-			<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS , '">', filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS) ,'</textarea><br/>',
+		echo 'Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
+			'<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS, '">', $data['body'], '</textarea><br/>',
 			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',

@@ -20,32 +20,32 @@ try {
 			$title = Input::validate(INPUT::VALIDATE_TITLE);
 		}
 	}
-	
-	if($thread) {
-		echo '<h3>Replying to:</h3>';
-		Post::displayPost($thread);
-	}
-
-	if($preview) {
-		echo '<h3>Preview:';
-		if(!$thread) {
-			echo ' ', $title;
-		}
-		echo '</h3>';
-		Post::displayPost(array('body' => $body, 'author' => $author, 'toc' => time()));
-	} elseif($submit) {
-		if($thread) {
-			$new_info = Post::make($thread, $author, $body);
-		} else {
-			$new_info = Topic::make($title, $author, $body);
-		}
-		header('HTTP/1.1 303 See Other');
-		header('Location: topic.php?id=' . $new_info['topic']);
-		die;
-	}
 } catch(Exception $exception) {
 	echo '<p>',  $exception->getMessage(), '<br/>Note that &lt;, &gt;, &amp; and " are actually 4, 4, 5, ?? characters in web form.</p>';
 	return;
+}
+	
+if($thread) {
+	echo '<h3>Replying to:</h3>';
+	Post::display($thread);
+}
+
+if($preview) {
+	echo '<h3>Preview:';
+	if(!$thread) {
+		echo ' ', $title;
+	}
+	echo '</h3>';
+	Post::display(array('body' => $body, 'author' => $author, 'toc' => time()));
+} elseif($submit) {
+	if($thread) {
+		$new_info = Post::make($thread, $author, $body);
+	} else {
+		$new_info = Topic::make($title, $author, $body);
+	}
+	header('HTTP/1.1 303 See Other');
+	header('Location: topic.php?id=' . $new_info['topic']);
+	die;
 }
 
 Input::showContentCreationForm(($thread ? Input::FORM_THREAD : Input::FORM_TOPIC));
