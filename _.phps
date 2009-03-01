@@ -20,6 +20,12 @@ class User {
 	public static function refresh() {
 		new self;
 	}
+	
+	public static function isFlooding() {
+		global $DB;
+		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', self::$ip)
+			->fetchColumn();
+	}
 }
 
 #this is fucked up
@@ -57,12 +63,6 @@ class Page extends STemplator {
 class Posts {
 	const MAX_AUTHOR_LENGTH = 10;
 	const MAX_BODY_LENGTH = 8000;
-	
-	public static function isFlooding() {
-		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', User::$ip)
-			->fetchColumn();
-	}
 
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
@@ -197,7 +197,7 @@ class Input {
 		if(has_flag($flags, self::VALIDATE_TITLE)) {
 			$return['title'] = self::validateTitle();
 		}
-		return (count($return) === 1 ? $return[0] : $return);
+		return (count($return) === 1 ? reset($return) : $return);
 	}
 	
 	public static function validateAuthor($sub = null) {

@@ -6,7 +6,7 @@ $thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 try {
-	if(Posts::isFlooding()) {
+	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
 	}
 	if($thread && !Posts::exists($thread)) {
