@@ -44,7 +44,7 @@ if($preview) {
 		$new_info = Topic::make($title, $author, $body);
 	}
 	header('HTTP/1.1 303 See Other');
-	header('Location: topic.php?id=' . $new_info['topic']);
+	header('Location: topic.php?id=' . $new_info[($thread ? 'topic' : 'id')]);
 	die;
 }
 

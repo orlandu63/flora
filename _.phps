@@ -1,5 +1,5 @@
 <?php
-//todo: clean up queries, something with make[post|topic]info (i have no idea what "something" is anymore :[)
+//todo: clean up queries, convert ([Post|Topic])::getInfo to new $1
 if(isset($_GET['source'])) {
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
@@ -62,9 +62,19 @@ class Page extends STemplator {
 	}
 }
 
-class Post {
+class Post extends ArrayAccessHelper {
 	const MAX_AUTHOR_LENGTH = 10;
 	const MAX_BODY_LENGTH = 8000;
+	protected $info = array();
+	
+	public function __construct($id) {
+		global $DB;
+		$this->array_name = 'info';
+		$this->info = $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
+			FROM post_info
+				LEFT JOIN post_data ON post_info.id = post_data.id
+			WHERE post_info.id = ?', $id)->fetch();
+	}
 
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
@@ -80,7 +90,7 @@ class Post {
 			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
 			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
 			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?', $thread_id, $topic);
-		return array('topic' => $topic, 'thread' => $thread_id);
+		return new self($thread_id);
 	}
 	
 	public static function exists($id) {
@@ -97,7 +107,7 @@ class Post {
 	}
 	
 	public static function display($id) {
-		$post = is_array($id) ? $id : self::getInfo($id);
+		$post = is_array($id) ? $id : new self($id);
 		echo '<div class="post"><ul class="postinfo">',
 			'<li>By ', ($post['author'] ? $post['author'] : 'Anon'), '</li>',
 			'<li>', Input::formatTime($post['toc']), '</li>',
@@ -106,16 +116,27 @@ class Post {
 	}
 }
 
-class Topic {
+class Topic extends ArrayAccessHelper {
 	const MAX_TITLE_LENGTH = 80;
+	protected $info = array();
+	
+	public function __construct($id) {
+		global $DB;
+		$this->array_name = 'info';
+		$this->info = $DB->q('SELECT topic_info.id id, thread, title, last_post_id, last_post_info.toc last_post, post_info.author author, post_info.toc, post_info.ip, post_info.num_children
+			FROM topic_info
+				LEFT JOIN post_info ON topic_info.id = post_info.topic
+				LEFT JOIN post_info last_post_info ON topic_info.last_post_id = last_post_info.id
+			WHERE topic_info.id = ?', $id)->fetch();
+	}
 	
 	public static function make($title, $author, $body) {
 		global $DB;
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
 			$topic_id = $DB->lastInsertId();
-			$new_info = Post::make(null, $author, $body, $topic_id);
-			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_info['thread'], $topic_id);
-		return $new_info;
+			$new_post = Post::make(null, $author, $body, $topic_id);
+			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_post['id'], $topic_id);
+		return new self($topic_id);
 	}
 	
 	public static function exists($id) {
