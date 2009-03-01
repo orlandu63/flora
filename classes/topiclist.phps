@@ -27,11 +27,11 @@ class TopicList {
 		foreach($this->topics as $topic) {
 			echo '<tr class="', (++$affinity & 1 ? 'odd' : 'even') ,'">',
 				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
-					'<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
+					'<a href="', Topic::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', ($topic['author'] ? $topic['author'] : 'Anon'), '</td>',
 				'<td>',
-					'<a href="', Topics::link($topic['id'], $topic['last_post_id']), '">',
+					'<a href="', Topic::link($topic['id'], $topic['last_post_id']), '">',
 						Input::formatTime($topic['last_post']),
 					'</a> by ', $topic['last_post_author'], 
 				'</td>',
@@ -44,7 +44,7 @@ class TopicList {
 	}
 	
 	public function renderPagination() {
-		$total = Topics::getTotal();
+		$total = Topic::getTotal();
 		if($total < self::PER_PAGE) {
 			return;
 		}

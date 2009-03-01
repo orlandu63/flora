@@ -60,7 +60,7 @@ class Page extends STemplator {
 	}
 }
 
-class Posts {
+class Post {
 	const MAX_AUTHOR_LENGTH = 10;
 	const MAX_BODY_LENGTH = 8000;
 
@@ -104,9 +104,9 @@ class Posts {
 	}
 }
 
-class Topics extends Posts {
+class Topic extends Post {
 	const MAX_TITLE_LENGTH = 80;
-
+	
 	public static function make($title, $author, $body) {
 		global $DB;
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
@@ -173,9 +173,9 @@ class Input {
 			'<form action="', $action , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'Name: <input type="text" size="', Posts::MAX_AUTHOR_LENGTH , '" value="', self::getAuthorCookie(), '" name="author" maxlength="10"/> <small>opt</small><br/>';
+			'Name: <input type="text" size="', Post::MAX_AUTHOR_LENGTH , '" value="', self::getAuthorCookie(), '" name="author" maxlength="10"/> <small>opt</small><br/>';
 		if($type === self::FORM_TOPIC) {
-			echo 'Title: <input type="text" size="', Topics::MAX_TITLE_LENGTH , '" value="', filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),'" name="title" maxlength="80"/><br/>';
+			echo 'Title: <input type="text" size="', Topic::MAX_TITLE_LENGTH , '" value="', filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),'" name="title" maxlength="80"/><br/>';
 		}
 		echo 'Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>
 			<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS , '">', filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS) ,'</textarea><br/>',
@@ -205,8 +205,8 @@ class Input {
 		if(self::getAuthorCookie() !== $author) {
 			setcookie('author', $author);
 		}
-		if(strlen($author) > Posts::MAX_AUTHOR_LENGTH) {
-			throw new Exception('Name must be no more than ' . Posts::MAX_AUTHOR_LENGTH . ' characters');
+		if(strlen($author) > Post::MAX_AUTHOR_LENGTH) {
+			throw new Exception('Name must be no more than ' . Post::MAX_AUTHOR_LENGTH . ' characters');
 		}
 		return $author;
 	}
@@ -218,8 +218,8 @@ class Input {
 		}
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
-		if(strlen($body) > Posts::MAX_BODY_LENGTH) {
-			throw new Exception('Body must be no more than ' . Posts::MAX_BODY_LENGTH . ' characters.');
+		if(strlen($body) > Post::MAX_BODY_LENGTH) {
+			throw new Exception('Body must be no more than ' . Post::MAX_BODY_LENGTH . ' characters.');
 		}
 		return $body;
 	}
@@ -229,8 +229,8 @@ class Input {
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
-		if(strlen($title) > Topics::MAX_TITLE_LENGTH) {
-			throw new Exception('Title must be no more than ' . Topics::MAX_TITLE_LENGTH . ' characters.');
+		if(strlen($title) > Topic::MAX_TITLE_LENGTH) {
+			throw new Exception('Title must be no more than ' . Topic::MAX_TITLE_LENGTH . ' characters.');
 		}
 		return $title;
 	}
