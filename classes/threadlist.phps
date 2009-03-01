@@ -4,7 +4,7 @@ class ThreadList {
 
 	public function __construct($id) {
 		global $DB;
-		$this->topic_info = Topic::getTopicInfo($id);
+		$this->topic_info = Topic::getInfo($id);
 		Page::cache($this->topic_info['last_post']);
 		$posts = $DB->q('SELECT post_info.id id, parent, author, ip, toc, body
 			FROM post_info

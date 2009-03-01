@@ -55,8 +55,10 @@ class Page extends STemplator {
 	}
 	
 	public function __destruct() {
+		$prev_wd = getcwd();
 		chdir($this->wd);
 		$this->output();
+		chdir($prev_wd);
 	}
 }
 
@@ -86,7 +88,7 @@ class Post {
 		return $DB->q('SELECT SQL_NO_CACHE 1 FROM post_info WHERE id = ?', $id)->fetchColumn();
 	}
 	
-	public static function getPostInfo($id) {
+	public static function getInfo($id) {
 		global $DB;
 		return $DB->q('SELECT post_info.id id, topic, parent, author, toc, ip, num_children, body
 			FROM post_info
@@ -95,7 +97,7 @@ class Post {
 	}
 	
 	public static function display($id) {
-		$post = is_array($id) ? $id : self::getPostInfo($id);
+		$post = is_array($id) ? $id : self::getInfo($id);
 		echo '<div class="post"><ul class="postinfo">',
 			'<li>By ', ($post['author'] ? $post['author'] : 'Anon'), '</li>',
 			'<li>', Input::formatTime($post['toc']), '</li>',
@@ -104,14 +106,14 @@ class Post {
 	}
 }
 
-class Topic extends Post {
+class Topic {
 	const MAX_TITLE_LENGTH = 80;
 	
 	public static function make($title, $author, $body) {
 		global $DB;
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
 			$topic_id = $DB->lastInsertId();
-			$new_info = parent::make(null, $author, $body, $topic_id);
+			$new_info = Post::make(null, $author, $body, $topic_id);
 			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_info['thread'], $topic_id);
 		return $new_info;
 	}
@@ -126,7 +128,7 @@ class Topic extends Post {
 		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
-	public static function getTopicInfo($id) {
+	public static function getInfo($id) {
 		global $DB;
 		return $DB->q('SELECT topic_info.id id, thread, title, last_post_id, last_post_info.toc last_post, post_info.author author, post_info.toc, post_info.ip, post_info.num_children
 			FROM topic_info
