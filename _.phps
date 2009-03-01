@@ -173,7 +173,7 @@ class Input {
 			'<form action="', $action , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'Name: <input type="text" size="', Posts::MAX_AUTHOR_LENGTH , '" value="', self::getUserAuthor(), '" name="author" maxlength="10"/> <small>opt</small><br/>';
+			'Name: <input type="text" size="', Posts::MAX_AUTHOR_LENGTH , '" value="', self::getAuthorCookie(), '" name="author" maxlength="10"/> <small>opt</small><br/>';
 		if($type === self::FORM_TOPIC) {
 			echo 'Title: <input type="text" size="', Topics::MAX_TITLE_LENGTH , '" value="', filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),'" name="title" maxlength="80"/><br/>';
 		}
@@ -202,8 +202,8 @@ class Input {
 	
 	public static function validateAuthor($sub = null) {
 		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(self::getUserAuthor() !== $author) {
-			setcookie('author', $author); #FIX COOKIE ISSUE D:
+		if(self::getAuthorCookie() !== $author) {
+			setcookie('author', $author);
 		}
 		if(strlen($author) > Posts::MAX_AUTHOR_LENGTH) {
 			throw new Exception('Name must be no more than ' . Posts::MAX_AUTHOR_LENGTH . ' characters');
@@ -235,7 +235,7 @@ class Input {
 		return $title;
 	}
 
-	public static function getUserAuthor() {
+	public static function getAuthorCookie() {
 		return filter_input(INPUT_COOKIE, 'author');
 	}
 	
