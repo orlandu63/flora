@@ -75,8 +75,7 @@ class Post extends ArrayAccessHelper {
 	
 	public static function getInfo($id) {
 		global $DB;
-		return (is_array($id) ? $id : $DB->q('SELECT * FROM posts
-			WHERE id = ?', $id)->fetch());
+		return (is_array($id) ? $id : $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch());
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {

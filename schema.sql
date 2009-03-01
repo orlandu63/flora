@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 01, 2009 at 06:49 PM
+-- Generation Time: Mar 01, 2009 at 06:52 PM
 -- Server version: 5.1.31
 -- PHP Version: 5.2.9
 
@@ -66,6 +66,7 @@ CREATE TABLE `post_info` (
 --
 CREATE TABLE `topics` (
 `id` int(10) unsigned
+,`ip` int(11)
 ,`title` char(80)
 ,`is_sticky` tinyint(1) unsigned
 ,`last_post_id` int(10) unsigned
@@ -109,4 +110,4 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `topics`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `topics` AS select `topic_info`.`id` AS `id`,`topic_info`.`title` AS `title`,`topic_info`.`is_sticky` AS `is_sticky`,`topic_info`.`last_post_id` AS `last_post_id`,`last_post_info`.`toc` AS `last_post`,`last_post_info`.`author` AS `last_post_author`,`post_info`.`author` AS `author`,`topic_info`.`replies` AS `replies` from ((`topic_info` left join `post_info` on((`topic_info`.`thread` = `post_info`.`id`))) left join `post_info` `last_post_info` on((`topic_info`.`last_post_id` = `last_post_info`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `topics` AS select `topic_info`.`id` AS `id`,`post_info`.`ip` AS `ip`,`topic_info`.`title` AS `title`,`topic_info`.`is_sticky` AS `is_sticky`,`topic_info`.`last_post_id` AS `last_post_id`,`last_post_info`.`toc` AS `last_post`,`last_post_info`.`author` AS `last_post_author`,`post_info`.`author` AS `author`,`topic_info`.`replies` AS `replies` from ((`topic_info` left join `post_info` on((`topic_info`.`thread` = `post_info`.`id`))) left join `post_info` `last_post_info` on((`topic_info`.`last_post_id` = `last_post_info`.`id`)));
