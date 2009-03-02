@@ -7,15 +7,23 @@ require 'utilities.php';
 require 'db.php';
 require 'stemplator.php';
 
-define('VERSION', '0.4');
+define('VERSION', '0.5');
 
 
 class User {
 	const ANON_NAME = 'Anon';
-	public static $ip;
+	public static $ip, $name;
 	
 	public function __construct() {
 		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);
+		self::$name = self::getAuthorCookie();
+		register_shutdown_function(array($this, 'save'));
+	}
+	
+	public static function save() {
+		if(self::getAuthorCookie() !== self::$name) {
+			setcookie('author', self::$name);
+		}
 	}
 	
 	public static function refresh() {
@@ -26,6 +34,10 @@ class User {
 		global $DB;
 		return $DB->q('SELECT 1 FROM post_info WHERE
 			ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', self::$ip)->fetchColumn();
+	}
+
+	public static function getAuthorCookie() {
+		return filter_input(INPUT_COOKIE, 'author');
 	}
 }
 
@@ -75,7 +87,7 @@ class Post extends ArrayAccessHelper {
 	
 	public static function getInfo($id) {
 		global $DB;
-		return (is_array($id) ? $id : $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch());
+		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -103,11 +115,11 @@ class Post extends ArrayAccessHelper {
 	
 	public static function display($id) {
 		$post = (is_array($id) ? $id : self::getInfo($id));
-		echo '<div class="post"><ul class="postinfo">',
+		echo '<div class="post"><ul class="post-info">',
 			'<li>By ', ($post['author'] ? $post['author'] : User::ANON_NAME), '</li>',
 			'<li>', Input::formatTime($post['toc']), '</li>',
 			'</ul>',
-			$post['body'], '</div>';
+			'<div class="post-body">', $post['body'], '</div></div>';
 	}
 }
 
@@ -122,8 +134,7 @@ class Topic extends ArrayAccessHelper {
 	
 	public static function getInfo($id) {
 		global $DB;
-		return (is_array($id) ? $id :
-			$DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch());
+		return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
 	}
 	
 	public static function make($title, $author, $body) {
@@ -168,7 +179,7 @@ class Input {
 		if(empty($data)) {
 			$data = array(
 				'thread' => filter_input(INPUT_GET, 'thread', FILTER_VALIDATE_INT),
-				'author' => self::getAuthorCookie(),
+				'author' => User::$name,
 				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
 				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
 			);
@@ -219,10 +230,7 @@ class Input {
 	}
 	
 	public static function validateAuthor($sub = null) {
-		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(self::getAuthorCookie() !== $author) {
-			setcookie('author', $author);
-		}
+		$author = User::$name = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
 		if(strlen($author) > Post::MAX_AUTHOR_LENGTH) {
 			throw new Exception('Name must be no more than ' . Post::MAX_AUTHOR_LENGTH . ' characters');
 		}
@@ -251,10 +259,6 @@ class Input {
 			throw new Exception('Title must be no more than ' . Topic::MAX_TITLE_LENGTH . ' characters.');
 		}
 		return $title;
-	}
-
-	public static function getAuthorCookie() {
-		return filter_input(INPUT_COOKIE, 'author');
 	}
 	
 	public static function formatTime($timestamp, $max_precision = 2) {

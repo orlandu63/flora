@@ -17,7 +17,7 @@ class ThreadList {
 		foreach($children as $key => $thread) {
 			$thread_has_children = isset($this->children[$thread['id']]);
 			echo '<div class="post">';
-			echo '<ul class="postinfo" id="m', $thread['id'], '">',
+			echo '<ul class="post-info" id="m', $thread['id'], '">',
 				'<li>By ',
 					($thread['author'] ? $thread['author'] : User::ANON_NAME),
 					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
@@ -42,7 +42,7 @@ class ThreadList {
 					echo '<li class="nav"><a href="', Topic::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
 				}
 				echo '</ul>',
-				$thread['body'];
+				'<div class="post-body">', $thread['body'], '</div>';
 			if($thread_has_children) {
 				echo '<div class="reply-wrap">';
 					$this->renderThread($thread['id']);

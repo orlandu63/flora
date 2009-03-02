@@ -8,13 +8,13 @@ color: black;
 background: white;
 }
 
-.postinfo, #pages {
+.post-info, #pages {
 margin: 0;
 padding: 0;
 list-style: none
 }
 
-.postinfo li, #pages li {
+.post-info li, #pages li {
 display: inline;
 }
 
@@ -23,15 +23,12 @@ padding-left: .5em;
 background: white
 }
 
-.postinfo li + li:before {
-content: ' '
+.post-info li + li:before, #pages li + li:before {
+content: ' | ';
+color: #dde
 }
 
-.postinfo li, #pages li + li {
-margin-left: .4em;
-}
-
-.postinfo {
+.post-info {
 background: #eef
 }
 
@@ -100,6 +97,10 @@ a {
 
 a:hover {
 	background: lightsteelblue;
+}
+
+.post-body a:hover {
+	background: inherit
 }
 
 input[type="submit"], label {
