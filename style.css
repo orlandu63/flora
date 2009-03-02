@@ -44,7 +44,7 @@ border-bottom: none
 }
 
 body > .post {
-	border-right: 1px dotted black
+	border-right: 1px dotted black;
 }
 
 .topiclist, table {
@@ -86,9 +86,22 @@ font-size: small;
 
 a {
 	color: blue;
+	padding: 2px;
 	text-decoration: none
 }
 
 .time {
 	font-size: small;
+}
+
+.nav a  {
+	padding: 0 .25em
+}
+
+a:hover {
+	background: lightsteelblue;
+}
+
+input[type="submit"], label {
+cursor:pointer
 }

@@ -17,10 +17,10 @@ class TopicList {
 	}
 	
 	public function render($with_pagination = true) {
-		$affinity = 0;
 		echo '<table class="topiclist"><thead><tr>',
 				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
 			'</tr></thead><tbody>';
+		$affinity = 0;
 		foreach($this->topics as $topic) {
 			echo '<tr class="', (++$affinity & 1 ? 'odd' : 'even') ,'">',
 				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),

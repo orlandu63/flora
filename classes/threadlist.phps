@@ -18,18 +18,21 @@ class ThreadList {
 			$thread_has_children = isset($this->children[$thread['id']]);
 			echo '<div class="post">';
 			echo '<ul class="postinfo" id="m', $thread['id'], '">',
-				'<li>By ', ($thread['author'] ? $thread['author'] : 'Anon'), ($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''), '</li>',
+				'<li>By ',
+					($thread['author'] ? $thread['author'] : User::ANON_NAME),
+					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
+				'</li>',
 				'<li>', Input::formatTime($thread['toc']), '</li>',
 				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = '↖';
 				}
-				if(isset($children[$key+1])) {
-					$nav_links[$children[$key+1]['id']] = '↓';
-				}
 				if(isset($children[$key-1])) {
 					$nav_links[$children[$key-1]['id']] = '↑';
+				}
+				if(isset($children[$key+1])) {
+					$nav_links[$children[$key+1]['id']] = '↓';
 				}
 				if($thread_has_children) {
 					$nav_links[$this->children[$thread['id']][0]['id']] = '↘<small><sup>1</sup></small>';

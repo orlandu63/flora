@@ -2,7 +2,7 @@
 require '_.phps';
 require 'markdown.php';
 $Page->title = 'Post';
-$thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
+$thread = filter_input(INPUT_GET, 'thread', FILTER_VALIDATE_INT);
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 try {
