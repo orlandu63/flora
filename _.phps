@@ -66,6 +66,44 @@ class Page extends STemplator {
 		header('Last-Modified: ' . date('r', $last_modified));
 		header('ETag: ' . $etag);
 	}
+		
+	public static function formatTime($timestamp, $max_precision = 2) {
+		static $format = '<span class="time" title="%s">%s ago</span>';
+		static $periods = array(
+				2629743 => 'month',
+				604800 => 'week',
+				86400 => 'day',
+				3600 => 'hour',
+				60 => 'minute',
+				1 => 'second'
+		);
+		
+		$seconds = time() - $timestamp;
+
+		$durations = array();
+		$precision = 0;
+
+		foreach ($periods as $seconds_in_period => $period) {
+			if($seconds >= $seconds_in_period) {
+				$num_periods = (int)($seconds / $seconds_in_period);
+				$durations[] = $num_periods . ' ' . $period . ($num_periods === 1 ? '' : 's');
+				$seconds -= $num_periods * $seconds_in_period;
+				if(++$precision >= $max_precision) {
+					break;
+				}
+			}
+		}
+
+		if(empty($durations)) {
+			$durations = array('just now');
+		} else {
+			$num_durations = count($durations);
+			if($num_durations > 2) {
+				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
+			}
+		}
+		return sprintf($format, date('c', $timestamp), implode($durations, ', '));
+	}
 	
 	public function __destruct() {
 		$prev_wd = getcwd();
@@ -115,7 +153,7 @@ class Post/*  extends ArrayAccessHelper */ {
 		$post = (is_array($id) ? $id : self::getInfo($id));
 		echo '<div class="post"><ul class="post-info">',
 			'<li>By ', ($post['author'] ? $post['author'] : User::ANON_NAME), '</li>',
-			'<li>', Input::formatTime($post['toc']), '</li>',
+			'<li>', Page::formatTime($post['toc']), '</li>',
 			'</ul>',
 			'<div class="post-body">', $post['body'], '</div></div>';
 	}
@@ -263,44 +301,6 @@ class Input {
 			throw new Exception('Title must be no more than ' . Input::MAX_TITLE_LENGTH . ' characters.');
 		}
 		return $title;
-	}
-	
-	public static function formatTime($timestamp, $max_precision = 2) {
-		static $format = '<span class="time" title="%s">%s ago</span>';
-		static $periods = array(
-				2629743 => 'month',
-				604800 => 'week',
-				86400 => 'day',
-				3600 => 'hour',
-				60 => 'minute',
-				1 => 'second'
-		);
-		
-		$seconds = time() - $timestamp;
-
-		$durations = array();
-		$precision = 0;
-
-		foreach ($periods as $seconds_in_period => $period) {
-			if($seconds >= $seconds_in_period) {
-				$num_periods = (int)($seconds / $seconds_in_period);
-				$durations[] = $num_periods . ' ' . $period . ($num_periods === 1 ? '' : 's');
-				$seconds -= $num_periods * $seconds_in_period;
-				if(++$precision >= $max_precision) {
-					break;
-				}
-			}
-		}
-
-		if(empty($durations)) {
-			$durations = array('a few seconds');
-		} else {
-			$num_durations = count($durations);
-			if($num_durations > 2) {
-				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
-			}
-		}
-		return sprintf($format, date('c', $timestamp), implode($durations, ', '));
 	}
 }
 

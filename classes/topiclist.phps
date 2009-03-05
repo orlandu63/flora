@@ -29,7 +29,7 @@ class TopicList {
 				'<td>', ($topic['author'] ? $topic['author'] : User::ANON_NAME), '</td>',
 				'<td>',
 					'<a href="', Topic::link($topic['id'], $topic['last_post_id']), '">',
-						Input::formatTime($topic['last_post']),
+						Page::formatTime($topic['last_post']),
 					'</a> by ', $topic['last_post_author'], 
 				'</td>',
 				'</tr>';

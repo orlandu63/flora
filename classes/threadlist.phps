@@ -22,7 +22,7 @@ class ThreadList {
 					($thread['author'] ? $thread['author'] : User::ANON_NAME),
 					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
 				'</li>',
-				'<li>', Input::formatTime($thread['toc']), '</li>',
+				'<li>', Page::formatTime($thread['toc']), '</li>',
 				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
