@@ -75,15 +75,13 @@ class Page extends STemplator {
 	}
 }
 
-class Post extends ArrayAccessHelper {
-	const MAX_AUTHOR_LENGTH = 10;
-	const MAX_BODY_LENGTH = 8000;
-	protected $info = array();
+class Post/*  extends ArrayAccessHelper */ {
+/* 	protected $info = array();
+	protected $array_name = 'info'; */
 	
-	public function __construct($id) {
-		$this->array_name = 'info';
+/* 	public function __construct($id) {
 		$this->info = self::getInfo($id);
-	}
+	} */
 	
 	public static function getInfo($id) {
 		global $DB;
@@ -105,7 +103,7 @@ class Post extends ArrayAccessHelper {
 			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
 			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
 				$thread_id, $topic);
-		return new self($thread_id);
+		return self::getInfo($thread_id);
 	}
 	
 	public static function exists($id) {
@@ -123,14 +121,13 @@ class Post extends ArrayAccessHelper {
 	}
 }
 
-class Topic extends ArrayAccessHelper {
-	const MAX_TITLE_LENGTH = 80;
-	protected $info = array();
+class Topic/* extends ArrayAccessHelper*/ {
+/* 	protected $info = array();
+	protected $array_name = 'info'; */
 	
-	public function __construct($id) {
-		$this->array_name = 'info';
+/* 	public function __construct($id) {
 		$this->info = self::getInfo($id);
-	}
+	} */
 	
 	public static function getInfo($id) {
 		global $DB;
@@ -143,7 +140,7 @@ class Topic extends ArrayAccessHelper {
 			$topic_id = $DB->lastInsertId();
 			$new_post = Post::make(null, $author, $body, $topic_id);
 			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_post['id'], $topic_id);
-		return new self($topic_id);
+		return self::getInfo($topic_id);
 	}
 	
 	public static function exists($id) {
@@ -169,11 +166,18 @@ class Topic extends ArrayAccessHelper {
 class Input {
 	const TEXTAREA_COLS = 80;
 	const TEXTAREA_ROWS = 10;
+	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
+	
 	const VALIDATE_AUTHOR = 1;
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
+	
+	const MAX_AUTHOR_LENGTH = 10;
+	const MAX_BODY_LENGTH = 8000;
+	const MAX_TITLE_LENGTH = 80;
+	
 	
 	public static function showContentCreationForm($type, array $data = array()) {
 		if(empty($data)) {
@@ -202,9 +206,9 @@ class Input {
 			'<form action="', $action , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'<label>Name: <input type="text" size="', Post::MAX_AUTHOR_LENGTH , '" value="', $data['author'], '" name="author" maxlength="10"/></label> <small title="optional">opt</small><br/>';
+			'<label>Name: <input type="text" size="', Input::MAX_AUTHOR_LENGTH , '" value="', $data['author'], '" name="author" maxlength="10"/></label> <small title="optional">opt</small><br/>';
 		if($type === self::FORM_TOPIC) {
-			echo '<label>Title: <input type="text" size="', Topic::MAX_TITLE_LENGTH , '" value="', $data['title'],'" name="title" maxlength="80"/></label><br/>';
+			echo '<label>Title: <input type="text" size="', Input::MAX_TITLE_LENGTH , '" value="', $data['title'],'" name="title" maxlength="80"/></label><br/>';
 		}
 		echo '<label>Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
 			'<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS, '">', $data['body'], '</textarea></label><br/>',
@@ -231,8 +235,8 @@ class Input {
 	
 	public static function validateAuthor($sub = null) {
 		$author = User::$name = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(strlen($author) > Post::MAX_AUTHOR_LENGTH) {
-			throw new Exception('Name must be no more than ' . Post::MAX_AUTHOR_LENGTH . ' characters');
+		if(strlen($author) > Input::MAX_AUTHOR_LENGTH) {
+			throw new Exception('Name must be no more than ' . Input::MAX_AUTHOR_LENGTH . ' characters');
 		}
 		return $author;
 	}
@@ -244,8 +248,8 @@ class Input {
 		}
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
-		if(strlen($body) > Post::MAX_BODY_LENGTH) {
-			throw new Exception('Body must be no more than ' . Post::MAX_BODY_LENGTH . ' characters.');
+		if(strlen($body) > Input::MAX_BODY_LENGTH) {
+			throw new Exception('Body must be no more than ' . Input::MAX_BODY_LENGTH . ' characters.');
 		}
 		return $body;
 	}
@@ -255,8 +259,8 @@ class Input {
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
-		if(strlen($title) > Topic::MAX_TITLE_LENGTH) {
-			throw new Exception('Title must be no more than ' . Topic::MAX_TITLE_LENGTH . ' characters.');
+		if(strlen($title) > Input::MAX_TITLE_LENGTH) {
+			throw new Exception('Title must be no more than ' . Input::MAX_TITLE_LENGTH . ' characters.');
 		}
 		return $title;
 	}
@@ -268,7 +272,8 @@ class Input {
 				604800 => 'week',
 				86400 => 'day',
 				3600 => 'hour',
-				60 => 'minute'
+				60 => 'minute',
+				1 => 'second'
 		);
 		
 		$seconds = time() - $timestamp;

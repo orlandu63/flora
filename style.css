@@ -87,6 +87,10 @@ a {
 	text-decoration: none
 }
 
+.topiclist a:link {
+text-decoration: underline
+}
+
 .time {
 	font-size: small;
 }
@@ -103,6 +107,6 @@ a:hover {
 	background: inherit
 }
 
-input[type="submit"], label {
+label {
 cursor:pointer
 }
