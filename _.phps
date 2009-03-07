@@ -95,7 +95,7 @@ class Page extends STemplator {
 		}
 
 		if(empty($durations)) {
-			$durations = array('just now');
+			$durations = array('not long');
 		} else {
 			$num_durations = count($durations);
 			if($num_durations > 2) {
@@ -113,7 +113,7 @@ class Page extends STemplator {
 	}
 }
 
-class Post/*  extends ArrayAccessHelper */ {
+class Posts/*  extends ArrayAccessHelper */ {
 /* 	protected $info = array();
 	protected $array_name = 'info'; */
 	
@@ -124,6 +124,11 @@ class Post/*  extends ArrayAccessHelper */ {
 	public static function getInfo($id) {
 		global $DB;
 		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
+	}
+	
+	public static function getOfTopic($topic) {
+		global $DB;
+		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)->fetchAll();
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -159,7 +164,7 @@ class Post/*  extends ArrayAccessHelper */ {
 	}
 }
 
-class Topic/* extends ArrayAccessHelper*/ {
+class Topics/* extends ArrayAccessHelper*/ {
 /* 	protected $info = array();
 	protected $array_name = 'info'; */
 	
@@ -172,11 +177,18 @@ class Topic/* extends ArrayAccessHelper*/ {
 		return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
 	}
 	
+	public static function getList($page, $per_page) {
+		global $DB;
+		return $DB->query('SELECT * FROM topics
+			ORDER BY is_sticky DESC, last_post_id DESC
+			LIMIT ' . ($page * $per_page) . ', ' . (int)$per_page)->fetchAll();
+	}
+	
 	public static function make($title, $author, $body) {
 		global $DB;
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
 			$topic_id = $DB->lastInsertId();
-			$new_post = Post::make(null, $author, $body, $topic_id);
+			$new_post = Posts::make(null, $author, $body, $topic_id);
 			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_post['id'], $topic_id);
 		return self::getInfo($topic_id);
 	}

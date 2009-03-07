@@ -8,9 +8,7 @@ class TopicList {
 		global $DB;
 		$this->page = $page;
 		$offset = $this->page * self::PER_PAGE;
-		$this->topics = $DB->query('SELECT * FROM topics
-			ORDER BY is_sticky DESC, last_post_id DESC
-			LIMIT ' . $offset . ', ' . self::PER_PAGE)->fetchAll();
+		$this->topics = Topics::getList($page, self::PER_PAGE);
 		if(count($this->topics)) {
 			Page::cache($this->topics[0]['last_post']);
 		}
@@ -24,11 +22,11 @@ class TopicList {
 		foreach($this->topics as $topic) {
 			echo '<tr class="', (++$affinity & 1 ? 'odd' : 'even') ,'">',
 				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
-					'<a href="', Topic::link($topic['id']), '">', $topic['title'], '</a></td>',
+					'<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', ($topic['author'] ? $topic['author'] : User::ANON_NAME), '</td>',
 				'<td>',
-					'<a href="', Topic::link($topic['id'], $topic['last_post_id']), '">',
+					'<a href="', Topics::link($topic['id'], $topic['last_post_id']), '">',
 						Page::formatTime($topic['last_post']),
 					'</a> by ', $topic['last_post_author'], 
 				'</td>',
@@ -41,7 +39,7 @@ class TopicList {
 	}
 	
 	public function renderPagination() {
-		$total = Topic::getTotal();
+		$total = Topics::getTotal();
 		if($total < self::PER_PAGE) {
 			return;
 		}

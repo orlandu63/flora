@@ -4,7 +4,7 @@ require 'classes/threadlist.phps';
 
 $Page->title = 'Topic';
 $topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-if(!Topic::exists($topic)) {
+if(!Topics::exists($topic)) {
 	return;
 }
 

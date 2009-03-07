@@ -9,7 +9,7 @@ try {
 	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
 	}
-	if($thread && !Post::exists($thread)) {
+	if($thread && !Posts::exists($thread)) {
 		throw new Exception('Post does not exist.');
 	}
 
@@ -27,7 +27,7 @@ try {
 	
 if($thread) {
 	echo '<h3>Replying to:</h3>';
-	Post::display($thread);
+	Posts::display($thread);
 }
 
 if($preview) {
@@ -36,12 +36,12 @@ if($preview) {
 		echo ' ', $title;
 	}
 	echo '</h3>';
-	Post::display(array('body' => $body, 'author' => $author, 'toc' => time()));
+	Posts::display(array('body' => $body, 'author' => $author, 'toc' => time()));
 } elseif($submit) {
 	if($thread) {
-		$new_info = Post::make($thread, $author, $body);
+		$new_info = Posts::make($thread, $author, $body);
 	} else {
-		$new_info = Topic::make($title, $author, $body);
+		$new_info = Topics::make($title, $author, $body);
 	}
 	header('HTTP/1.1 303 See Other');
 	header('Location: topic.php?id=' . $new_info[($thread ? 'topic' : 'id')]);

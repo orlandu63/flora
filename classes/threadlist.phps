@@ -4,9 +4,9 @@ class ThreadList {
 
 	public function __construct($id) {
 		global $DB;
-		$this->topic = Topic::getInfo($id);
+		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
-		$posts = $DB->q('SELECT * FROM posts WHERE topic = ?', $id)->fetchAll();
+		$posts = Posts::getOfTopic($id);
 		foreach($posts as $post) {
 			$this->children[$post['parent']][] = $post;
 		}
@@ -39,7 +39,7 @@ class ThreadList {
 				}
 				$nav_links[$thread['id']] = '#' . $thread['id'];
 				foreach($nav_links as $message_id => $text) {
-					echo '<li class="nav"><a href="', Topic::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
+					echo '<li class="nav"><a href="', Topics::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
 				}
 				echo '</ul>',
 				'<div class="post-body">', $thread['body'], '</div>';
