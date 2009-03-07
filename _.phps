@@ -1,5 +1,4 @@
 <?php
-//todo: clean up queries
 if(isset($_GET['source'])) {
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
@@ -7,7 +6,7 @@ require 'utilities.php';
 require 'db.php';
 require 'stemplator.php';
 
-define('VERSION', '0.5');
+define('VERSION', '0.5.1-dev');
 
 
 class User {
