@@ -19,7 +19,7 @@ class ThreadList {
 			echo '<div class="post">';
 			echo '<ul class="post-info" id="m', $thread['id'], '">',
 				'<li>By ',
-					($thread['author'] ? $thread['author'] : User::ANON_NAME),
+					User::author($thread['author'] ),
 					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
 				'</li>',
 				'<li>', Page::formatTime($thread['toc']), '</li>',

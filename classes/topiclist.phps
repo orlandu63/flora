@@ -24,11 +24,11 @@ class TopicList {
 				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
 					'<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
-				'<td>', ($topic['author'] ? $topic['author'] : User::ANON_NAME), '</td>',
+				'<td>', User::author($topic['author']), '</td>',
 				'<td>',
 					'<a href="', Topics::link($topic['id'], $topic['last_post_id']), '">',
 						Page::formatTime($topic['last_post']),
-					'</a> by ', $topic['last_post_author'], 
+					'</a> by ', User::author($topic['last_post_author']), 
 				'</td>',
 				'</tr>';
 		}

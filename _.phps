@@ -17,13 +17,17 @@ class User {
 	public function __construct() {
 		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);
 		self::$name = self::getAuthorCookie();
-		register_shutdown_function(array($this, 'save'));
+		register_shutdown_function(array(__CLASS__, 'save'));
 	}
 	
 	public static function save() {
 		if(self::getAuthorCookie() !== self::$name) {
 			setcookie('author', self::$name);
 		}
+	}
+	
+	public static function author($author) {
+		return ($author ? $author : self::ANON_NAME);
 	}
 	
 	public static function refresh() {
