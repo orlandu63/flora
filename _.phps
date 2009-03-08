@@ -264,7 +264,7 @@ class Input {
 			'<form action="', Page::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'<label>Name: <input type="text" size="', self::MAX_AUTHOR_LENGTH, '" value="', $data['author'], '" name="author" maxlength="', self::MAX_AUTHOR_LENGTH , '"/></label> <small title="optional">opt</small><br/>';
+			'<label>Name: <input type="text" size="', self::MAX_AUTHOR_LENGTH, '" value="', $data['author'], '" name="author" maxlength="', self::MAX_AUTHOR_LENGTH , '"/></label> <small>(optional)</small><br/>';
 		if($type === self::FORM_TOPIC) {
 			echo '<label>Title: <input type="text" size="', self::MAX_TITLE_LENGTH, '" value="', $data['title'],'" name="title" maxlength="', self::MAX_TITLE_LENGTH, '"/></label><br/>';
 		}
