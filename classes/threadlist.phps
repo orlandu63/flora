@@ -12,14 +12,14 @@ class ThreadList {
 		}
 	}
 	
-	protected function renderThread($parent) {
+	protected function renderThread($parent = null) {
 		$children = $this->children[$parent];
 		foreach($children as $key => $thread) {
 			$thread_has_children = isset($this->children[$thread['id']]);
 			echo '<div class="post">';
 			echo '<ul class="post-info" id="m', $thread['id'], '">',
 				'<li>By ',
-					User::author($thread['author'] ),
+					User::author($thread['author']),
 					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
 				'</li>',
 				'<li>', Page::formatTime($thread['toc']), '</li>',
@@ -54,6 +54,6 @@ class ThreadList {
 	
 	public function render() {
 		echo '<h1>', $this->topic['title'], '</h1>';
-		$this->renderThread(null);
+		$this->renderThread();
 	}
 }
