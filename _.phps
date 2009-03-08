@@ -1,4 +1,5 @@
 <?php
+#
 if(isset($_GET['source'])) {
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
