@@ -241,22 +241,22 @@ class Input {
 				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
 			);
 		}
+		$params = array();
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$action = 'post.php?thread=' . $data['thread'];
+				$params[] = 'thread=' . $data['thread'];
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;
 			case self::FORM_TOPIC:
 				$header = 'Start a Topic';
-				$action = 'post.php';
 				$legend = 'Topic Info';
 				$submit_value = 'Make Topic';
 				break;
 		}
 		echo '<h2>', $header , '</h2>',
-			'<form action="', $action , '" method="post">',
+			'<form action="post.php?', implode('&amp;', $params) , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
 			'<label>Name: <input type="text" size="', Input::MAX_AUTHOR_LENGTH , '" value="', $data['author'], '" name="author" maxlength="10"/></label> <small title="optional">opt</small><br/>';
