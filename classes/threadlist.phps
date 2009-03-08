@@ -23,7 +23,7 @@ class ThreadList {
 					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
 				'</li>',
 				'<li>', Page::formatTime($thread['toc']), '</li>',
-				'<li><a href="post.php?thread=', $thread['id'], '">Reply</a></li>';
+				'<li><a href="', Page::PAGE_POST, '?thread=', $thread['id'], '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = '↖';

@@ -46,8 +46,13 @@ class User {
 
 #this is fucked up
 class Page extends STemplator {
-	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
 	private $wd;
+	
+	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
+	
+	const PAGE_TOPIC = 'topic.php';
+	const PAGE_INDEX = 'index.php';
+	const PAGE_POST = 'post.php';
 
 	public function __construct() {
 		$this->wd = getcwd();
@@ -212,7 +217,7 @@ class Topics/* extends ArrayAccessHelper*/ {
 	}
 	
 	public static function link($id = null, $post_id = null) {
-		return 'topic.php?id=' . $id . ($post_id ? '#m' . $post_id : '');
+		return Page::PAGE_TOPIC . '?id=' . $id . ($post_id ? '#m' . $post_id : '');
 	}
 }
 
@@ -256,7 +261,7 @@ class Input {
 				break;
 		}
 		echo '<h2>', $header , '</h2>',
-			'<form action="post.php?', implode('&amp;', $params) , '" method="post">',
+			'<form action="', Page::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
 			'<label>Name: <input type="text" size="', Input::MAX_AUTHOR_LENGTH , '" value="', $data['author'], '" name="author" maxlength="10"/></label> <small title="optional">opt</small><br/>';
