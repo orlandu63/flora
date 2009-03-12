@@ -6,7 +6,7 @@ class ThreadList {
 		global $DB;
 		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
-		$this->threads = Posts::getOfTopic($id);
+		$this->threads = Posts::getOfTopic($id, PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
 	}
 	
 	protected function renderThread($parent = null) {

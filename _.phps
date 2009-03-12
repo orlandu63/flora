@@ -135,10 +135,11 @@ class Posts/*  extends ArrayAccessHelper */ {
 		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
 	}
 	
-	public static function getOfTopic($topic, $threaded = true) {
+	public static function getOfTopic($topic, $fetch_mode = null) {
 		global $DB;
 		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)
-			->fetchAll(($threaded ? PDO::FETCH_GROUP|PDO::FETCH_ASSOC : null));
+			->fetchAll($fetch_mode);
+			//this works because `parent` is the first column of the view
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
