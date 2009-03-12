@@ -1,5 +1,6 @@
 <?php
 if(isset($_GET['source'])) {
+	echo '<meta name="robots" content="noindex,nofollow"/>';
 	die(highlight_file($_SERVER['SCRIPT_FILENAME'], true));
 }
 require 'utilities.php';
@@ -134,9 +135,10 @@ class Posts/*  extends ArrayAccessHelper */ {
 		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
 	}
 	
-	public static function getOfTopic($topic) {
+	public static function getOfTopic($topic, $threaded) {
 		global $DB;
-		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)->fetchAll();
+		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)
+			->fetchAll(($threaded ? PDO::FETCH_GROUP|PDO::FETCH_ASSOC : null));
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
@@ -255,7 +257,7 @@ class Input {
 				$submit_value = 'Post Reply';
 				break;
 			case self::FORM_TOPIC:
-				$header = 'Start a Topic';
+				$header = 'Create a Topic';
 				$legend = 'Topic Info';
 				$submit_value = 'Make Topic';
 				break;

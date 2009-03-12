@@ -1,21 +1,18 @@
 <?php
 class ThreadList {
-	public $topic = array(), $children = array();
+	public $topic = array(), $threads = array();
 
 	public function __construct($id) {
 		global $DB;
 		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
-		$posts = Posts::getOfTopic($id);
-		foreach($posts as $post) {
-			$this->children[$post['parent']][] = $post;
-		}
+		$this->threads = Posts::getOfTopic($id, true);
 	}
 	
 	protected function renderThread($parent = null) {
-		$children = $this->children[$parent];
+		$children = $this->threads[$parent];
 		foreach($children as $key => $thread) {
-			$thread_has_children = isset($this->children[$thread['id']]);
+			$thread_has_children = isset($this->threads[$thread['id']]);
 			echo '<div class="post">';
 			echo '<ul class="post-info" id="m', $thread['id'], '">',
 				'<li>By ',
@@ -35,7 +32,7 @@ class ThreadList {
 					$nav_links[$children[$key+1]['id']] = '↓';
 				}
 				if($thread_has_children) {
-					$nav_links[$this->children[$thread['id']][0]['id']] = '↘<small><sup>1</sup></small>';
+					$nav_links[$this->threads[$thread['id']][0]['id']] = '↘<small><sup>1</sup></small>';
 				}
 				$nav_links[$thread['id']] = '#' . $thread['id'];
 				foreach($nav_links as $message_id => $text) {

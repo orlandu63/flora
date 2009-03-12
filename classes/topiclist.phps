@@ -14,7 +14,7 @@ class TopicList {
 		}
 	}
 	
-	public function render($with_pagination = true) {
+	public function render() {
 		echo '<table class="topiclist"><thead><tr>',
 				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
 			'</tr></thead><tbody>';
@@ -33,17 +33,13 @@ class TopicList {
 				'</tr>';
 		}
 		echo '</tbody></table>';
-		if($with_pagination) {
+		if(Topics::getTotal() > self::PER_PAGE) {
 			$this->renderPagination();
 		}
 	}
 	
 	public function renderPagination() {
-		$total = Topics::getTotal();
-		if($total < self::PER_PAGE) {
-			return;
-		}
-		$num_pages = (int)(($total - 1) / self::PER_PAGE);
+		$num_pages = (int)((Topics::getTotal() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
 			echo '<li>[<a href="', Page::PAGE_INDEX, '?page=', $cur_page, '">', $cur_page, '</a>]</li>';

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 01, 2009 at 06:52 PM
+-- Generation Time: Mar 11, 2009 at 10:38 PM
 -- Server version: 5.1.31
 -- PHP Version: 5.2.9
 
@@ -19,8 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Stand-in structure for view `posts`
 --
 CREATE TABLE `posts` (
-`id` int(10) unsigned
-,`parent` int(10) unsigned
+`parent` int(10) unsigned
+,`id` int(10) unsigned
 ,`author` char(10)
 ,`ip` int(11)
 ,`toc` int(10) unsigned
@@ -101,7 +101,7 @@ CREATE TABLE `topic_info` (
 --
 DROP TABLE IF EXISTS `posts`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `posts` AS select `post_info`.`id` AS `id`,`post_info`.`parent` AS `parent`,`post_info`.`author` AS `author`,`post_info`.`ip` AS `ip`,`post_info`.`toc` AS `toc`,`post_data`.`body` AS `body`,`post_info`.`topic` AS `topic` from (`post_info` left join `post_data` on((`post_info`.`id` = `post_data`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `posts` AS select `post_info`.`parent` AS `parent`,`post_info`.`id` AS `id`,`post_info`.`author` AS `author`,`post_info`.`ip` AS `ip`,`post_info`.`toc` AS `toc`,`post_data`.`body` AS `body`,`post_info`.`topic` AS `topic` from (`post_info` left join `post_data` on((`post_info`.`id` = `post_data`.`id`)));
 
 -- --------------------------------------------------------
 
