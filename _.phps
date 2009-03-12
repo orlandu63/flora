@@ -137,9 +137,7 @@ class Posts/*  extends ArrayAccessHelper */ {
 	
 	public static function getOfTopic($topic, $fetch_mode = null) {
 		global $DB;
-		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)
-			->fetchAll($fetch_mode);
-			//this works because `parent` is the first column of the view
+		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)->fetchAll($fetch_mode);
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
