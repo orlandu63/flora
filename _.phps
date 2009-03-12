@@ -135,7 +135,7 @@ class Posts/*  extends ArrayAccessHelper */ {
 		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
 	}
 	
-	public static function getOfTopic($topic, $threaded) {
+	public static function getOfTopic($topic, $threaded = true) {
 		global $DB;
 		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)
 			->fetchAll(($threaded ? PDO::FETCH_GROUP|PDO::FETCH_ASSOC : null));

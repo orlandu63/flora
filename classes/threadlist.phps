@@ -6,7 +6,7 @@ class ThreadList {
 		global $DB;
 		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
-		$this->threads = Posts::getOfTopic($id, true);
+		$this->threads = Posts::getOfTopic($id);
 	}
 	
 	protected function renderThread($parent = null) {
