@@ -135,9 +135,9 @@ class Posts/*  extends ArrayAccessHelper */ {
 		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
 	}
 	
-	public static function getOfTopic($topic, $fetch_mode = null) {
+	public static function getOfTopic($topic) {
 		global $DB;
-		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)->fetchAll($fetch_mode);
+		return $DB->q('SELECT * FROM posts WHERE topic = ?', $topic)->fetchAll();
 	}
 
 	public static function make($parent, $author, $body, $topic = null) {
