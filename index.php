@@ -2,7 +2,6 @@
 require '_.phps';
 require 'classes/topiclist.phps';
 
-$Page->title = 'Home';
 $page_number = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
 if($page_number < 0) {
 	return;

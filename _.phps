@@ -49,6 +49,8 @@ class User {
 class Page extends STemplator {
 	private $wd;
 	
+	const FORUM_NAME = 'Flora';
+	
 	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
 	
 	const PAGE_TOPIC = 'topic.php';

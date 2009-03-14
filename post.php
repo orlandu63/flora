@@ -51,4 +51,5 @@ if($preview) {
 	die;
 }
 
+$Page->title .= ' ' . ($replying_to ? 'Thread' : 'Topic');
 Input::showContentCreationForm(($replying_to ? Input::FORM_THREAD : Input::FORM_TOPIC));
