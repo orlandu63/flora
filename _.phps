@@ -150,12 +150,12 @@ class Posts/*  extends ArrayAccessHelper */ {
 			}
 			$DB->q('INSERT INTO post_info (topic, parent, author, toc, ip) VALUES(?, ?, ?, UNIX_TIMESTAMP(), ?)',
 				$topic, $parent, $author, User::$ip);
-			$thread_id = $DB->lastInsertId();
+			$post_id = $DB->lastInsertId();
 			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
 			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
 			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
-				$thread_id, $topic);
-		return self::getInfo($thread_id);
+				$post_id, $topic);
+		return self::getInfo($post_id);
 	}
 	
 	public static function exists($id) {
@@ -166,10 +166,15 @@ class Posts/*  extends ArrayAccessHelper */ {
 	public static function display($id) {
 		$post = (is_array($id) ? $id : self::getInfo($id));
 		echo '<div class="post"><ul class="post-info">',
-			'<li>By ', ($post['author'] ? $post['author'] : User::ANON_NAME), '</li>',
+			'<li>By ', User::author($post['author']), '</li>',
 			'<li>', Page::formatTime($post['toc']), '</li>',
 			'</ul>',
 			'<div class="post-body">', $post['body'], '</div></div>';
+	}
+	
+	public static function getTopicFromId($id) {
+		global $DB;
+		return $DB->q('SELECT SQL_NO_CACHE topic FROM post_info WHERE id = ?', $id)->fetchColumn();
 	}
 }
 
@@ -198,7 +203,7 @@ class Topics/* extends ArrayAccessHelper*/ {
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
 			$topic_id = $DB->lastInsertId();
 			$new_post = Posts::make(null, $author, $body, $topic_id);
-			$DB->q('UPDATE topic_info SET thread = ? WHERE id = ?', $new_post['id'], $topic_id);
+			$DB->q('UPDATE topic_info SET post = ? WHERE id = ?', $new_post['id'], $topic_id);
 		return self::getInfo($topic_id);
 	}
 	
@@ -212,13 +217,12 @@ class Topics/* extends ArrayAccessHelper*/ {
 		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
-	public static function getIdFromThread($id) {
-		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE topic FROM thread_info WHERE id = ?', $id)->fetchColumn();
-	}
-	
-	public static function link($id = null, $post_id = null) {
-		return Page::PAGE_TOPIC . '?id=' . $id . ($post_id ? '#m' . $post_id : '');
+	public static function link($id = null, $post_id= null) {
+		$link = Page::PAGE_TOPIC . '?id=' . $id;
+		if($post_id) {
+			$link .= '#m' . $post_id;
+		}
+		return  $link;
 	}
 }
 
@@ -241,7 +245,7 @@ class Input {
 	public static function showContentCreationForm($type, array $data = array()) {
 		if(empty($data)) {
 			$data = array(
-				'thread' => filter_input(INPUT_GET, 'thread', FILTER_VALIDATE_INT),
+				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
 				'author' => User::$name,
 				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
 				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
@@ -251,7 +255,7 @@ class Input {
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$params[] = 'thread=' . $data['thread'];
+				$params[] = 'post=' . $data['post'];
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;

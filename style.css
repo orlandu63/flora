@@ -78,7 +78,7 @@ color: red
 }
 
 #footer {
-font-size: small;
+font: small Monospace;
 }
 
 a {
@@ -109,4 +109,14 @@ a:hover {
 
 label {
 cursor:pointer
+}
+
+#error {
+background: #fef;
+padding: .4em
+}
+
+#error:before {
+display: block;
+content: 'Error:';
 }

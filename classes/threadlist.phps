@@ -14,16 +14,16 @@ class ThreadList {
 	
 	protected function renderThread($parent = null) {
 		$children = $this->children[$parent];
-		foreach($children as $key => $thread) {
-			$thread_has_children = isset($this->children[$thread['id']]);
-			echo '<div class="post">';
-			echo '<ul class="post-info" id="m', $thread['id'], '">',
+		foreach($children as $key => $post) {
+			$post_has_children = isset($this->children[$post['id']]);
+			echo '<div class="post">',
+				'<ul class="post-info" id="m', $post['id'], '">',
 				'<li>By ',
-					User::author($thread['author']),
-					($this->topic['ip'] === $thread['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
+					User::author($post['author']),
+					($this->topic['ip'] === $post['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
 				'</li>',
-				'<li>', Page::formatTime($thread['toc']), '</li>',
-				'<li><a href="', Page::PAGE_POST, '?thread=', $thread['id'], '">Reply</a></li>';
+				'<li>', Page::formatTime($post['toc']), '</li>',
+				'<li><a href="', Page::PAGE_POST, '?post=', $post['id'], '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = '↖';
@@ -34,18 +34,18 @@ class ThreadList {
 				if(isset($children[$key+1])) {
 					$nav_links[$children[$key+1]['id']] = '↓';
 				}
-				if($thread_has_children) {
-					$nav_links[$this->children[$thread['id']][0]['id']] = '↘<small><sup>1</sup></small>';
+				if($post_has_children) {
+					$nav_links[$this->children[$post['id']][0]['id']] = '↘<small><sup>1</sup></small>';
 				}
-				$nav_links[$thread['id']] = '#' . $thread['id'];
+				$nav_links[$post['id']] = '#' . $post['id'];
 				foreach($nav_links as $message_id => $text) {
 					echo '<li class="nav"><a href="', Topics::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
 				}
 				echo '</ul>',
-				'<div class="post-body">', $thread['body'], '</div>';
-			if($thread_has_children) {
+				'<div class="post-body">', $post['body'], '</div>';
+			if($post_has_children) {
 				echo '<div class="reply-wrap">';
-					$this->renderThread($thread['id']);
+					$this->renderThread($post['id']);
 				echo '</div>';
 			}
 			echo '</div>';
