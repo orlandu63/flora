@@ -309,8 +309,9 @@ class Input {
 	}
 	
 	public static function validateAuthor($sub = null) {
-		$author = User::$name = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
+		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
 		self::validateLength('name', $author, self::MAX_AUTHOR_LENGTH);
+		User::$name = $author;
 		return $author;
 	}
 	
