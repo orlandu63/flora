@@ -12,6 +12,9 @@ define('VERSION', '0.5.2');
 
 class User {
 	const ANON_NAME = 'Anon';
+	
+	const AUTHOR_CLASS_TC = 'tc';
+
 	public static $ip, $name;
 	
 	public function __construct() {
@@ -26,8 +29,11 @@ class User {
 		}
 	}
 	
-	public static function author($author) {
-		return ($author ? $author : self::ANON_NAME);
+	public static function author($author, array $classes = array()) {
+		$classes[] = 'author';
+		return '<span class="' . implode($classes, ' ') . '">' .
+			($author ? $author : self::ANON_NAME) .
+		'</span>';
 	}
 	
 	public static function refresh() {

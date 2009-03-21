@@ -73,10 +73,6 @@ background: green;
 color: white
 }
 
-.tc-indicator, .sticky-symbol {
-color: red
-}
-
 #footer {
 font: small Monospace;
 }
@@ -123,4 +119,9 @@ content: 'Error:';
 
 .post:target > .post-info {
 font-weight: bold
+}
+
+.author.tc:after {
+content: ' *';
+color: red;
 }

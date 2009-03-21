@@ -16,11 +16,14 @@ class ThreadList {
 		$children = $this->children[$parent];
 		foreach($children as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
+			$classes = array();
+			if($this->topic['ip'] === $post['ip']) {
+				$classes[] = User::AUTHOR_CLASS_TC;
+			}
 			echo '<div class="post" id="m', $post['id'], '">',
 				'<ul class="post-info">',
 				'<li>By ',
-					User::author($post['author']),
-					($this->topic['ip'] === $post['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
+					User::author($post['author'], $classes),
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li><a href="', Page::PAGE_POST, '?post=', $post['id'], '">Reply</a></li>';
