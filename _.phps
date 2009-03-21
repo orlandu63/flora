@@ -304,13 +304,13 @@ class Input {
 		$length = strlen($data);
 		if($length > $max_length) {
 			throw new LengthException(sprintf(self::$length_exception_format,
-				$name, $max_length, $length));
+				ucfirst($name), $max_length, $length));
 		}
 	}
 	
 	public static function validateAuthor($sub = null) {
 		$author = User::$name = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		self::validateLength('Name', $author, self::MAX_AUTHOR_LENGTH);
+		self::validateLength('name', $author, self::MAX_AUTHOR_LENGTH);
 		return $author;
 	}
 	
@@ -321,7 +321,7 @@ class Input {
 		}
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
-		self::validateLength('Body', $body, self::MAX_BODY_LENGTH);
+		self::validateLength('body', $body, self::MAX_BODY_LENGTH);
 		return $body;
 	}
 	
@@ -330,7 +330,7 @@ class Input {
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
-		self::validateLength('Title', $title, self::MAX_TITLE_LENGTH);
+		self::validateLength('title', $title, self::MAX_TITLE_LENGTH);
 		return $title;
 	}
 }

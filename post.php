@@ -21,7 +21,11 @@ try {
 		}
 	}
 } catch(Exception $exception) {
-	echo '<p id="error">',  $exception->getMessage(), '<br/>Note that &lt;, &gt;, &amp; and " are actually 4, 4, 5, ?? characters in web form.</p>';
+	echo '<p id="error">',  $exception->getMessage();
+	if($exception instanceof LengthException) {
+		echo '<br/>Note that &lt;, &gt;, &amp; and " are actually 4, 4, 5, ?? characters in web form.';
+	}
+	echo '</p>';
 	return;
 }
 
