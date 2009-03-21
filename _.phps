@@ -7,7 +7,7 @@ require 'utilities.php';
 require 'db.php';
 require 'stemplator.php';
 
-define('VERSION', '0.5.1-dev');
+define('VERSION', '0.5.2');
 
 
 class User {
@@ -113,7 +113,7 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($format, date('c', $timestamp), implode($durations, ', '));
+		return sprintf($format, date('r', $timestamp), implode($durations, ', '));
 	}
 	
 	public function __destruct() {
@@ -243,6 +243,8 @@ class Input {
 	const MAX_BODY_LENGTH = 8000;
 	const MAX_TITLE_LENGTH = 80;
 	
+	protected static $length_exception_format = '%s must be no greater than %s characters long: its current length is %d characters.';
+	
 	
 	public static function showContentCreationForm($type, array $data = array()) {
 		if(empty($data)) {
@@ -298,24 +300,28 @@ class Input {
 		return (count($return) === 1 ? reset($return) : $return);
 	}
 	
+	protected static function validateLength($name, $data, $max_length) {
+		$length = strlen($data);
+		if($length > $max_length) {
+			throw new LengthException(sprintf(self::$length_exception_format,
+				$name, $max_length, $length));
+		}
+	}
+	
 	public static function validateAuthor($sub = null) {
 		$author = User::$name = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(strlen($author) > Input::MAX_AUTHOR_LENGTH) {
-			throw new Exception('Name must be no more than ' . Input::MAX_AUTHOR_LENGTH . ' characters');
-		}
+		self::validateLength('Name', $author, self::MAX_AUTHOR_LENGTH);
 		return $author;
 	}
 	
 	public static function validateBody($sub = null) {
 		$body = ($sub === null ? trim(filter_input(INPUT_POST, 'body')) : $sub);
 		if(!$body) {
-			throw new Exception('Body must be at least 1 char');
+			throw new Exception('Please input a body.');
 		}
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
-		if(strlen($body) > Input::MAX_BODY_LENGTH) {
-			throw new Exception('Body must be no more than ' . Input::MAX_BODY_LENGTH . ' characters.');
-		}
+		self::validateLength('Body', $body, self::MAX_BODY_LENGTH);
 		return $body;
 	}
 	
@@ -324,9 +330,7 @@ class Input {
 		if(!$title) {
 			throw new Exception('Please input a title.');
 		}
-		if(strlen($title) > Input::MAX_TITLE_LENGTH) {
-			throw new Exception('Title must be no more than ' . Input::MAX_TITLE_LENGTH . ' characters.');
-		}
+		self::validateLength('Title', $title, self::MAX_TITLE_LENGTH);
 		return $title;
 	}
 }

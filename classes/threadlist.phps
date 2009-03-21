@@ -16,8 +16,8 @@ class ThreadList {
 		$children = $this->children[$parent];
 		foreach($children as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
-			echo '<div class="post">',
-				'<ul class="post-info" id="m', $post['id'], '">',
+			echo '<div class="post" id="m', $post['id'], '">',
+				'<ul class="post-info">',
 				'<li>By ',
 					User::author($post['author']),
 					($this->topic['ip'] === $post['ip'] ? ' <span class="tc-indicator">*</span>' : ''),
