@@ -21,6 +21,7 @@ try {
 		}
 	}
 } catch(Exception $exception) {
+	#header('HTTP/1.1 400 Bad Request');
 	echo '<p id="error">',  $exception->getMessage();
 	if($exception instanceof LengthException) {
 		echo '<br/>Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.';

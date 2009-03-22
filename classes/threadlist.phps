@@ -42,7 +42,9 @@ class ThreadList {
 				}
 				$nav_links[$post['id']] = '#' . $post['id'];
 				foreach($nav_links as $message_id => $text) {
-					echo '<li class="nav"><a href="', Topics::link($this->topic['id'], $message_id), '">', $text, '</a></li>';
+					echo '<li class="nav">',
+						'<a href="', Topics::link($this->topic['id'], $message_id), '">', $text, '</a>',
+					'</li>';
 				}
 				echo '</ul>',
 				'<div class="post-body">', $post['body'], '</div>';

@@ -7,7 +7,7 @@ require 'utilities.php';
 require 'db.php';
 require 'stemplator.php';
 
-define('VERSION', '0.5.2');
+define('VERSION', '0.5.3');
 
 
 class User {
@@ -154,7 +154,7 @@ class Posts/*  extends ArrayAccessHelper */ {
 				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)
 					->fetchColumn();
 			} elseif($topic === null) {
-				die("ERROR: LOST CHILD. \$parent = $parent, \$topic = $topic");
+				throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
 			}
 			$DB->q('INSERT INTO post_info (topic, parent, author, toc, ip) VALUES(?, ?, ?, UNIX_TIMESTAMP(), ?)',
 				$topic, $parent, $author, User::$ip);
@@ -201,9 +201,10 @@ class Topics/* extends ArrayAccessHelper*/ {
 	
 	public static function getList($page, $per_page) {
 		global $DB;
+		$per_page = (int)$per_page;
 		return $DB->query('SELECT * FROM topics
 			ORDER BY is_sticky DESC, last_post_id DESC
-			LIMIT ' . ($page * $per_page) . ', ' . (int)$per_page)->fetchAll();
+			LIMIT ' . ($page * $per_page) . ', ' . $per_page)->fetchAll();
 	}
 	
 	public static function make($title, $author, $body) {
@@ -249,7 +250,7 @@ class Input {
 	const MAX_BODY_LENGTH = 8000;
 	const MAX_TITLE_LENGTH = 80;
 	
-	protected static $length_exception_format = '%s must be no greater than %s characters long: its current length is %d characters.';
+	protected static $length_exception_format = '<strong>%s</strong> must be no greater than %s characters long: its current length is %d characters.';
 	
 	
 	public static function showContentCreationForm($type, array $data = array()) {
