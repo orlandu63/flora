@@ -3,6 +3,7 @@ require '_.phps';
 require 'markdown.php';
 $Page->title = 'Post';
 $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
+$making_topic = !$replying_to;
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 try {
@@ -16,8 +17,8 @@ try {
 	if($submit || $preview) {
 		$author = Input::validate(Input::VALIDATE_AUTHOR);
 		$body = Input::validate(Input::VALIDATE_BODY);
-		if(!$replying_to) {
-			$title = Input::validate(INPUT::VALIDATE_TITLE);
+		if($making_topic) {
+			$title = Input::validate(Input::VALIDATE_TITLE);
 		}
 	}
 	
@@ -42,7 +43,7 @@ if($valid) {
 
 	if($preview) {
 		echo '<h3>Preview:';
-		if(!$replying_to) {
+		if($making_topic) {
 			echo ' ', $title;
 		}
 		echo '</h3>';
