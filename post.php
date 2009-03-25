@@ -1,6 +1,8 @@
 <?php
 require '_.phps';
+require 'classes/inputvalidation.phps';
 require 'markdown.php';
+
 $Page->title = 'Post';
 $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
 $making_topic = !$replying_to;
@@ -15,10 +17,10 @@ try {
 	}
 
 	if($submit || $preview) {
-		$author = Input::validate(Input::VALIDATE_AUTHOR);
-		$body = Input::validate(Input::VALIDATE_BODY);
+		$author = InputValidation::validate(InputValidation::VALIDATE_AUTHOR);
+		$body = InputValidation::validate(InputValidation::VALIDATE_BODY);
 		if($making_topic) {
-			$title = Input::validate(Input::VALIDATE_TITLE);
+			$title = InputValidation::validate(InputValidation::VALIDATE_TITLE);
 		}
 	}
 	
@@ -61,4 +63,4 @@ if($valid) {
 }
 
 $Page->title .= ' ' . ($replying_to ? 'Thread' : 'Topic');
-Input::showContentCreationForm(($replying_to ? Input::FORM_THREAD : Input::FORM_TOPIC));
+Page::showContentCreationForm(($replying_to ? Page::FORM_THREAD : Page::FORM_TOPIC));

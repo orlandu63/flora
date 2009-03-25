@@ -9,4 +9,4 @@ if($page_number < 0) {
 $Topiclist = new Topiclist($page_number);
 $Topiclist->render();
 
-Input::showContentCreationForm(Input::FORM_TOPIC);
+Page::showContentCreationForm(Page::FORM_TOPIC);

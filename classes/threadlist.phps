@@ -18,7 +18,7 @@ class ThreadList {
 			$post_has_children = isset($this->children[$post['id']]);
 			$classes = array();
 			if($this->topic['ip'] === $post['ip']) {
-				$classes[] = User::AUTHOR_CLASS_TC;
+				$classes[] = 'tc';
 			}
 			echo '<div class="post" id="m', $post['id'], '">',
 				'<ul class="post-info">',

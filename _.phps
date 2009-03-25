@@ -12,8 +12,7 @@ define('VERSION', '0.5.3');
 
 class User {
 	const ANON_NAME = 'Anon';
-	
-	const AUTHOR_CLASS_TC = 'tc';
+	const MAX_AUTHOR_LENGTH = 10;
 
 	public static $ip, $name;
 	
@@ -62,6 +61,9 @@ class Page extends STemplator {
 	const PAGE_TOPIC = 'topic.php';
 	const PAGE_INDEX = 'index.php';
 	const PAGE_POST = 'post.php';
+	
+	const FORM_THREAD = 1;
+	const FORM_TOPIC = 2;
 
 	public function __construct() {
 		$this->wd = getcwd();
@@ -75,6 +77,55 @@ class Page extends STemplator {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		parent::output();
+	}
+	
+	public static function showContentCreationForm($type, array $data = array()) {
+		if(empty($data)) {
+			$data = array(
+				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
+				'author' => User::$name,
+				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
+				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
+			);
+		}
+		$params = array();
+		switch($type) {
+			case self::FORM_THREAD:
+				$header = 'Reply';
+				$params[] = 'post=' . $data['post'];
+				$legend = 'Post Info';
+				$submit_value = 'Post Reply';
+				break;
+			case self::FORM_TOPIC:
+				$header = 'Create a Topic';
+				$legend = 'Topic Info';
+				$submit_value = 'Make Topic';
+				break;
+		}
+		echo '<h2>', $header , '</h2>',
+			'<form action="', self::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
+			'<fieldset>',
+			'<legend>', $legend , '</legend>',
+			'<label>Name: ',
+				sprintf('<input type="text" size="%d" value="%s" name="author" maxlength="%1$d"/>',
+					User::MAX_AUTHOR_LENGTH,
+					$data['author']
+				),
+			'</label> <small>(optional)</small><br/>';
+		if($type === self::FORM_TOPIC) {
+			echo '<label>Title: ',
+				sprintf('<input type="text" size="%d" value="%s" name="title" maxlength="%1$d"/>',
+					Topics::MAX_TITLE_LENGTH,
+					$data['title']),
+			'</label><br/>';
+		}
+		echo '<label>Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
+			'<textarea name="body" cols="80" rows="10">', $data['body'], '</textarea>',
+			'</label><br/>',
+			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
+			'<input type="submit" value="Preview" name="preview"/>',
+			'</fieldset>',
+			'</form>';
 	}
 	
 	public static function cache($last_modified) {
@@ -137,6 +188,7 @@ class Posts/*  extends ArrayAccessHelper */ {
 /* 	public function __construct($id) {
 		$this->info = self::getInfo($id);
 	} */
+	const MAX_BODY_LENGTH = 8000;
 	
 	public static function getInfo($id) {
 		global $DB;
@@ -193,6 +245,7 @@ class Topics/* extends ArrayAccessHelper*/ {
 /* 	public function __construct($id) {
 		$this->info = self::getInfo($id);
 	} */
+	const MAX_TITLE_LENGTH = 80;
 	
 	public static function getInfo($id) {
 		global $DB;
@@ -232,123 +285,6 @@ class Topics/* extends ArrayAccessHelper*/ {
 			$link .= '#m' . $post_id;
 		}
 		return  $link;
-	}
-}
-
-class Input {
-	const TEXTAREA_COLS = 80;
-	const TEXTAREA_ROWS = 10;
-	
-	const FORM_THREAD = 1;
-	const FORM_TOPIC = 2;
-	
-	const VALIDATE_AUTHOR = 1;
-	const VALIDATE_BODY = 2;
-	const VALIDATE_TITLE = 4;
-	
-	const MAX_AUTHOR_LENGTH = 10;
-	const MAX_BODY_LENGTH = 8000;
-	const MAX_TITLE_LENGTH = 80;
-	
-	protected static $length_exception_format = '<strong>%s</strong> must be no greater than %s characters long: its current length is %d characters.';
-	
-	public static function showContentCreationForm($type, array $data = array()) {
-		if(empty($data)) {
-			$data = array(
-				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
-				'author' => User::$name,
-				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
-				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
-			);
-		}
-		$params = array();
-		switch($type) {
-			case self::FORM_THREAD:
-				$header = 'Reply';
-				$params[] = 'post=' . $data['post'];
-				$legend = 'Post Info';
-				$submit_value = 'Post Reply';
-				break;
-			case self::FORM_TOPIC:
-				$header = 'Create a Topic';
-				$legend = 'Topic Info';
-				$submit_value = 'Make Topic';
-				break;
-		}
-		echo '<h2>', $header , '</h2>',
-			'<form action="', Page::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
-			'<fieldset>',
-			'<legend>', $legend , '</legend>',
-			'<label>Name: ',
-				sprintf('<input type="text" size="%d" value="%s" name="author" maxlength="%1$d"/>',
-					self::MAX_AUTHOR_LENGTH,
-					$data['author']
-				),
-			'</label> <small>(optional)</small><br/>';
-		if($type === self::FORM_TOPIC) {
-			echo '<label>Title: <input type="text" size="', self::MAX_TITLE_LENGTH, '" value="', $data['title'],'" name="title" maxlength="', self::MAX_TITLE_LENGTH, '"/></label><br/>';
-		}
-		echo '<label>Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
-			sprintf('<textarea name="body" cols="%d" rows="%d">%s</textarea>',
-				self::TEXTAREA_COLS,
-				self::TEXTAREA_ROWS,
-				$data['body']
-			),
-			'</label><br/>',
-			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
-			'<input type="submit" value="Preview" name="preview"/>',
-			'</fieldset>',
-			'</form>';
-	}
-
-	public static function validate($flags) {
-		#this is useless
-		$return = array();
-		if(has_flag($flags, self::VALIDATE_AUTHOR)) {
-			$return['author'] = self::validateAuthor();
-		}
-		if(has_flag($flags, self::VALIDATE_BODY)) {
-			$return['body'] = self::validateBody();
-		}
-		if(has_flag($flags, self::VALIDATE_TITLE)) {
-			$return['title'] = self::validateTitle();
-		}
-		return (count($return) === 1 ? reset($return) : $return);
-	}
-	
-	protected static function validateLength($name, $data, $max_length) {
-		$length = strlen($data);
-		if($length > $max_length) {
-			throw new LengthException(sprintf(self::$length_exception_format,
-				ucfirst($name), $max_length, $length));
-		}
-	}
-	
-	public static function validateAuthor($sub = null) {
-		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		self::validateLength('name', $author, self::MAX_AUTHOR_LENGTH);
-		User::$name = $author;
-		return $author;
-	}
-	
-	public static function validateBody($sub = null) {
-		$body = ($sub === null ? trim(filter_input(INPUT_POST, 'body')) : $sub);
-		if(!$body) {
-			throw new Exception('Please input a body.');
-		}
-		$parser = Markdown::getInstance();
-		$body = $parser->transform($body);
-		self::validateLength('body', $body, self::MAX_BODY_LENGTH);
-		return $body;
-	}
-	
-	public static function validateTitle($sub = null) {
-		$title = ($sub === null ? trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(!$title) {
-			throw new Exception('Please input a title.');
-		}
-		self::validateLength('title', $title, self::MAX_TITLE_LENGTH);
-		return $title;
 	}
 }
 
