@@ -26,7 +26,7 @@ class TopicList {
 				$classes[] = 'sticky';
 			}
 			echo '<tr class="', implode(' ', $classes),'">',
-				'<td>', '<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
+				'<td><a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', User::author($topic['author']), '</td>',
 				'<td>',
