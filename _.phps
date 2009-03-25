@@ -252,7 +252,6 @@ class Input {
 	
 	protected static $length_exception_format = '<strong>%s</strong> must be no greater than %s characters long: its current length is %d characters.';
 	
-	
 	public static function showContentCreationForm($type, array $data = array()) {
 		if(empty($data)) {
 			$data = array(
@@ -280,12 +279,22 @@ class Input {
 			'<form action="', Page::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
-			'<label>Name: <input type="text" size="', self::MAX_AUTHOR_LENGTH, '" value="', $data['author'], '" name="author" maxlength="', self::MAX_AUTHOR_LENGTH , '"/></label> <small>(optional)</small><br/>';
+			'<label>Name: ',
+				sprintf('<input type="text" size="%d" value="%s" name="author" maxlength="%1$d"/>',
+					self::MAX_AUTHOR_LENGTH,
+					$data['author']
+				),
+			'</label> <small>(optional)</small><br/>';
 		if($type === self::FORM_TOPIC) {
 			echo '<label>Title: <input type="text" size="', self::MAX_TITLE_LENGTH, '" value="', $data['title'],'" name="title" maxlength="', self::MAX_TITLE_LENGTH, '"/></label><br/>';
 		}
 		echo '<label>Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
-			'<textarea name="body" cols="', self::TEXTAREA_COLS , '" rows="', self::TEXTAREA_ROWS, '">', $data['body'], '</textarea></label><br/>',
+			sprintf('<textarea name="body" cols="%d" rows="%d">%s</textarea>',
+				self::TEXTAREA_COLS,
+				self::TEXTAREA_ROWS,
+				$data['body']
+			),
+			'</label><br/>',
 			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',
