@@ -125,3 +125,8 @@ font-weight: bold
 content: ' *';
 color: red;
 }
+
+.topiclist .sticky > :first-child:before{
+content: '!!!';
+color: red
+}

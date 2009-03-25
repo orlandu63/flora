@@ -20,9 +20,13 @@ class TopicList {
 			'</tr></thead><tbody>';
 		$affinity = 0;
 		foreach($this->topics as $topic) {
-			echo '<tr class="', (++$affinity & 1 ? 'odd' : 'even') ,'">',
-				'<td>', ($topic['is_sticky'] ? '<span class="sticky-symbol">!!!</span> ' : ''),
-					'<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
+			$classes = array();
+			$classes[] = (++$affinity & 1 ? 'odd' : 'even');
+			if($topic['is_sticky']) {
+				$classes[] = 'sticky';
+			}
+			echo '<tr class="', implode(' ', $classes),'">',
+				'<td>', '<a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', User::author($topic['author']), '</td>',
 				'<td>',
