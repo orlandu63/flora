@@ -53,11 +53,15 @@ if($valid) {
 	} elseif($submit) {
 		if($replying_to) {
 			$new_info = Posts::make($replying_to, $author, $body);
+			$new_topic_id = $new_info['topic'];
+			$new_post_id = $new_info['id'];
 		} else {
 			$new_info = Topics::make($title, $author, $body);
+			$new_topic_id = $new_info['id'];
+			$new_post_id = $new_info['post'];
 		}
 		header('HTTP/1.1 303 See Other');
-		header('Location: ' . Page::PAGE_TOPIC . '?id=' . $new_info[($replying_to ? 'topic' : 'id')]);
+		header('Location: ' . Topics::link($new_topic_id, $new_post_id));
 		return;
 	}
 }
