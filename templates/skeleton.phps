@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body>
-<h1 id="header"><a href="."><?php echo Page::FORUM_NAME ?></a></h1>
+<h1 id="header"><a href="<?php echo Page::PAGE_INDEX ?>"><?php echo Page::FORUM_NAME ?></a></h1>
 <p><?php echo coalesce(get($announcement), Page::DEFAULT_ANNOUNCEMENT) ?></p>
 <?php echo $contents ?>
 <hr/>
