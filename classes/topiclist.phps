@@ -26,11 +26,11 @@ class TopicList {
 				$classes[] = 'sticky';
 			}
 			echo '<tr class="', implode(' ', $classes),'">',
-				'<td><a href="', Topics::link($topic['id']), '">', $topic['title'], '</a></td>',
+				'<td><a href="', Topics::makeURI($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', User::author($topic['author']), '</td>',
 				'<td>',
-					'<a href="', Topics::link($topic['id'], $topic['last_post_id']), '">',
+					'<a href="', Topics::makeURI($topic['id'], $topic['last_post_id']), '">',
 						Page::formatTime($topic['last_post']),
 					'</a> by ', User::author($topic['last_post_author']), 
 				'</td>',

@@ -279,7 +279,7 @@ class Topics/* extends ArrayAccessHelper*/ {
 		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
-	public static function link($id = null, $post_id= null) {
+	public static function makeURI($id = null, $post_id= null) {
 		$link = Page::PAGE_TOPIC . '?id=' . $id;
 		if($post_id) {
 			$link .= '#m' . $post_id;

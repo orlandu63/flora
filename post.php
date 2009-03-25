@@ -61,7 +61,7 @@ if($valid) {
 			$new_post_id = $new_info['post'];
 		}
 		header('HTTP/1.1 303 See Other');
-		header('Location: ' . Topics::link($new_topic_id, $new_post_id));
+		header('Location: ' . Topics::makeURI($new_topic_id, $new_post_id));
 		return;
 	}
 }
