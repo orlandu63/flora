@@ -58,7 +58,6 @@ class ThreadList {
 	}
 	
 	public function render() {
-		echo '<h1>', $this->topic['title'], '</h1>';
 		$this->renderThread();
 	}
 }

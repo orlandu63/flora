@@ -9,5 +9,5 @@ if(!Topics::exists($topic)) {
 }
 
 $Threadlist = new ThreadList($topic);
-$Page->title = $Threadlist->topic['title'];
+	echo '<h1>', ($Page->title = $Threadlist->topic['title']), '</h1>';
 $Threadlist->render();
