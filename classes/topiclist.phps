@@ -46,7 +46,7 @@ class TopicList {
 		$num_pages = (int)((Topics::getTotal() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
-			echo '<li>[<a href="', Page::PAGE_INDEX, '?page=', $cur_page, '">', $cur_page, '</a>]</li>';
+			echo '<li>[<a href="', Page::makeURI(Page::PAGE_INDEX, array('page' => $cur_page)), '">', $cur_page, '</a>]</li>';
 		}
 		echo '</ul>';
 	}

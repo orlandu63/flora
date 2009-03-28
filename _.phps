@@ -73,10 +73,28 @@ class Page extends STemplator {
 		ob_start();
 	}
 	
+	public function __destruct() {
+		$prev_wd = getcwd();
+		chdir($this->wd);
+		$this->output();
+		chdir($prev_wd);
+	}
+	
 	public function output() {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		parent::output();
+	}
+	
+	public static function makeURI($name, array $params = array(), $hash = null) {
+		$uri = $name;
+		if(!empty($params)) {
+			$uri .= '?' . http_build_query($params);
+		}
+		if($hash) {
+			$uri .= '#' . $hash;
+		}
+		return $uri;
 	}
 	
 	public static function showContentCreationForm($type, array $data = array()) {
@@ -171,13 +189,6 @@ class Page extends STemplator {
 			}
 		}
 		return sprintf($format, date('r', $timestamp), implode($durations, ', '));
-	}
-	
-	public function __destruct() {
-		$prev_wd = getcwd();
-		chdir($this->wd);
-		$this->output();
-		chdir($prev_wd);
 	}
 }
 
@@ -279,12 +290,8 @@ class Topics/* extends ArrayAccessHelper*/ {
 		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
-	public static function makeURI($id = null, $post_id= null) {
-		$link = Page::PAGE_TOPIC . '?id=' . $id;
-		if($post_id) {
-			$link .= '#m' . $post_id;
-		}
-		return  $link;
+	public static function makeURI($id = null, $post_id = null) {
+		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), ($post_id ? 'm' . $post_id : null));
 	}
 }
 

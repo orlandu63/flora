@@ -37,7 +37,7 @@ try {
 if($valid) {
 	if($replying_to) {
 		$topic_info = Topics::getInfo(Posts::getTopicFromId($replying_to));
-		echo '<h3>Replying to: <a href="', Page::PAGE_TOPIC, '?id=', $topic_info['id'], '">',
+		echo '<h3>Replying to: <a href="', Topics::makeURI(Page::PAGE_TOPIC, $topic_info['id']), '">',
 			$topic_info['title'],
 		'</a></h3>';
 		Posts::display($replying_to);
