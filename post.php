@@ -33,7 +33,7 @@ try {
 if($valid) {
 	if($replying_to) {
 		$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
-		echo '<h3>Replying to: <a href="', Topics::makeURI(Page::PAGE_TOPIC, $topic_info['id']), '">',
+		echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id']), '">',
 			$topic_info['title'],
 		'</a></h3>';
 		Posts::display($replying_to);
@@ -63,4 +63,4 @@ if($valid) {
 }
 
 $Page->title .= ' ' . ($replying_to ? 'Thread' : 'Topic');
-Page::showContentCreationForm(($replying_to ? Page::FORM_THREAD : Page::FORM_TOPIC));
+Page::displayPostForm(($replying_to ? Page::FORM_THREAD : Page::FORM_TOPIC));

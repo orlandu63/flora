@@ -58,6 +58,8 @@ class ThreadList {
 	}
 	
 	public function render() {
-		$this->renderThread();
+		echo '<div id="threadlist">';
+			$this->renderThread();
+		echo '</div>';
 	}
 }

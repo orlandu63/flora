@@ -56,7 +56,7 @@ width: 100%
 	border: 1px solid green
 }
 
-.topiclist tbody tr:nth-child(odd) {
+.topiclist .odd {
 	background: #eee
 }
 
@@ -64,7 +64,7 @@ width: 100%
 	padding: .15em
 }
 
-.topiclist tbody tr:nth-child(even) {
+.topiclist .even {
 	background: #ddd
 }
 

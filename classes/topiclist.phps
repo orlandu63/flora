@@ -18,10 +18,10 @@ class TopicList {
 		echo '<table class="topiclist"><thead><tr>',
 				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
 			'</tr></thead><tbody>';
-		#$affinity = 0;
+		$affinity = 0;
 		foreach($this->topics as $topic) {
 			$classes = array();
-			#$classes[] = (++$affinity & 1 ? 'odd' : 'even');
+			$classes[] = (++$affinity & 1 ? 'odd' : 'even');
 			if($topic['is_sticky']) {
 				$classes[] = 'sticky';
 			}

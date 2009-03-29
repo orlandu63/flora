@@ -50,7 +50,7 @@ class Page extends STemplator {
 		header('Location: ' . $uri);
 	}
 	
-	public static function showContentCreationForm($type, array $data = array()) {
+	public static function displayPostForm($type, array $data = array()) {
 		if(empty($data)) {
 			$data = array(
 				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
@@ -63,7 +63,7 @@ class Page extends STemplator {
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$params[] = 'post=' . $data['post'];
+				$params['post'] = $data['post'];
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;
@@ -74,7 +74,7 @@ class Page extends STemplator {
 				break;
 		}
 		echo '<h2>', $header , '</h2>',
-			'<form action="', self::PAGE_POST, '?', implode('&amp;', $params) , '" method="post">',
+			'<form action="', self::makeURI(self::PAGE_POST, $params), '" method="post">',
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
 			'<label>Name: ',
