@@ -1,6 +1,6 @@
 <?php
 require '_.phps';
-require 'classes/threadlist.phps';
+require CLASS_DIR . 'threadlist.phps';
 
 $Page->title = 'Topic';
 $topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

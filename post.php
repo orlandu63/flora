@@ -1,6 +1,6 @@
 <?php
 require '_.phps';
-require 'classes/inputvalidation.phps';
+require CLASS_DIR . 'inputvalidation.phps';
 require 'markdown.php';
 
 $Page->title = 'Post';
@@ -36,7 +36,7 @@ try {
 
 if($valid) {
 	if($replying_to) {
-		$topic_info = Topics::getInfo(Posts::getTopicFromId($replying_to));
+		$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
 		echo '<h3>Replying to: <a href="', Topics::makeURI(Page::PAGE_TOPIC, $topic_info['id']), '">',
 			$topic_info['title'],
 		'</a></h3>';
@@ -61,7 +61,7 @@ if($valid) {
 			$new_post_id = $new_info['post'];
 		}
 		header('HTTP/1.1 303 See Other');
-		header('Location: ' . Topics::makeURI($new_topic_id, $new_post_id));
+		Page::redirect(Topics::makeURI($new_topic_id, $new_post_id));
 		return;
 	}
 }
