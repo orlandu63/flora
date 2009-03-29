@@ -29,7 +29,8 @@ class InputValidation {
 		$length = strlen($data);
 		if($length > $max_length) {
 			throw new LengthException(
-				sprintf(self::$lengthExceptionFormat, ucfirst($name), $max_length, $length)
+				sprintf(self::$lengthExceptionFormat, ucfirst($name), $max_length, $length) .
+				'<br/>Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.'
 			);
 		}
 	}

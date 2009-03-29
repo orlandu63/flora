@@ -26,11 +26,7 @@ try {
 	
 	$valid = true;
 } catch(Exception $exception) {
-	echo '<p id="error">',  $exception->getMessage();
-	if($exception instanceof LengthException) {
-		echo '<br/>Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.';
-	}
-	echo '</p>';
+	echo '<p id="error">',  $exception->getMessage(), '</p>';
 	$valid = false;
 }
 
