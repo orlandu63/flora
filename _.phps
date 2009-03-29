@@ -1,5 +1,5 @@
 <?php
-define('VERSION', '0.6');
+define('VERSION', '0.7');
 define('CLASS_DIR', 'classes/');
 
 //these are inside the include path
