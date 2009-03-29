@@ -3,8 +3,7 @@ define('VERSION', '0.6');
 define('CLASS_DIR', 'classes/');
 
 //these are inside the include path
-require 'showsource.phps';
-require 'utilities.php';
+require 'showsource.php';
 require 'db.php';
 require 'stemplator.php';
 

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
-<p><?php echo coalesce(get($announcement), Page::DEFAULT_ANNOUNCEMENT) ?></p>
+<p><?php echo $announcement ?></p>
 <?php echo $contents ?>
 <hr/>
 <p id="footer">Exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →

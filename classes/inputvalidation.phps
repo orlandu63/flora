@@ -6,16 +6,20 @@ class InputValidation {
 	
 	protected static $length_exception_format = '<strong>%s</strong> must be no greater than %s characters long: its current length is %d characters.';
 
+	protected final function has_flag($flags, $flag) {
+		return ($flags & $flag) === $flag;
+	}
+	
 	public static function validate($flags) {
 		#this is useless
 		$return = array();
-		if(has_flag($flags, self::VALIDATE_AUTHOR)) {
+		if(self::has_flag($flags, self::VALIDATE_AUTHOR)) {
 			$return['author'] = self::validateAuthor();
 		}
-		if(has_flag($flags, self::VALIDATE_BODY)) {
+		if(self::has_flag($flags, self::VALIDATE_BODY)) {
 			$return['body'] = self::validateBody();
 		}
-		if(has_flag($flags, self::VALIDATE_TITLE)) {
+		if(self::has_flag($flags, self::VALIDATE_TITLE)) {
 			$return['title'] = self::validateTitle();
 		}
 		return (count($return) === 1 ? reset($return) : $return);
@@ -24,8 +28,9 @@ class InputValidation {
 	protected static function validateLength($name, $data, $max_length) {
 		$length = strlen($data);
 		if($length > $max_length) {
-			throw new LengthException(sprintf(self::$length_exception_format,
-				ucfirst($name), $max_length, $length));
+			throw new LengthException(
+				sprintf(self::$length_exception_format, ucfirst($name), $max_length, $length)
+			);
 		}
 	}
 	
