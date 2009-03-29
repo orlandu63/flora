@@ -4,7 +4,7 @@ class InputValidation {
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
 	
-	protected static $lengthExceptionFormat = '<strong>%s</strong> must be no greater than %s characters long: its current length is %d characters.';
+	protected static $lengthExceptionFormat = '<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
 
 	protected static final function hasFlag($flags, $flag) {
 		return ($flags & $flag) === $flag;
@@ -25,11 +25,11 @@ class InputValidation {
 		return (count($return) === 1 ? reset($return) : $return);
 	}
 	
-	protected static function validateLength($name, $data, $max_length) {
+	protected static function validateLength($name, $data, $max_length, $min_length = 1) {
 		$length = strlen($data);
-		if($length > $max_length) {
+		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
-				sprintf(self::$lengthExceptionFormat, ucfirst($name), $max_length, $length) .
+				sprintf(self::$lengthExceptionFormat, ucfirst($name), $min_length, $max_length, $length) .
 				'<br/>Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.'
 			);
 		}
@@ -37,27 +37,21 @@ class InputValidation {
 	
 	public static function validateAuthor($sub = null) {
 		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH);
+		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH, 0);
 		User::$name = $author;
 		return $author;
 	}
 	
 	public static function validateBody($sub = null) {
 		$body = ($sub === null ? trim(filter_input(INPUT_POST, 'body')) : $sub);
-		if(!$body) {
-			throw new Exception('Please input a body.');
-		}
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
-		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH);
+		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 2);
 		return $body;
 	}
 	
 	public static function validateTitle($sub = null) {
 		$title = ($sub === null ? trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
-		if(!$title) {
-			throw new Exception('Please input a title.');
-		}
 		self::validateLength('title', $title, Topics::MAX_TITLE_LENGTH);
 		return $title;
 	}
