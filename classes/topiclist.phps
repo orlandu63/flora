@@ -9,7 +9,7 @@ class TopicList {
 		$this->page = $page;
 		$offset = $this->page * self::PER_PAGE;
 		$this->topics = Topics::getList($page, self::PER_PAGE);
-		if(count($this->topics)) {
+		if(!empty($this->topics)) {
 			Page::cache($this->topics[0]['last_post']);
 		}
 	}
