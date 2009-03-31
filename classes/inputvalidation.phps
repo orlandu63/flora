@@ -43,7 +43,7 @@ class InputValidation {
 	}
 	
 	public static function validateBody($sub = null) {
-		$body = ($sub === null ? trim(filter_input(INPUT_POST, 'body')) : $sub);
+		$body = ($sub === null ? filter_input(INPUT_POST, 'body') : $sub);
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
 		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 2);
