@@ -2,11 +2,11 @@
 class TopicList {
 	protected $topics = array();
 	protected $page = 0;
-	const PER_PAGE = 100;
+	const PER_PAGE = 30;
 
 	public function __construct($page = 0) {
 		global $DB;
-		$this->page = $page;
+		$this->page = (int)$page;
 		$offset = $this->page * self::PER_PAGE;
 		$this->topics = Topics::getList($page, self::PER_PAGE);
 		if(!empty($this->topics)) {
@@ -46,7 +46,15 @@ class TopicList {
 		$num_pages = (int)((Topics::getTotal() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
-			echo '<li>[<a href="', Page::makeURI(Page::PAGE_INDEX, array('page' => $cur_page)), '">', $cur_page, '</a>]</li>';
+			echo '<li>';
+			if($cur_page === $this->page) {
+				echo $cur_page;
+			} else {
+				echo '[<a href="', Page::makeURI(Page::PAGE_INDEX, array('page' => $cur_page)), '">',
+					$cur_page,
+				'</a>]';
+			}
+			echo '</li>';
 		}
 		echo '</ul>';
 	}
