@@ -34,7 +34,7 @@ class TopicList {
 						Page::formatTime($topic['last_post']),
 					'</a> by ', User::author($topic['last_post_author']), 
 				'</td>',
-				'</tr>';
+			'</tr>';
 		}
 		echo '</tbody></table>';
 		if(Topics::getTotal() > self::PER_PAGE) {

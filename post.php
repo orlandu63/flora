@@ -12,6 +12,7 @@ try {
 	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
 	}
+
 	if($replying_to && !Posts::exists($replying_to)) {
 		throw new Exception('Post does not exist.');
 	}
