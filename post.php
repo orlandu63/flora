@@ -3,6 +3,7 @@ require '_.phps';
 require CLASS_DIR . 'inputvalidation.phps';
 require 'markdown.php';
 
+$Page->pageId = Page::PAGE_POST;
 $Page->title = 'Post';
 $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
 $making_topic = !$replying_to;

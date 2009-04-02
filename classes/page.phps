@@ -1,7 +1,5 @@
 <?php
 class Page extends STemplator {
-	private $wd;
-	
 	const FORUM_NAME = 'Flora';
 	
 	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
@@ -12,6 +10,8 @@ class Page extends STemplator {
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
+	
+	private $wd;
 
 	public function __construct() {
 		$this->wd = getcwd();
