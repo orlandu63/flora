@@ -1,9 +1,13 @@
 <?php
 class TopicList {
+	const PER_PAGE = 30;
+	
+	const WITH_PAGINATION = 1;
+	const WITHOUT_PAGINATION = 2;
+	
 	protected $topics = array();
 	protected $page = 0;
-	const PER_PAGE = 30;
-
+	
 	public function __construct($page = 0) {
 		global $DB;
 		$this->page = (int)$page;
@@ -14,7 +18,7 @@ class TopicList {
 		}
 	}
 	
-	public function render() {
+	public function render($pagination) {
 		echo '<table class="topiclist"><thead><tr>',
 				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
 			'</tr></thead><tbody>';
@@ -37,12 +41,12 @@ class TopicList {
 			'</tr>';
 		}
 		echo '</tbody></table>';
-		if(Topics::getTotal() > self::PER_PAGE) {
+		if($pagination === self::WITH_PAGINATION) {
 			$this->renderPagination();
 		}
 	}
 	
-	public function renderPagination() {
+	protected function renderPagination() {
 		$num_pages = (int)((Topics::getTotal() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {

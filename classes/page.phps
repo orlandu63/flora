@@ -50,6 +50,10 @@ class Page extends STemplator {
 		header('Location: ' . $uri);
 	}
 	
+	public static function error($error) {
+		echo '<p id="error">', $error, '</p>';
+	}
+	
 	public static function displayPostForm($type, array $data = array()) {
 		if(empty($data)) {
 			$data = array(

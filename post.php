@@ -15,7 +15,7 @@ try {
 	}
 
 	if($replying_to && !Posts::exists($replying_to)) {
-		throw new Exception('Post does not exist.');
+		throw new InvalidArgumentException('Post does not exist.');
 	}
 
 	if($submit || $preview) {
@@ -28,7 +28,7 @@ try {
 	
 	$valid = true;
 } catch(Exception $exception) {
-	echo '<p id="error">',  $exception->getMessage(), '</p>';
+	Page::error($exception->getMessage());
 	$valid = false;
 }
 

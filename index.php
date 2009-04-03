@@ -9,6 +9,6 @@ if($page_number < 0) {
 }
 
 $Topiclist = new Topiclist($page_number);
-$Topiclist->render();
+$Topiclist->render(Topiclist::WITH_PAGINATION);
 
 Page::displayPostForm(Page::FORM_TOPIC);
