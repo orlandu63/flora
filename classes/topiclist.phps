@@ -29,7 +29,7 @@ class TopicList {
 			if($topic['is_sticky']) {
 				$classes[] = 'sticky';
 			}
-			echo '<tr class="', implode(' ', $classes),'">',
+			echo '<tr class="', implode(' ', $classes), '">',
 				'<td><a href="', Topics::makeURI($topic['id']), '">', $topic['title'], '</a></td>',
 				'<td>', $topic['replies'], '</td>',
 				'<td>', User::author($topic['author']), '</td>',
