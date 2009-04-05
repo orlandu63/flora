@@ -6,6 +6,7 @@ $Page->pageId = Page::PAGE_TOPIC;
 $Page->title = 'Topic';
 $topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if(!Topics::exists($topic)) {
+	Page::error('Invalid topic ID');
 	return;
 }
 

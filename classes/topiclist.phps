@@ -47,7 +47,7 @@ class TopicList {
 	}
 	
 	protected function renderPagination() {
-		$num_pages = (int)((Topics::getTotal() - 1) / self::PER_PAGE);
+		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
 			echo '<li>';

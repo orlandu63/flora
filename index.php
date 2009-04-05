@@ -5,6 +5,7 @@ require CLASS_DIR . 'topiclist.phps';
 $Page->pageId = Page::PAGE_INDEX;
 $page_number = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
 if($page_number < 0) {
+	Page::error('Invalid page number');
 	return;
 }
 
