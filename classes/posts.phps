@@ -44,9 +44,12 @@ class Posts {
 		$post = (is_array($id) ? $id : self::getInfo($id));
 		echo '<div class="post"><ul class="post-info">',
 			'<li>By ', User::author($post['author']), '</li>',
-			'<li>', Page::formatTime($post['toc']), '</li>',
-			'</ul>',
-			'<div class="post-body">', $post['body'], '</div></div>';
+			'<li>', Page::formatTime($post['toc']), '</li>';
+		if(isset($post['id'], $post['topic'])) {
+			echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">Context</a></li>';
+		}
+		echo '</ul>',
+		'<div class="post-body">', $post['body'], '</div></div>';
 	}
 	
 	public static function getTopicById($id) {
