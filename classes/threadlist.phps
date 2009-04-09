@@ -26,7 +26,7 @@ class ThreadList {
 					User::author($post['author'], $classes),
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
-				'<li><a href="', Page::PAGE_POST, '?post=', $post['id'], '">Reply</a></li>';
+				'<li><a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '">Reply</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = '↖';
