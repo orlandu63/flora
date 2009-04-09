@@ -12,7 +12,7 @@ class ThreadList {
 		}
 	}
 	
-	protected function renderThread($parent = null, $indentation = 0) {
+	protected function renderThread($parent = null) {
 		$children = $this->children[$parent];
 		foreach($children as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
@@ -20,7 +20,7 @@ class ThreadList {
 			if($this->topic['ip'] === $post['ip']) {
 				$classes[] = 'tc';
 			}
-			echo '<div class="post" id="m', $post['id'], '" indentation="', $indentation, 'em">',
+			echo '<div class="post" id="m', $post['id'], '">',
 				'<ul class="post-info">',
 				'<li>By ',
 					User::author($post['author'], $classes),
@@ -50,7 +50,7 @@ class ThreadList {
 				'<div class="post-body">', $post['body'], '</div>';
 			if($post_has_children) {
 				echo '<div class="reply-wrap">';
-					$this->renderThread($post['id'], $indentation + 0.5);
+					$this->renderThread($post['id']);
 				echo '</div>';
 			}
 			echo '</div>';
