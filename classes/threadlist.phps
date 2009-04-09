@@ -23,7 +23,7 @@ class ThreadList {
 			echo '<div class="post" id="m', $post['id'], '">',
 				'<ul class="post-info">',
 				'<li>By ',
-					User::author($post['author'], $classes),
+					User::author($post['author'], $user_classes),
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li><a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '">',
