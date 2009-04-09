@@ -12,7 +12,7 @@ class ThreadList {
 		}
 	}
 	
-	protected function renderThread($parent = null) {
+	protected function renderThread($parent) {
 		$children = $this->children[$parent];
 		foreach($children as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
@@ -59,7 +59,7 @@ class ThreadList {
 	
 	public function render() {
 		echo '<div id="threadlist">';
-			$this->renderThread();
+			$this->renderThread(null);
 		echo '</div>';
 	}
 }
