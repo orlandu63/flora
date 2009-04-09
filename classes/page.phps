@@ -4,14 +4,15 @@ class Page extends STemplator {
 	
 	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
 	
-	const PAGE_TOPIC = 'topic.php';
-	const PAGE_INDEX = 'index.php';
-	const PAGE_POST = 'post.php';
+	const PAGE_TOPIC = 'topic';
+	const PAGE_INDEX = 'index';
+	const PAGE_POST = 'post';
+	const PAGE_SUFFIX = '.php';
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 	
-	private $wd;
+	protected $wd;
 
 	public function __construct() {
 		$this->wd = getcwd();
@@ -36,7 +37,7 @@ class Page extends STemplator {
 	}
 	
 	public static function makeURI($name, array $params = array(), $hash = null) {
-		$uri = $name;
+		$uri = $name . self::PAGE_SUFFIX;
 		if(!empty($params)) {
 			$uri .= '?' . http_build_query($params);
 		}

@@ -10,7 +10,7 @@
  <?php echo $contents ?>
  <hr/>
 <p id="footer">Exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →
- <a href="<?php echo Page::makeURI($pageId, array('source' => 'yes')) ?>">
- <?php echo round(xdebug_time_index(), 3) ?></a></p>
+ <?php echo round(xdebug_time_index(), 3) ?>
+</p>
 </body>
 </html>
