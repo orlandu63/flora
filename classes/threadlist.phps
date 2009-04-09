@@ -16,9 +16,9 @@ class ThreadList {
 		$children = $this->children[$parent];
 		foreach($children as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
-			$classes = array();
+			$user_classes = array();
 			if($this->topic['ip'] === $post['ip']) {
-				$classes[] = 'tc';
+				$user_classes[] = 'tc';
 			}
 			echo '<div class="post" id="m', $post['id'], '">',
 				'<ul class="post-info">',
