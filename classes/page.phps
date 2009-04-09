@@ -33,6 +33,7 @@ class Page extends STemplator {
 	public function output() {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
+		$this->time_index = round(xdebug_time_index(), 2);
 		parent::output();
 	}
 	

@@ -10,7 +10,7 @@
  <?php echo $contents ?>
  <hr/>
 <p id="footer">Exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →
- <?php echo round(xdebug_time_index(), 3) ?>
+ <?php echo $time_index ?>
 </p>
 </body>
 </html>
