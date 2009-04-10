@@ -49,7 +49,10 @@ class Posts {
 		echo '<div class="post" id="', self::htmlId($post['id']), '"><ul class="post-info">',
 			'<li>By ', User::author($post['author']), '</li>',
 			'<li>', Page::formatTime($post['toc']), '</li>';
-		if(isset($post['id'], $post['topic'])) {
+		if(isset($post['id'])) {
+			if(!isset($post['topic'])) {
+				$post['topic'] = self::getTopicById($post['id']);
+			}
 			echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">Context</a></li>';
 		}
 		echo '</ul>',
