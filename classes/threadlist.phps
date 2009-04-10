@@ -20,7 +20,7 @@ class ThreadList {
 			if($this->topic['ip'] === $post['ip']) {
 				$user_classes[] = 'tc';
 			}
-			echo '<div class="post" id="m', $post['id'], '">',
+			echo '<div class="post" id="', Posts::htmlId($post['id']), '">',
 				'<ul class="post-info">',
 				'<li>By ',
 					User::author($post['author'], $user_classes),
