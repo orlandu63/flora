@@ -39,13 +39,13 @@ background: #eef
 
 .post {
 margin-top: 1em;
-padding: 0 0 0 .4em;
+padding-left:.4em;
 border: 1px dotted black;
 border-right: none;
 border-bottom: none
 }
 
-body > .post {
+#threadlist > .post {
 	border-right: 1px dotted black;
 }
 
@@ -139,4 +139,8 @@ color: red;
 .topiclist .sticky > :first-child:before{
 content: '!!!';
 color: red
+}
+
+#announcement {
+color: #666
 }
