@@ -11,6 +11,6 @@ require CLASS_DIR . 'page.phps';
 require CLASS_DIR . 'posts.phps';
 require CLASS_DIR . 'topics.phps';
 
-$DB = new DB('flora');
 $Page = new Page;
+$DB = new DB('flora');
 User::refresh();
