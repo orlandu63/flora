@@ -4,7 +4,7 @@ margin: 0 auto
 }
 
 body {
-font: .95em Arial;
+font: .95em Helvetica;
 color: black;
 background: white;
 }
@@ -43,6 +43,10 @@ padding-left: .2em;
 border: 1px dotted black;
 border-right: none;
 border-bottom: none
+}
+
+.post-body {
+padding-left: .2em
 }
 
 #threadlist > .post {
