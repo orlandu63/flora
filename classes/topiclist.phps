@@ -42,7 +42,7 @@ class TopicList {
 	}
 	
 	public function render($pagination) {
-		echo '<div class="topicslist">';
+		echo '<div id="topiclist">';
 			$this->renderTopics();
 			if($pagination === self::WITH_PAGINATION) {
 				$this->renderPagination();
