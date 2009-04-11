@@ -22,12 +22,12 @@ class ThreadList {
 			}
 			echo '<div class="post" id="', Posts::htmlId($post['id']), '">',
 				'<ul class="post-info">',
-				'<li>By ',
+				'<li>by ',
 					User::author($post['author'], $user_classes),
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li><a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '">',
-					'Reply',
+					'reply',
 				'</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
