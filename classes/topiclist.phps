@@ -18,8 +18,7 @@ class TopicList {
 		}
 	}
 	
-	public function render($pagination) {
-		echo '<div class="topiclist">';
+	protected function renderTopics() {
 		$affinity = 0;
 		foreach($this->topics as $topic) {
 			$classes = array();
@@ -40,12 +39,17 @@ class TopicList {
 				'</ul>',
 			'</div><hr/>';
 		}
-		if($pagination === self::WITH_PAGINATION) {
-			$this->renderPagination();
-		}
-		echo '</div>';
 	}
 	
+	public function render($pagination) {
+		echo '<div class="topicslist">';
+			$this->renderTopics();
+			if($pagination === self::WITH_PAGINATION) {
+				$this->renderPagination();
+			}
+		echo '</div>';
+	}
+		
 	protected static function makePaginationUri($page) {
 		return Page::makeURI(Page::PAGE_INDEX, array('page' => $page));
 	}
