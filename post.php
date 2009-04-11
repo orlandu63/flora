@@ -10,6 +10,15 @@ $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
 $making_topic = !$replying_to;
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
+
+if($replying_to && Posts::exists($replying_to)) {
+	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
+	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id']), '">',
+		$topic_info['title'],
+	'</a></h3>';
+	Posts::display($replying_to);
+}
+
 try {
 	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
@@ -34,14 +43,6 @@ try {
 }
 
 if($valid) {
-	if($replying_to) {
-		$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
-		echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id']), '">',
-			$topic_info['title'],
-		'</a></h3>';
-		Posts::display($replying_to);
-	}
-
 	if($preview) {
 		echo '<h3>Preview:';
 		if($making_topic) {
