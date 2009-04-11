@@ -46,19 +46,27 @@ class TopicList {
 		echo '</div>';
 	}
 	
+	protected static function makePaginationUri($page) {
+		return Page::makeURI(Page::PAGE_INDEX, array('page' => $page));
+	}
+	
 	protected function renderPagination() {
 		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
+		if($this->page !== 0 ) {
+			echo '<li><a href="', self::makePaginationUri($this->page - 1), '">prev</a></li>';
+		}
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
 			echo '<li>';
 			if($cur_page === $this->page) {
 				echo $cur_page;
 			} else {
-				echo '[<a href="', Page::makeURI(Page::PAGE_INDEX, array('page' => $cur_page)), '">',
-					$cur_page,
-				'</a>]';
+				echo '<a href="', self::makePaginationUri($cur_page), '">', $cur_page, '</a>';
 			}
 			echo '</li>';
+		}
+		if($this->page !== $num_pages) {
+			echo '<li><a href="', self::makePaginationUri($this->page + 1), '">next</a></li>';
 		}
 		echo '</ul>';
 	}
