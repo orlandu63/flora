@@ -9,13 +9,13 @@ color: black;
 background: white;
 }
 
-.post-info, #pages {
+.post-info, .topic-info, #pages {
 margin: 0;
 padding: 0;
 list-style: none
 }
 
-.post-info li, #pages li {
+.post-info li, .topic-info li, #pages li {
 display: inline;
 }
 
@@ -24,9 +24,13 @@ padding-left: .5em;
 background: white
 }
 
-.post-info li + li:before, #pages li + li:before {
+.post-info li + li:before, .topic-info li + li:before, #pages li + li:before {
 content: ' | ';
 color: #dde
+}
+
+.topic-info li + li:before {
+	color: blue
 }
 
 .post-info {
@@ -45,31 +49,39 @@ body > .post {
 	border-right: 1px dotted black;
 }
 
-.topiclist, table {
+/* .topiclist, table {
 background: #eee
 }
 
 .topiclist {
 	width: 100%;
 	border: 1px solid green
-}
+} */
 
 .topiclist .odd {
-	background: #eee
+	background: #eef
 }
 
-.topiclist td {
-	padding: .2em
+.topiclist > div /* td */ {
+	padding: 0
+}
+
+.topiclist h3 {
+	margin: .6em 0
 }
 
 .topiclist .even {
-	background: #ddd
+	background: #dde
 }
 
-.topiclist th, th {
+.topic * {
+display: inline
+}
+
+/* .topiclist th, th {
 background: green;
 color: white
-}
+} */
 
 #footer {
 font: small Monospace;

@@ -19,6 +19,34 @@ class TopicList {
 	}
 	
 	public function render($pagination) {
+		echo '<div class="topiclist">';
+		$affinity = 0;
+		foreach($this->topics as $topic) {
+			$classes = array();
+			#$classes[] = (++$affinity & 1 ? 'odd' : 'even');
+			if($topic['is_sticky']) {
+				$classes[] = 'sticky';
+			}
+			echo '<div class="', implode(' ', $classes) , '">',
+				'<h3><a href="', Topics::makeURI($topic['id']) , '">', $topic['title'], '</a></h3>',
+				'<ul class="topic-info">',
+					'<li>by ', User::author($topic['author']), '</li>',
+					'<li>', $topic['replies'], ' replies</li>',
+					'<li>last post ',
+						'<a href="', Topics::makeURI($topic['id'], $topic['last_post_id']), '">',
+							Page::formatTime($topic['last_post']),
+						'</a> by ', User::author($topic['last_post_author']),
+					'</li>',
+				'</ul>',
+			'</div><hr/>';
+		}
+		if($pagination === self::WITH_PAGINATION) {
+			$this->renderPagination();
+		}
+		echo '</div>';
+	}
+	
+	public function renderOld($pagination) {
 		echo '<table class="topiclist"><thead><tr>',
 				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
 			'</tr></thead><tbody>';

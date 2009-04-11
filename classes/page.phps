@@ -107,7 +107,7 @@ class Page extends STemplator {
 	
 	public static function cache($last_modified) {
 		$etag = base_convert($last_modified, 10, 36);
-		header('Cache-Control: public, must-revalidate, max-age=0');
+		header('Cache-Control: private, must-revalidate, max-age=0');
 		header('Last-Modified: ' . date('r', $last_modified));
 		header('ETag: ' . $etag);
 	}

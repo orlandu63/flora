@@ -1,6 +1,6 @@
 <?php
 class User {
-	const ANON_NAME = 'Anon';
+	const ANON_NAME = 'anon';
 	const MAX_AUTHOR_LENGTH = 10;
 
 	public static $ip, $name;

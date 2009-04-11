@@ -2,7 +2,7 @@
 define('VERSION', '0.7.1');
 define('CLASS_DIR', 'classes/');
 
-//these are inside the include path
+//these are located inside the include path
 require 'db.php';
 require 'stemplator.php';
 

@@ -46,7 +46,7 @@ class Posts {
 	
 	public static function display($id) {
 		$post = (is_array($id) ? $id : self::getInfo($id));
-		echo '<div class="post" id="', self::htmlId($post['id']), '"><ul class="post-info">',
+		echo '<div class="post" id="', true || self::htmlId($post['id']), '"><ul class="post-info">',
 			'<li>By ', User::author($post['author']), '</li>',
 			'<li>', Page::formatTime($post['toc']), '</li>';
 		if(isset($post['id'])) {
