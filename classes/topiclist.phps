@@ -46,34 +46,6 @@ class TopicList {
 		echo '</div>';
 	}
 	
-	public function renderOld($pagination) {
-		echo '<table class="topiclist"><thead><tr>',
-				'<th>Title</th><th>Replies</th><th>Author</th><th>Last Post</th>',
-			'</tr></thead><tbody>';
-		$affinity = 0;
-		foreach($this->topics as $topic) {
-			$classes = array();
-			$classes[] = (++$affinity & 1 ? 'odd' : 'even');
-			if($topic['is_sticky']) {
-				$classes[] = 'sticky';
-			}
-			echo '<tr class="', implode(' ', $classes), '">',
-				'<td><a href="', Topics::makeURI($topic['id']), '">', $topic['title'], '</a></td>',
-				'<td>', $topic['replies'], '</td>',
-				'<td>', User::author($topic['author']), '</td>',
-				'<td>',
-					'<a href="', Topics::makeURI($topic['id'], $topic['last_post_id']), '">',
-						Page::formatTime($topic['last_post']),
-					'</a> by ', User::author($topic['last_post_author']), 
-				'</td>',
-			'</tr>';
-		}
-		echo '</tbody></table>';
-		if($pagination === self::WITH_PAGINATION) {
-			$this->renderPagination();
-		}
-	}
-	
 	protected function renderPagination() {
 		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
 		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
