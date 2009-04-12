@@ -19,6 +19,7 @@ if($replying_to && Posts::exists($replying_to)) {
 	Posts::display($replying_to);
 }
 
+$valid = false;
 try {
 	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
@@ -39,7 +40,6 @@ try {
 	$valid = true;
 } catch(Exception $exception) {
 	Page::error($exception->getMessage());
-	$valid = false;
 }
 
 if($valid) {
