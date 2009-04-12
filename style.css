@@ -4,7 +4,7 @@ margin: 0 auto
 }
 
 body {
-font: .95em Helvetica;
+font: .95em Arial;
 color: black;
 background: white;
 }
@@ -143,6 +143,10 @@ color: red;
 #topiclist .sticky > :first-child:before{
 content: '!!!';
 color: red
+}
+
+h2 a {
+	color: inherit
 }
 
 #announcement {
