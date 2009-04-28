@@ -53,15 +53,6 @@ padding-left: .2em
 	border-right: 1px dotted black;
 }
 
-/* #topiclist, table {
-background: #eee
-}
-
-#topiclist {
-	width: 100%;
-	border: 1px solid green
-} */
-
 #topiclist .odd {
 	background: #eef
 }
@@ -81,11 +72,6 @@ background: #eee
 .topic * {
 display: inline
 }
-
-/* #topiclist th, th {
-background: green;
-color: white
-} */
 
 #footer {
 font: small Monospace;

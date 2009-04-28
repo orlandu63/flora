@@ -9,7 +9,6 @@ class TopicList {
 	protected $page = 0;
 	
 	public function __construct($page = 0) {
-		global $DB;
 		$this->page = (int)$page;
 		$offset = $this->page * self::PER_PAGE;
 		$this->topics = Topics::getList($page, self::PER_PAGE);
