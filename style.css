@@ -46,7 +46,8 @@ border-bottom: none
 }
 
 .post-body {
-padding-left: .2em
+padding-left: .2em;
+overflow: auto
 }
 
 #threadlist > .post {
