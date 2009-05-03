@@ -28,8 +28,7 @@ class ThreadList {
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li><a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '">',
 					'reply',
-				'</a></li></ul>';
-				echo '<ul class="post-info nav">';
+				'</a></li>';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = '↖';
@@ -45,7 +44,7 @@ class ThreadList {
 				}
 				$nav_links[$post['id']] = '#' . $post['id'];
 				foreach($nav_links as $message_id => $text) {
-					echo '<li>',
+					echo '<li class="nav">',
 						'<a href="', Topics::makeURI($this->topic['id'], $message_id), '">', $text, '</a>',
 					'</li>';
 				}
