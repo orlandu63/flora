@@ -15,8 +15,7 @@ class Posts {
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
 			if($parent !== null) {
-				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)
-					->fetchColumn();
+				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)->fetchColumn();
 			} elseif($topic === null) {
 				throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
 			}
@@ -54,7 +53,7 @@ class Posts {
 				if(!isset($post['topic'])) {
 					$post['topic'] = self::getTopicById($post['id']);
 				}
-				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">Context</a></li>';
+				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">context</a></li>';
 			}
 		echo '</ul>',
 		'<div class="post-body">', $post['body'], '</div></div>';

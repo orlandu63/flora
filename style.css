@@ -9,32 +9,32 @@ color: black;
 background: white;
 }
 
-.post-info, .topic-info, #pages {
+ul.post-info, ul.topic-info, ul#pages {
 margin: 0;
 padding: 0;
 list-style: none
 }
 
-.post-info li, .topic-info li, #pages li {
+ul.post-info {
+background: #eef
+}
+
+ul.post-info li, ul.topic-info li, ul#pages li {
 display: inline;
 }
 
-.reply-wrap {
+div.reply-wrap {
 padding-left: .5em;
 background: white
 }
 
-.post-info li + li:before, .topic-info li + li:before, #pages li + li:before {
+ul.post-info li + li:before, ul.topic-info li + li:before, ul#pages li + li:before {
 content: ' | ';
 color: #dde
 }
 
-.topic-info li + li:before {
+ul.topic-info li + li:before {
 	color: blue
-}
-
-.post-info {
-background: #eef
 }
 
 .post {
@@ -54,20 +54,12 @@ overflow: auto
 	border-right: 1px dotted black;
 }
 
-#topiclist .odd {
-	background: #eef
-}
-
 #topiclist > div /* td */ {
 	padding: 0
 }
 
 #topiclist h3 {
 	margin: .6em 0
-}
-
-#topiclist .even {
-	background: #dde
 }
 
 .topic * {
@@ -90,6 +82,11 @@ text-decoration: underline
 
 .time {
 	font-size: small;
+}
+
+.nav {
+float: right;
+display: inline
 }
 
 .nav a  {
@@ -120,6 +117,10 @@ content: 'Error:';
 
 .post:target > .post-info {
 font-weight: bold
+}
+
+.list-wrap {
+text-align: right
 }
 
 .author.tc:after {
