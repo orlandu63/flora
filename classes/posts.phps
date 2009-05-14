@@ -15,16 +15,14 @@ class Posts {
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
 			if($parent !== null) {
-				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)
-					->fetchColumn();
+				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)->fetchColumn();
 			} elseif($topic === null) {
 				throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
 			}
 			$DB->q('INSERT INTO post_info (topic, parent, author, toc, ip) VALUES(?, ?, ?, UNIX_TIMESTAMP(), ?)',
 				$topic, $parent, $author, User::$ip);
-			$post_id = $DB->lastInsertId();
 			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
-			$DB->q('UPDATE post_info SET num_children = num_children + 1 WHERE id = ?', $parent);
+			$post_id = $DB->lastInsertId();
 			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
 				$post_id, $topic);
 		return self::getInfo($post_id);
@@ -54,7 +52,7 @@ class Posts {
 				if(!isset($post['topic'])) {
 					$post['topic'] = self::getTopicById($post['id']);
 				}
-				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">Context</a></li>';
+				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">context</a></li>';
 			}
 		echo '</ul>',
 		'<div class="post-body">', $post['body'], '</div></div>';

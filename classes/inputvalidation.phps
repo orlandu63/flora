@@ -4,7 +4,10 @@ class InputValidation {
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
 	
-	protected static $lengthExceptionFormat = '<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
+	protected static $lengthExceptionFormat =
+		'<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
+	protected static $lengthExceptionAddendum =
+		'Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.';
 
 	protected static final function hasFlag($flags, $flag) {
 		return ($flags & $flag) === $flag;
@@ -29,8 +32,8 @@ class InputValidation {
 		$length = strlen($data);
 		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
-				sprintf(self::$lengthExceptionFormat, ucfirst($name), $min_length, $max_length, $length) .
-				'<br/>Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.'
+				sprintf(self::$lengthExceptionFormat, ucfirst($name), $min_length, $max_length, $length) . '<br/>' .
+				self::$lengthExceptionAddendum
 			);
 		}
 	}
@@ -44,8 +47,9 @@ class InputValidation {
 	
 	public static function validateBody($sub = null) {
 		$body = ($sub === null ? filter_input(INPUT_POST, 'body') : $sub);
-		$parser = Markdown::getInstance();
+		//validate before and after so that this weak server wont have to parse an oversized body
 		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 1);
+		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);
 		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 1);
 		return $body;

@@ -9,6 +9,10 @@ color: black;
 background: white;
 }
 
+p {
+margin: .9em 0 0
+}
+
 .post-info, .topic-info, #pages {
 margin: 0;
 padding: 0;
@@ -20,7 +24,7 @@ display: inline;
 }
 
 .reply-wrap {
-padding-left: .5em;
+padding-left: .6em;
 background: white
 }
 
