@@ -19,7 +19,6 @@ if($replying_to && Posts::exists($replying_to)) {
 	Posts::display($replying_to);
 }
 
-$valid = false;
 try {
 	if(User::isFlooding()) {
 		throw new Exception('You can only post once every 10 seconds.');
@@ -40,6 +39,7 @@ try {
 	$valid = true;
 } catch(Exception $exception) {
 	Page::error($exception->getMessage());
+	$valid = false;
 }
 
 if($valid) {
@@ -62,7 +62,6 @@ if($valid) {
 		}
 		header('HTTP/1.1 303 See Other');
 		Page::redirect(Topics::makeURI($new_topic_id, $new_post_id));
-		return;
 	}
 }
 

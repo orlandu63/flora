@@ -50,7 +50,9 @@ class Page extends STemplator {
 	}
 	
 	public static function redirect($uri) {
+		ob_clean();
 		header('Location: ' . $uri);
+		die;
 	}
 	
 	public static function error($error) {
