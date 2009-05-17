@@ -22,7 +22,7 @@ class ThreadList {
 				$user_classes[] = 'tc';
 			}
 			echo '<div class="post" id="', Posts::htmlId($post['id']), '">',
-				'<div class="post-info-wrap"><ul class="post-info">',
+				'<div class="post-info-wrap">', '<ul class="post-info">',
 				'<li>by ',
 					User::author($post['author'], $user_classes),
 				'</li>',

@@ -45,7 +45,7 @@ class Posts {
 	public static function display($id) {
 		$post = (is_array($id) ? $id : self::getInfo($id));
 		echo '<div class="post" id="', (isset($post['id']) ? self::htmlId($post['id']) : ''), '">',
-		'<ul class="post-info">',
+		'<div class="post-info-wrap">', '<ul class="post-info">',
 			'<li>by ', User::author($post['author']), '</li>',
 			'<li>', Page::formatTime($post['toc']), '</li>';
 			if(isset($post['id'])) {
@@ -54,7 +54,7 @@ class Posts {
 				}
 				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">context</a></li>';
 			}
-		echo '</ul>',
+		echo '</ul></div>',
 		'<div class="post-body">', $post['body'], '</div></div>';
 	}
 	
