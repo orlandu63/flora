@@ -1,12 +1,14 @@
 <?php
 class ThreadList {
 	public $topic = array(), $children = array();
+	protected $max_id_length;
 
 	public function __construct($id) {
 		global $DB;
 		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
 		$posts = Posts::getOfTopic($id);
+		$this->max_id_length = strlen($this->topic['last_post_id']);
 		foreach($posts as $post) {
 			$this->children[$post['parent']][] = $post;
 		}
@@ -51,7 +53,7 @@ class ThreadList {
 					$nav_links[$this->children[$post['id']][0]['id']] =
 						array('↘<small><sup>1</sup></small>', 'first reply of');
 				}
-				$nav_links[$post['id']] = array('#' . $post['id'], 'this');
+				$nav_links[$post['id']] = array('#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT), 'this');
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
 					echo '<li>',

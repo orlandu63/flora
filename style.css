@@ -85,11 +85,13 @@ text-decoration: underline
 }
 
 .post-info {
-display: inline
+display: inline;
+float: left
 }
 
 .post-info-wrap {
-background: #eef
+background: #eef;
+overflow: hidden
 }
 
 .nav {
