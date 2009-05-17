@@ -22,7 +22,7 @@ class ThreadList {
 				$user_classes[] = 'tc';
 			}
 			echo '<div class="post" id="', Posts::htmlId($post['id']), '">',
-				'<ul class="post-info">',
+				'<div class="post-info-wrap"><ul class="post-info">',
 				'<li>by ',
 					User::author($post['author'], $user_classes),
 				'</li>',
@@ -30,7 +30,7 @@ class ThreadList {
 				'<li>',
 					'<a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '"',
 					' title="reply to post">reply</a>',
-				'</li>';
+				'</li></ul><ul class="nav">';
 				$nav_links = array();
 				if($parent !== null) {
 					$nav_links[$parent] = array('↖', 'parent');
@@ -43,7 +43,7 @@ class ThreadList {
 					if($post_has_children) {
 						$sibling_stack[] = $children_of_parent[$key+1]['id'];
 					}
-				} elseif(!empty($sibling_stack) && !$post_has_children) {
+				} elseif(!$post_has_children && !empty($sibling_stack)) {
 					$next_logical_post = array_pop($sibling_stack);
 					$nav_links[$next_logical_post] = array('↙', 'next logical');
 				}
@@ -54,12 +54,12 @@ class ThreadList {
 				$nav_links[$post['id']] = array('#' . $post['id'], 'this');
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
-					echo '<li class="nav">',
+					echo '<li>',
 						'<a href="', Topics::makeURI($this->topic['id'], $message_id), '"',
 						' title="go to ', $title, ' post">', $text, '</a>',
 					'</li>';
 				}
-				echo '</ul>',
+				echo '</ul></div>',
 				'<div class="post-body">', $post['body'], '</div>';
 			if($post_has_children) {
 				echo '<div class="reply-wrap">';

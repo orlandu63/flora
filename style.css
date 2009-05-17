@@ -13,13 +13,13 @@ p {
 margin: .9em 0 0
 }
 
-.post-info, .topic-info, #pages {
+.post-info, .topic-info, #pages, .nav {
 margin: 0;
 padding: 0;
 list-style: none
 }
 
-.post-info li, .topic-info li, #pages li {
+.post-info li, .topic-info li, #pages li, .nav li {
 display: inline;
 }
 
@@ -35,10 +35,6 @@ color: #dde
 
 .topic-info li + li:before {
 	color: blue
-}
-
-.post-info {
-background: #eef
 }
 
 .post {
@@ -58,20 +54,12 @@ overflow: auto
 	border-right: 1px solid lightgray;
 }
 
-#topiclist .odd {
-	background: #eef
-}
-
 #topiclist > div /* td */ {
 	padding: 0
 }
 
 #topiclist h3 {
 	margin: .6em 0
-}
-
-#topiclist .even {
-	background: #dde
 }
 
 .topic * {
@@ -94,6 +82,18 @@ text-decoration: underline
 
 .time {
 	font-size: small;
+}
+
+.post-info {
+display: inline
+}
+
+.post-info-wrap {
+background: #eef
+}
+
+.nav {
+float: right
 }
 
 .nav a  {
@@ -122,7 +122,7 @@ display: block;
 content: 'Error:';
 }
 
-.post:target > .post-info {
+.post:target > .post-info-wrap {
 font-weight: bold
 }
 
