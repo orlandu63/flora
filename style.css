@@ -44,7 +44,7 @@ background: #eef
 .post {
 margin-top: 1em;
 padding-left: .2em;
-border: 1px dotted black;
+border: 1px solid lightgray;
 border-right: none;
 border-bottom: none
 }
@@ -55,7 +55,7 @@ overflow: auto
 }
 
 #threadlist > .post {
-	border-right: 1px dotted black;
+	border-right: 1px solid lightgray;
 }
 
 #topiclist .odd {

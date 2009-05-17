@@ -13,8 +13,9 @@ class ThreadList {
 	}
 	
 	protected function renderThread($parent) {
-		$children = $this->children[$parent];
-		foreach($children as $key => $post) {
+		static $sibling_stack = array();
+		$children_of_parent = $this->children[$parent];
+		foreach($children_of_parent as $key => $post) {
 			$post_has_children = isset($this->children[$post['id']]);
 			$user_classes = array();
 			if($this->topic['ip'] === $post['ip']) {
@@ -27,25 +28,35 @@ class ThreadList {
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li>',
-					'<a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '">reply</a>',
+					'<a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '"',
+					' title="reply to post">reply</a>',
 				'</li>';
 				$nav_links = array();
 				if($parent !== null) {
-					$nav_links[$parent] = '↖';
+					$nav_links[$parent] = array('↖', 'parent');
 				}
-				if(isset($children[$key-1])) {
-					$nav_links[$children[$key-1]['id']] = '↑';
+				if(isset($children_of_parent[$key-1])) {
+					$nav_links[$children_of_parent[$key-1]['id']] = array('↑', 'preceding');
 				}
-				if(isset($children[$key+1])) {
-					$nav_links[$children[$key+1]['id']] = '↓';
+				if(isset($children_of_parent[$key+1])) {
+					$nav_links[$children_of_parent[$key+1]['id']] = array('↓', 'proceeding');
+					if($post_has_children) {
+						$sibling_stack[] = $children_of_parent[$key+1]['id'];
+					}
+				} elseif(!empty($sibling_stack) && !$post_has_children) {
+					$next_logical_post = array_pop($sibling_stack);
+					$nav_links[$next_logical_post] = array('↙', 'next logical');
 				}
 				if($post_has_children) {
-					$nav_links[$this->children[$post['id']][0]['id']] = '↘<small><sup>1</sup></small>';
+					$nav_links[$this->children[$post['id']][0]['id']] =
+						array('↘<small><sup>1</sup></small>', 'first reply of');
 				}
-				$nav_links[$post['id']] = '#' . $post['id'];
-				foreach($nav_links as $message_id => $text) {
+				$nav_links[$post['id']] = array('#' . $post['id'], 'this');
+				foreach($nav_links as $message_id => $info) {
+					list($text, $title) = $info;
 					echo '<li class="nav">',
-						'<a href="', Topics::makeURI($this->topic['id'], $message_id), '">', $text, '</a>',
+						'<a href="', Topics::makeURI($this->topic['id'], $message_id), '"',
+						' title="go to ', $title, ' post">', $text, '</a>',
 					'</li>';
 				}
 				echo '</ul>',
