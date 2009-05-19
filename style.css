@@ -60,7 +60,7 @@ max-height: 40em
 }
 
 #threadlist > .post {
-	border-right: 1px solid #eee;
+	border-right: 1px solid #eee
 }
 
 #topiclist > div /* td */ {
