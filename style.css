@@ -9,6 +9,14 @@ color: black;
 background: white;
 }
 
+img {
+max-width: 100%
+}
+
+#header a {
+color: inherit
+}
+
 p {
 margin: .9em 0 0
 }
@@ -24,7 +32,7 @@ display: inline;
 }
 
 .reply-wrap {
-padding-left: .6em;
+padding-left: .55em;
 background: white
 }
 
@@ -40,18 +48,19 @@ color: #dde
 .post {
 margin-top: 1em;
 padding-left: .2em;
-border: 1px solid lightgray;
+border: 1px solid #eee;
 border-right: none;
 border-bottom: none
 }
 
 .post-body {
 padding-left: .2em;
-overflow: auto
+overflow: auto;
+max-height: 40em
 }
 
 #threadlist > .post {
-	border-right: 1px solid lightgray;
+	border-right: 1px solid #eee;
 }
 
 #topiclist > div /* td */ {
@@ -60,10 +69,6 @@ overflow: auto
 
 #topiclist h3 {
 	margin: .6em 0
-}
-
-.topic * {
-display: inline
 }
 
 #footer {
