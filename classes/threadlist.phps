@@ -30,8 +30,8 @@ class ThreadList {
 				'</li>',
 				'<li>', Page::formatTime($post['toc']), '</li>',
 				'<li>',
-					'<a href="', Page::makeURI(Page::PAGE_POST, array('post' => $post['id'])), '"',
-					' title="reply to post">reply</a>',
+					sprintf('<a href="%s" title="reply to post">reply</a>',
+						Page::makeURI(Page::PAGE_POST, array('post' => $post['id']))),
 				'</li></ul><ul class="nav">';
 				$nav_links = array();
 				if($parent !== null) {
@@ -53,12 +53,15 @@ class ThreadList {
 					$nav_links[$this->children[$post['id']][0]['id']] =
 						array('↘<small><sup>1</sup></small>', 'first reply of');
 				}
-				$nav_links[$post['id']] = array('#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT), 'this');
+				$nav_links[$post['id']] = array(
+					'#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT),
+					'this'
+				);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
 					echo '<li>',
-						'<a href="', Topics::makeURI($this->topic['id'], $message_id), '"',
-						' title="go to ', $title, ' post">', $text, '</a>',
+						sprintf('<a href="%s" title="go to %s post">%s</a>',
+							Topics::makeURI($this->topic['id'], $message_id), $title, $text),
 					'</li>';
 				}
 				echo '</ul></div>',

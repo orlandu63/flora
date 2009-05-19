@@ -34,7 +34,7 @@ class Topics {
 		return $DB->q('SELECT SQL_NO_CACHE COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
-	public static function makeURI($id = null, $post_id = null) {
-		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), ($post_id ? 'm' . $post_id : null));
+	public static function makeURI($id, $post_id) {
+		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), 'm' . $post_id);
 	}
 }

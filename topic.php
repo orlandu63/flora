@@ -13,7 +13,7 @@ if(!Topics::exists($topic)) {
 
 $Threadlist = new ThreadList($topic);
 	$Page->title = $Threadlist->topic['title'];
-	echo '<h2><a href="', Topics::makeURI($Threadlist->topic['id']), '">',
+	echo '<h2><a href="', Topics::makeURI($Threadlist->topic['id'], $Threadlist->topic['post']), '">',
 		$Threadlist->topic['title'],
 	'</a></h2>';
 $Threadlist->render();

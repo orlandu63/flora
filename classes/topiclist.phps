@@ -20,8 +20,7 @@ class TopicList {
 	protected function renderTopics() {
 		$affinity = 0;
 		foreach($this->topics as $topic) {
-			$classes = array();
-			#$classes[] = (++$affinity & 1 ? 'odd' : 'even');
+			$classes = array('topic');
 			if($topic['is_sticky']) {
 				$classes[] = 'sticky';
 			}

@@ -13,7 +13,7 @@ $preview = (bool)filter_input(INPUT_POST, 'preview');
 
 if($replying_to && Posts::exists($replying_to)) {
 	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
-	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id']), '">',
+	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
 		$topic_info['title'],
 	'</a></h3>';
 	Posts::display($replying_to);

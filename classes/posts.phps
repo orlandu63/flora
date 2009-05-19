@@ -52,7 +52,10 @@ class Posts {
 				if(!isset($post['topic'])) {
 					$post['topic'] = self::getTopicById($post['id']);
 				}
-				echo '<li><a href="', Topics::makeURI($post['topic'], $post['id']), '">context</a></li>';
+				echo '<li>',
+					sprintf('<a href="%s" title="view context of this post">context</a>',
+						Topics::makeURI($post['topic'], $post['id'])),
+				'</li>';
 			}
 		echo '</ul></div>',
 		'<div class="post-body">', $post['body'], '</div></div>';

@@ -99,7 +99,7 @@ class Page extends STemplator {
 					$data['title']),
 			'</label><br/>';
 		}
-		echo '<label>Body: (You may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
+		echo '<label>Body: (you may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
 			'<textarea name="body" cols="80" rows="10">', $data['body'], '</textarea>',
 			'</label><br/>',
 			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
