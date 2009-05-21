@@ -77,8 +77,8 @@ a {
 	text-decoration: none
 }
 
-#topiclist a:link {
-text-decoration: underline
+#topiclist a:visited {
+color: purple
 }
 
 .time {

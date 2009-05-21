@@ -1,8 +1,8 @@
 <?php
 class Page extends STemplator {
-	const FORUM_NAME = 'Flora';
+	const FORUM_NAME = 'UAMB';
 	
-	const DEFAULT_ANNOUNCEMENT = 'unmoderated anonymous message board';
+	const DEFAULT_ANNOUNCEMENT = 'welcome to UAMB, an unmoderated anonymous message board.';
 	
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
@@ -60,6 +60,7 @@ class Page extends STemplator {
 	}
 	
 	public static function displayPostForm($type, array $data = array()) {
+		static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
 		if(empty($data)) {
 			$data = array(
 				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
@@ -87,16 +88,11 @@ class Page extends STemplator {
 			'<fieldset>',
 			'<legend>', $legend , '</legend>',
 			'<label>Name: ',
-				sprintf('<input type="text" size="%d" value="%s" name="author" maxlength="%1$d"/>',
-					User::MAX_AUTHOR_LENGTH,
-					$data['author']
-				),
+				sprintf($input_format, User::MAX_AUTHOR_LENGTH, $data['author'], 'author'),
 			'</label> <small>(optional)</small><br/>';
 		if($type === self::FORM_TOPIC) {
 			echo '<label>Title: ',
-				sprintf('<input type="text" size="%d" value="%s" name="title" maxlength="%1$d"/>',
-					Topics::MAX_TITLE_LENGTH,
-					$data['title']),
+				sprintf($input_format, Topics::MAX_TITLE_LENGTH, $data['title'], 'title'),
 			'</label><br/>';
 		}
 		echo '<label>Body: (you may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
@@ -105,7 +101,7 @@ class Page extends STemplator {
 			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',
-			'</form>';
+		'</form>';
 	}
 	
 	public static function cache($last_modified) {

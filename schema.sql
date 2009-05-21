@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 3.1.2
+-- version 3.1.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2009 at 10:38 PM
--- Server version: 5.1.31
+-- Generation Time: May 21, 2009 at 07:32 PM
+-- Server version: 5.1.34
 -- PHP Version: 5.2.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -19,8 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Stand-in structure for view `posts`
 --
 CREATE TABLE `posts` (
-`parent` int(10) unsigned
-,`id` int(10) unsigned
+`id` int(10) unsigned
+,`parent` int(10) unsigned
 ,`author` char(10)
 ,`ip` int(11)
 ,`toc` int(10) unsigned
@@ -52,7 +52,6 @@ CREATE TABLE `post_info` (
   `author` char(10) DEFAULT NULL,
   `toc` int(10) unsigned NOT NULL,
   `ip` int(11) NOT NULL,
-  `num_children` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `topic` (`topic`),
   KEY `ip/toc` (`ip`,`toc`),
@@ -66,6 +65,7 @@ CREATE TABLE `post_info` (
 --
 CREATE TABLE `topics` (
 `id` int(10) unsigned
+,`post` int(10) unsigned
 ,`ip` int(11)
 ,`title` char(80)
 ,`is_sticky` tinyint(1) unsigned
@@ -83,16 +83,16 @@ CREATE TABLE `topics` (
 
 CREATE TABLE `topic_info` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `thread` int(10) unsigned NOT NULL DEFAULT '0',
+  `post` int(10) unsigned NOT NULL DEFAULT '0',
   `title` char(80) NOT NULL,
   `is_sticky` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `last_post_id` int(10) unsigned NOT NULL DEFAULT '0',
   `replies` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `last_post_id` (`last_post_id`),
-  KEY `is_sticky` (`is_sticky`),
-  KEY `thread` (`thread`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+  KEY `thread` (`post`),
+  KEY `is_sticky/last_post_id` (`is_sticky`,`last_post_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 DELAY_KEY_WRITE=1;
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE `topic_info` (
 --
 DROP TABLE IF EXISTS `posts`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `posts` AS select `post_info`.`parent` AS `parent`,`post_info`.`id` AS `id`,`post_info`.`author` AS `author`,`post_info`.`ip` AS `ip`,`post_info`.`toc` AS `toc`,`post_data`.`body` AS `body`,`post_info`.`topic` AS `topic` from (`post_info` left join `post_data` on((`post_info`.`id` = `post_data`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `posts` AS select `post_info`.`id` AS `id`,`post_info`.`parent` AS `parent`,`post_info`.`author` AS `author`,`post_info`.`ip` AS `ip`,`post_info`.`toc` AS `toc`,`post_data`.`body` AS `body`,`post_info`.`topic` AS `topic` from (`post_info` left join `post_data` on((`post_info`.`id` = `post_data`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -110,4 +110,4 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `topics`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `topics` AS select `topic_info`.`id` AS `id`,`post_info`.`ip` AS `ip`,`topic_info`.`title` AS `title`,`topic_info`.`is_sticky` AS `is_sticky`,`topic_info`.`last_post_id` AS `last_post_id`,`last_post_info`.`toc` AS `last_post`,`last_post_info`.`author` AS `last_post_author`,`post_info`.`author` AS `author`,`topic_info`.`replies` AS `replies` from ((`topic_info` left join `post_info` on((`topic_info`.`thread` = `post_info`.`id`))) left join `post_info` `last_post_info` on((`topic_info`.`last_post_id` = `last_post_info`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `topics` AS select `topic_info`.`id` AS `id`,`topic_info`.`post` AS `post`,`post_info`.`ip` AS `ip`,`topic_info`.`title` AS `title`,`topic_info`.`is_sticky` AS `is_sticky`,`topic_info`.`last_post_id` AS `last_post_id`,`last_post_info`.`toc` AS `last_post`,`last_post_info`.`author` AS `last_post_author`,`post_info`.`author` AS `author`,`topic_info`.`replies` AS `replies` from ((`topic_info` left join `post_info` on((`topic_info`.`post` = `post_info`.`id`))) left join `post_info` `last_post_info` on((`topic_info`.`last_post_id` = `last_post_info`.`id`)));
