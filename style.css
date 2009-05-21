@@ -13,10 +13,6 @@ img {
 max-width: 100%
 }
 
-#header a {
-color: inherit
-}
-
 p {
 margin: .9em 0 0
 }
@@ -138,12 +134,12 @@ content: ' *';
 color: red;
 }
 
-#topiclist .sticky > :first-child:before{
+#topiclist .sticky > :first-child:before {
 content: '!!!';
 color: red
 }
 
-h2 a {
+h2 a, #header a {
 	color: inherit
 }
 
