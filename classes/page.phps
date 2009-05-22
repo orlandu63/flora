@@ -12,6 +12,7 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 	
+	public $doOutput = true;
 	protected $wd;
 
 	public function __construct() {
@@ -33,6 +34,9 @@ class Page extends STemplator {
 	
 	public function output() {
 		$contents = ob_get_clean();
+		if(!$this->doOutput) {
+			return;
+		}
 		$this->contents = $contents;
 		$this->time_index = round(xdebug_time_index(), 2);
 		parent::output();
@@ -50,13 +54,28 @@ class Page extends STemplator {
 	}
 	
 	public static function redirect($uri) {
-		ob_clean();
 		header('Location: ' . $uri);
-		die;
+		self::terminate();
 	}
 	
 	public static function error($error) {
 		echo '<p id="error">', $error, '</p>';
+	}
+	
+		
+	public static function cache($last_modified) {
+		$etag = base_convert($last_modified, 10, 36);
+		header('Cache-Control: private, must-revalidate, max-age=0');
+		header('Last-Modified: ' . date('r', $last_modified));
+		header('ETag: ' . $etag);
+		if($_SERVER['REQUEST_METHOD'] === 'HEAD') {
+			self::terminate();
+		}
+	}
+	
+	public static function terminate() {
+		$this->doOutput = false;
+		die;
 	}
 	
 	public static function displayPostForm($type, array $data = array()) {
@@ -102,13 +121,6 @@ class Page extends STemplator {
 			'<input type="submit" value="Preview" name="preview"/>',
 			'</fieldset>',
 		'</form>';
-	}
-	
-	public static function cache($last_modified) {
-		$etag = base_convert($last_modified, 10, 36);
-		header('Cache-Control: private, must-revalidate, max-age=0');
-		header('Last-Modified: ' . date('r', $last_modified));
-		header('ETag: ' . $etag);
 	}
 		
 	public static function formatTime($timestamp, $max_precision = 2) {
