@@ -7,7 +7,7 @@ class Page extends STemplator {
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
 	const PAGE_POST = 'post';
-	const PAGE_SUFFIX = '.phps';
+	const PAGE_SUFFIX = '.php';
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
