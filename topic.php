@@ -1,6 +1,6 @@
 <?php
-require '_.php';
-require CLASS_DIR . 'threadlist.php';
+require '_.phps';
+require CLASS_DIR . 'threadlist.phps';
 
 $Page->pageID = Page::PAGE_TOPIC;
 $Page->title = 'Topic';

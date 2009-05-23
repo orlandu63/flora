@@ -1,7 +1,7 @@
 <?php
-require '_.php';
-require CLASS_DIR . 'inputvalidation.php';
-require 'markdown.php';
+require '_.phps';
+require CLASS_DIR . 'inputvalidation.phps';
+require 'markdown.phps';
 
 $Page->pageID = Page::PAGE_POST;
 $Page->title = 'Post';
