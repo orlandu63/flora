@@ -79,8 +79,7 @@ class ThreadList {
 			$nav_links[$next_logical_post] = array('↙', 'next logical');
 		}
 		if($post_has_children) {
-			$nav_links[$this->children[$post['id']][0]['id']] =
-				array('↘¹', 'first reply of');
+			$nav_links[$this->children[$post['id']][0]['id']] = array('↘¹', 'first reply of');
 		}
 		$nav_links[$post['id']] = array(
 			'#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT),
