@@ -18,7 +18,7 @@ class Page extends STemplator {
 	public function __construct() {
 		$this->wd = getcwd();
 		self::$dir = 'templates/';
-		self::$ext = '.phps';
+		self::$ext = '.php';
 		$this->pageID = null;
 		parent::__construct('skeleton');
 		$this->announcement = self::DEFAULT_ANNOUNCEMENT;

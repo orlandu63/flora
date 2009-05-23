@@ -1,6 +1,6 @@
 <?php
-require '_.phps';
-require CLASS_DIR . 'inputvalidation.phps';
+require '_.php';
+require CLASS_DIR . 'inputvalidation.php';
 require 'markdown.php';
 
 $Page->pageID = Page::PAGE_POST;

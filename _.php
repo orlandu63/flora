@@ -6,10 +6,10 @@ define('CLASS_DIR', 'classes/');
 require 'db.php';
 require 'stemplator.php';
 
-require CLASS_DIR . 'user.phps';
-require CLASS_DIR . 'page.phps';
-require CLASS_DIR . 'posts.phps';
-require CLASS_DIR . 'topics.phps';
+require CLASS_DIR . 'user.php';
+require CLASS_DIR . 'page.php';
+require CLASS_DIR . 'posts.php';
+require CLASS_DIR . 'topics.php';
 
 $Page = new Page;
 $DB = new DB('flora');

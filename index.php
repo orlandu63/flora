@@ -1,6 +1,6 @@
 <?php
-require '_.phps';
-require CLASS_DIR . 'topiclist.phps';
+require '_.php';
+require CLASS_DIR . 'topiclist.php';
 
 $Page->pageID = Page::PAGE_INDEX;
 $page_number = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
