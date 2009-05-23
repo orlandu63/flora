@@ -14,7 +14,8 @@ max-width: 100%
 }
 
 p {
-margin: .9em 0 0
+margin: .9em 0 0;
+font-size: 1em
 }
 
 .post-info, .topic-info, #pages, .nav {
@@ -92,7 +93,8 @@ float: left
 
 .post-info-wrap {
 background: #eef;
-overflow: hidden
+overflow: hidden;
+color: #333
 }
 
 .nav {

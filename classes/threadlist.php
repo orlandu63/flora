@@ -80,7 +80,7 @@ class ThreadList {
 		}
 		if($post_has_children) {
 			$nav_links[$this->children[$post['id']][0]['id']] =
-				array('↘<small><sup>1</sup></small>', 'first reply of');
+				array('↘¹', 'first reply of');
 		}
 		$nav_links[$post['id']] = array(
 			'#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT),
