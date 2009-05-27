@@ -12,14 +12,14 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 	
-	public $doOutput = true;
+	public $do_output = true;
 	protected $wd;
 
 	public function __construct() {
 		$this->wd = getcwd();
 		self::$dir = 'templates/';
 		self::$ext = '.phps';
-		$this->pageID = null;
+		$this->page_id = null;
 		parent::__construct('skeleton');
 		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
 		ob_start();
@@ -34,7 +34,7 @@ class Page extends STemplator {
 	
 	public function output() {
 		$contents = ob_get_clean();
-		if(!$this->doOutput) {
+		if(!$this->do_output) {
 			return;
 		}
 		$this->contents = $contents;
@@ -74,7 +74,7 @@ class Page extends STemplator {
 	}
 	
 	public static function terminate() {
-		$this->doOutput = false;
+		$this->do_output = false;
 		die;
 	}
 	

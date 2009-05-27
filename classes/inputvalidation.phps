@@ -4,9 +4,9 @@ class InputValidation {
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
 	
-	protected static $lengthExceptionFormat =
+	protected static $length_exception_format =
 		'<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
-	protected static $lengthExceptionAddendum =
+	protected static $length_exception_addendum =
 		'Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.';
 
 	protected static final function hasFlag($flags, $flag) {
@@ -32,8 +32,8 @@ class InputValidation {
 		$length = strlen($data);
 		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
-				sprintf(self::$lengthExceptionFormat, ucfirst($name), $min_length, $max_length, $length) . '<br/>' .
-				self::$lengthExceptionAddendum
+				sprintf(self::$length_exception_format, ucfirst($name), $min_length, $max_length, $length) . '<br/>' .
+				self::$length_exception_addendum
 			);
 		}
 	}

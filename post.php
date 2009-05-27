@@ -3,7 +3,7 @@ require '_.phps';
 require CLASS_DIR . 'inputvalidation.phps';
 require 'markdown.phps';
 
-$Page->pageID = Page::PAGE_POST;
+$Page->page_id = Page::PAGE_POST;
 $Page->title = 'Post';
 
 $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
@@ -12,6 +12,7 @@ $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 
 if($replying_to && Posts::exists($replying_to)) {
+	$Page->page_id .= $replying_to;
 	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
 	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
 		$topic_info['title'],

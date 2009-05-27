@@ -17,20 +17,20 @@ class ThreadList {
 	protected function renderThread($parent) {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$parent];
-		foreach($children_of_parent as $key => $post) {
-			$post_has_children = !empty($this->children[$post['id']]);
-			$user_classes = $this->generateUserClasses($post);
-			echo '<div class="post" id="', Posts::htmlId($post['id']), '">',
+		foreach($children_of_parent as $key => $post_info) {
+			$post_info_has_children = !empty($this->children[$post_info['id']]);
+			$user_classes = $this->generateUserClasses($post_info);
+			echo '<div class="post" id="', Posts::htmlId($post_info['id']), '">',
 				'<div class="post-info-wrap">', '<ul class="post-info">',
 				'<li>by ',
-					User::author($post['author'], $user_classes),
+					User::author($post_info['author'], $user_classes),
 				'</li>',
-				'<li>', Page::formatTime($post['toc']), '</li>',
+				'<li>', Page::formatTime($post_info['toc']), '</li>',
 				'<li>',
 					sprintf('<a href="%s" title="reply to post">reply</a>',
-						Page::makeURI(Page::PAGE_POST, array('post' => $post['id']))),
+						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))),
 				'</li></ul><ul class="nav">';
-				$nav_links = $this->generateNavLinks($post, $key);
+				$nav_links = $this->generateNavLinks($post_info, $key);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
 					echo '<li>',
@@ -39,50 +39,49 @@ class ThreadList {
 					'</li>';
 				}
 				echo '</ul></div>',
-				'<div class="post-body">', $post['body'], '</div>';
-			if($post_has_children) {
+				'<div class="post-body">', $post_info['body'], '</div>';
+			if($post_info_has_children) {
 				echo '<div class="reply-wrap">';
-					$this->renderThread($post['id']);
+					$this->renderThread($post_info['id']);
 				echo '</div>';
 			}
 			echo '</div>';
 		}
 	}
 	
-	protected function generateUserClasses(array $post) {
+	protected function generateUserClasses(array $post_info) {
 		$user_classes = array();
-		if($this->topic['ip'] === $post['ip']) {
+		if($this->topic['ip'] === $post_info['ip']) {
 			$user_classes[] = 'tc';
 		}
 		return $user_classes;
 	}
 	
-	protected function generateNavLinks(array $post, $key) {
+	protected function generateNavLinks(array $post_info, $key) {
 		static $sibling_stack = array();
-		$parent = $post['parent'];
-		$children_of_parent = $this->children[$parent];
-		$post_has_children = !empty($this->children[$post['id']]);
+		$children_of_parent = $this->children[$post_info['parent']];
+		$post_info_has_children = !empty($this->children[$post_info['id']]);
 		$nav_links = array();
-		if($parent !== null) {
-			$nav_links[$parent] = array('↖', 'parent');
+		if($post_info['parent'] !== null) {
+			$nav_links[$post_info['parent']] = array('↖', 'parent');
 		}
 		if(isset($children_of_parent[$key-1])) {
 			$nav_links[$children_of_parent[$key-1]['id']] = array('↑', 'preceding');
 		}
 		if(isset($children_of_parent[$key+1])) {
 			$nav_links[$children_of_parent[$key+1]['id']] = array('↓', 'proceeding');
-			if($post_has_children) {
+			if($post_info_has_children) {
 				$sibling_stack[] = $children_of_parent[$key+1]['id'];
 			}
-		} elseif(!$post_has_children && !empty($sibling_stack)) {
+		} elseif(!$post_info_has_children && !empty($sibling_stack)) {
 			$next_logical_post = array_pop($sibling_stack);
-			$nav_links[$next_logical_post] = array('↙', 'chronological uncle of');
+			$nav_links[$next_logical_post] = array('↙', 'subsequent uncle of');
 		}
-		if($post_has_children) {
-			$nav_links[$this->children[$post['id']][0]['id']] = array('↘¹', 'first reply of');
+		if($post_info_has_children) {
+			$nav_links[$this->children[$post_info['id']][0]['id']] = array('↘¹', 'first reply of');
 		}
-		$nav_links[$post['id']] = array(
-			'#' . str_pad($post['id'], $this->max_id_length, '0', STR_PAD_LEFT),
+		$nav_links[$post_info['id']] = array(
+			'#' . str_pad($post_info['id'], $this->max_id_length, '0', STR_PAD_LEFT),
 			'this'
 		);
 		return $nav_links;

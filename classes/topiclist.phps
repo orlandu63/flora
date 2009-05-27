@@ -35,7 +35,7 @@ class TopicList {
 						'</a> by ', User::author($topic['last_post_author']),
 					'</li>',
 				'</ul>',
-			'</div><hr/>';
+			'</div>';
 		}
 	}
 	
@@ -70,6 +70,9 @@ class TopicList {
 		if($this->page !== $num_pages) {
 			echo '<li><a href="', self::makePaginationURI($this->page + 1), '">next</a></li>';
 		}
+		echo '<li id="forum-stats">',
+			sprintf('displaying %d of %d topics', count($this->topics), Topics::count()),
+		'</li>';
 		echo '</ul>';
 	}
 }
