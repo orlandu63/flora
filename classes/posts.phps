@@ -58,7 +58,7 @@ class Posts {
 				'</li>';
 			}
 		echo '</ul></div>',
-		'<div class="post-body"><div>', $post['body'], '</div></div></div>';
+		'<div class="post-body">', $post['body'], '</div></div>';
 	}
 	
 	public static function getTopicById($id) {

@@ -19,24 +19,29 @@ class TopicList {
 	
 	protected function renderTopics() {
 		$affinity = 0;
-		foreach($this->topics as $topic) {
-			$classes = array('topic');
-			if($topic['is_sticky']) {
-				$classes[] = 'sticky';
-			}
-			echo '<div class="', implode(' ', $classes) , '">',
-				'<h3><a href="', Topics::makeURI($topic['id'], $topic['post']) , '">', $topic['title'], '</a></h3>',
+		foreach($this->topics as $topic_info) {
+			$topic_classes = $this->generateTopicClasses($topic_info);
+			echo '<div class="', implode(' ', $topic_classes) , '">',
+				'<h3><a href="', Topics::makeURI($topic_info['id'], $topic_info['post']) , '">', $topic_info['title'], '</a></h3>',
 				'<ul class="topic-info">',
-					'<li>by ', User::author($topic['author']), '</li>',
-					'<li>', $topic['replies'], ' replies</li>',
+					'<li>by ', User::author($topic_info['author']), '</li>',
+					'<li>', $topic_info['replies'], ' replies</li>',
 					'<li>last post ',
-						'<a href="', Topics::makeURI($topic['id'], $topic['last_post_id']), '">',
-							Page::formatTime($topic['last_post']),
-						'</a> by ', User::author($topic['last_post_author']),
+						'<a href="', Topics::makeURI($topic_info['id'], $topic_info['last_post_id']), '">',
+							Page::formatTime($topic_info['last_post']),
+						'</a> by ', User::author($topic_info['last_post_author']),
 					'</li>',
 				'</ul>',
 			'</div>';
 		}
+	}
+	
+	protected function generateTopicClasses(array $topic_info) {
+		$classes = array('topic');
+		if($topic_info['is_sticky']) {
+			$classes[] = 'tc';
+		}
+		return $classes;
 	}
 	
 	public function render($pagination) {
