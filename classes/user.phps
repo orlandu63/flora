@@ -3,7 +3,7 @@ class User {
 	const ANON_NAME = 'anon';
 	const MAX_AUTHOR_LENGTH = 10;
 
-	public static $ip, $name;
+	public static $ip, $name, $last_active;
 	
 	public function __construct() {
 		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);

@@ -110,7 +110,6 @@ font-weight:700;
 }
 
 .reply-wrap {
-background:#FFF;
 padding-left:.55em;
 }
 
@@ -145,6 +144,10 @@ color:inherit;
 html {
 margin:0 auto;
 width:99%;
+}
+
+textarea, input[type="text"] {
+max-width: 100%
 }
 
 img {

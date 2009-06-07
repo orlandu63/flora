@@ -39,7 +39,7 @@ class TopicList {
 	protected function generateTopicClasses(array $topic_info) {
 		$classes = array('topic');
 		if($topic_info['is_sticky']) {
-			$classes[] = 'tc';
+			$classes[] = 'sticky';
 		}
 		return $classes;
 	}

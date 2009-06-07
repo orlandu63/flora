@@ -32,8 +32,8 @@ class InputValidation {
 		$length = strlen($data);
 		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
-				sprintf(self::$length_exception_format, ucfirst($name), $min_length, $max_length, $length) . '<br/>' .
-				self::$length_exception_addendum
+				sprintf(self::$length_exception_format, ucfirst($name), $min_length, $max_length, $length) .
+				'<br/>' . self::$length_exception_addendum
 			);
 		}
 	}

@@ -43,22 +43,22 @@ class Posts {
 	}
 	
 	public static function display($id) {
-		$post = (is_array($id) ? $id : self::getInfo($id));
-		echo '<div class="post" id="', (isset($post['id']) ? self::htmlId($post['id']) : ''), '">',
+		$post_info = (is_array($id) ? $id : self::getInfo($id));
+		echo '<div class="post" id="', (isset($post_info['id']) ? self::htmlId($post_info['id']) : ''), '">',
 		'<div class="post-info-wrap">', '<ul class="post-info">',
-			'<li>by ', User::author($post['author']), '</li>',
-			'<li>', Page::formatTime($post['toc']), '</li>';
-			if(isset($post['id'])) {
-				if(!isset($post['topic'])) {
-					$post['topic'] = self::getTopicById($post['id']);
+			'<li>by ', User::author($post_info['author']), '</li>',
+			'<li>', Page::formatTime($post_info['toc']), '</li>';
+			if(isset($post_info['id'])) {
+				if(!isset($post_info['topic'])) {
+					$post_info['topic'] = self::getTopicById($post_info['id']);
 				}
 				echo '<li>',
 					sprintf('<a href="%s" title="view context of this post">context</a>',
-						Topics::makeURI($post['topic'], $post['id'])),
+						Topics::makeURI($post_info['topic'], $post_info['id'])),
 				'</li>';
 			}
 		echo '</ul></div>',
-		'<div class="post-body">', $post['body'], '</div></div>';
+		'<div class="post-body">', $post_info['body'], '</div></div>';
 	}
 	
 	public static function getTopicById($id) {

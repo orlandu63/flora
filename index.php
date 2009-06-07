@@ -9,6 +9,7 @@ if($page_number < 0) {
 	return;
 }
 
+$Page->header = 'Topic Index';
 $Page->page_id .= $page_number;
 
 $Topiclist = new Topiclist($page_number);

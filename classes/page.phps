@@ -138,7 +138,7 @@ class Page extends STemplator {
 		$durations = array();
 		$precision = 0;
 
-		foreach ($periods as $seconds_in_period => $period) {
+		foreach($periods as $seconds_in_period => $period) {
 			if($seconds >= $seconds_in_period) {
 				$num_periods = (int)($seconds / $seconds_in_period);
 				$durations[] = $num_periods . ' ' . $period . ($num_periods === 1 ? '' : 's');
