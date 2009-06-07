@@ -3,9 +3,6 @@
 <head>
  <title><?php if(isset($title)) echo $title, ' — '; echo Page::FORUM_NAME ?> Message Boards</title>
  <link rel="stylesheet" href="style.css" type="text/css"/>
- <?php if(!empty($canonical)): ?>
- <link rel="canonical" href="<?php echo $canonical ?>"/>
- <?php endif ?>
 </head>
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>

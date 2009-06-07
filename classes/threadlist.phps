@@ -3,13 +3,12 @@ class ThreadList {
 	public $topic = array(), $children = array();
 	protected $max_id_length;
 
-	public function __construct($id, $newness_threshold = 0) {
+	public function __construct($id) {
 		global $DB;
 		$this->topic = Topics::getInfo($id);
 		Page::cache($this->topic['last_post']);
 		$posts = Posts::getOfTopic($id);
 		$this->max_id_length = strlen($this->topic['last_post_id']);
-		$this->newness_threshold = $newness_threshold;
 		foreach($posts as $post) {
 			$this->children[$post['parent']][] = $post;
 		}
@@ -53,9 +52,6 @@ class ThreadList {
 	
 	protected function generatePostClasses(array $post_info) {
 		$classes = array('post');
-		if(!empty($this->newness_threshold) && $post_info['toc'] >= $this->newness_threshold) {
-			$classes[] = 'new';
-		}
 		return implode(' ', $classes);
 	}
 	

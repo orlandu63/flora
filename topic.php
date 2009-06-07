@@ -5,7 +5,6 @@ require CLASS_DIR . 'threadlist.phps';
 $Page->page_id = Page::PAGE_TOPIC;
 $Page->title = 'Topic';
 $topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$newness_threshold = strtotime(filter_input(INPUT_POST, 'newness_threshold'));
 
 if(!Topics::exists($topic)) {
 	Page::error('Invalid topic ID');
@@ -14,7 +13,7 @@ if(!Topics::exists($topic)) {
 
 $Page->page_id .= $topic;
 
-$Threadlist = new ThreadList($topic, $newness_threshold);
+$Threadlist = new ThreadList($topic);
 	$Page->title = $Threadlist->topic['title'];
 	$Page->header = sprintf(
 		'<a href="%s">%s</a>',
