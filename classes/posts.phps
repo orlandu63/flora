@@ -30,12 +30,12 @@ class Posts {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE 1 FROM post_info WHERE id = ?', $id)->fetchColumn();
+		return $DB->q('SELECT 1 FROM post_info WHERE id = ?', $id)->fetchColumn();
 	}
 	
 	public static function count() {
 		global $DB;
-		return $DB->query('SELECT SQL_NO_CACHE COUNT(*) FROM post_info')->fetchColumn();
+		return $DB->query('SELECT COUNT(*) FROM post_info')->fetchColumn();
 	}
 	
 	public static function htmlId($id) {
@@ -63,6 +63,6 @@ class Posts {
 	
 	public static function getTopicById($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE topic FROM post_info WHERE id = ?', $id)->fetchColumn();
+		return $DB->q('SELECT topic FROM post_info WHERE id = ?', $id)->fetchColumn();
 	}
 }

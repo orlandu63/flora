@@ -26,12 +26,12 @@ class Topics {
 	
 	public static function exists($id) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE 1 FROM topic_info WHERE id = ?', $id)->fetchColumn();
+		return $DB->q('SELECT 1 FROM topic_info WHERE id = ?', $id)->fetchColumn();
 	}
 	
 	public static function count() {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE COUNT(*) FROM topic_info')->fetchColumn();
+		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
 	public static function makeURI($id, $post_id) {
