@@ -26,7 +26,7 @@ class ThreadList {
 				'<li>by ',
 					User::author($post_info['author'], $user_classes),
 				'</li>',
-				'<li>', Page::formatTime($post_info['toc']), '</li>',
+				'<li>', Page::formatTime($post_info['toc'], $post_info['date']), '</li>',
 				'<li>',
 					sprintf('<a href="%s" title="reply to post">reply</a>',
 						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))),

@@ -17,5 +17,6 @@
 <p id="footer">exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →
  <?php echo $time_index ?>
 </p>
+<?php $this->load('ga', array(), array('dir' => '')) /* so it uses include_path instead of templates/ */ ?>
 </body>
 </html>

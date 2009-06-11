@@ -28,7 +28,7 @@ class TopicList {
 					'<li>', $topic_info['replies'], ' replies</li>',
 					'<li>last post ',
 						'<a href="', Topics::makeURI($topic_info['id'], $topic_info['last_post_id']), '">',
-							Page::formatTime($topic_info['last_post']),
+							Page::formatTime($topic_info['last_post'], $topic_info['last_post_date']),
 						'</a> by ', User::author($topic_info['last_post_author']),
 					'</li>',
 				'</ul>',

@@ -124,7 +124,7 @@ class Page extends STemplator {
 		'</form>';
 	}
 		
-	public static function formatTime($timestamp, $max_precision = 2) {
+	public static function formatTime($timestamp, $date = null, $max_precision = 2) {
 		static $format = '<span class="time" title="%s">%s ago</span>';
 		static $periods = array(
 				2629743 => 'mth',
@@ -158,6 +158,6 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($format, date('r', $timestamp), implode($durations, ', '));
+		return sprintf($format, ($date === null ? date('r', $timestamp) : $date), implode($durations, ', '));
 	}
 }
