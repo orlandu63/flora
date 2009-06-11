@@ -4,7 +4,8 @@ require CLASS_DIR . 'inputvalidation.phps';
 require 'markdown.phps';
 
 $Page->page_id = Page::PAGE_POST;
-$Page->title = 'Post';
+$Page->title = $Page->header = 'Post';
+$Page->site_nav['Home'] = Page::makeURI(Page::PAGE_INDEX);
 
 $replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
 $making_topic = !$replying_to;
@@ -12,9 +13,11 @@ $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 
 if($replying_to && Posts::exists($replying_to)) {
-	$Page->page_id .= $replying_to;
 	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
-	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
+	$Page->page_id .= $replying_to;
+	$topic_uri = Topics::makeURI($topic_info['id'], $topic_info['post']);
+	$Page->site_nav['Back to Topic'] = $topic_uri;
+	echo '<h3>Replying to: <a href="', $topic_uri, '">',
 		$topic_info['title'],
 	'</a></h3>';
 	Posts::display($replying_to);

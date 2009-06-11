@@ -75,16 +75,20 @@ display:inline;
 float:left;
 }
 
-.post-info li + li:before,.topic-info li + li:before,#pages li + li:before {
+#site-nav {
+float:right;
+}
+
+.post-info li + li:before,.topic-info li + li:before,#pages li + li:before,#site-nav li + li:before {
 color:#dde;
 content:' | ';
 }
 
-.post-info li,.topic-info li,#pages li,.nav li {
+.post-info li,.topic-info li,#pages li,.nav li,#site-nav li {
 display:inline;
 }
 
-.post-info,.topic-info,#pages,.nav {
+.post-info,.topic-info,#pages,.nav,#site-nav {
 list-style:none;
 margin:0;
 padding:0;

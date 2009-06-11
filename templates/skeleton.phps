@@ -7,9 +7,12 @@
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
  <p id="announcement"><?php echo $announcement ?></p>
- <?php if(!empty($header)): ?>
+ <ul id="site-nav">
+ <?php foreach($site_nav as $text => $uri): ?>
+ <li><a href="<?php echo $uri ?>"><?php echo $text ?></a></li>
+ <?php endforeach ?>
+ </ul>
  <h2><?php echo $header ?></h2>
- <?php endif ?>
  <?php echo $contents ?>
 <p id="footer">exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →
  <?php echo $time_index ?>

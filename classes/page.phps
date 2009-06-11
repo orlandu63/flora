@@ -22,6 +22,7 @@ class Page extends STemplator {
 		$this->page_id = null;
 		parent::__construct('skeleton');
 		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
+		$this->site_nav = array();
 		ob_start();
 	}
 	
@@ -126,11 +127,11 @@ class Page extends STemplator {
 	public static function formatTime($timestamp, $max_precision = 2) {
 		static $format = '<span class="time" title="%s">%s ago</span>';
 		static $periods = array(
-				2629743 => 'month',
-				604800 => 'week',
+				2629743 => 'mth',
+				604800 => 'wk',
 				86400 => 'day',
-				3600 => 'hour',
-				60 => 'minute'
+				3600 => 'hr',
+				60 => 'min'
 		);
 		
 		$seconds = time() - $timestamp;

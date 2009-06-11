@@ -54,7 +54,7 @@ class TopicList {
 	}
 		
 	protected static function makePaginationURI($page) {
-		return Page::makeURI(Page::PAGE_INDEX, array('page' => $page));
+		return Page::makeURI(Page::PAGE_INDEX, ($page !== 0 ? array('page' => $page) : array()));
 	}
 	
 	protected function renderPagination() {

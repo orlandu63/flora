@@ -4,6 +4,8 @@ require CLASS_DIR . 'threadlist.phps';
 
 $Page->page_id = Page::PAGE_TOPIC;
 $Page->title = 'Topic';
+$Page->site_nav['Home'] = Page::makeURI(Page::PAGE_INDEX);
+
 $topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if(!Topics::exists($topic)) {
