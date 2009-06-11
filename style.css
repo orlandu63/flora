@@ -121,10 +121,6 @@ padding-left:.55em;
 font-size:small;
 }
 
-.topic-info li + li:before {
-color:blue;
-}
-
 a {
 color:blue;
 padding:2px;

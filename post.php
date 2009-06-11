@@ -15,9 +15,8 @@ $preview = (bool)filter_input(INPUT_POST, 'preview');
 if($replying_to && Posts::exists($replying_to)) {
 	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
 	$Page->page_id .= $replying_to;
-	$topic_uri = Topics::makeURI($topic_info['id'], $topic_info['post']);
-	$Page->site_nav['Back to Topic'] = $topic_uri;
-	echo '<h3>Replying to: <a href="', $topic_uri, '">',
+	$Page->site_nav['Back to Post'] = Topics::makeURI($topic_info['id'], $replying_to);
+	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
 		$topic_info['title'],
 	'</a></h3>';
 	Posts::display($replying_to);
