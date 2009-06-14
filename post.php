@@ -33,6 +33,7 @@ try {
 
 	if($submit || $preview) {
 		$author = InputValidation::validate(InputValidation::VALIDATE_AUTHOR);
+		User::$name = $author;
 		$body = InputValidation::validate(InputValidation::VALIDATE_BODY);
 		if($making_topic) {
 			$title = InputValidation::validate(InputValidation::VALIDATE_TITLE);

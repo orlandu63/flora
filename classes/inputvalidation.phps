@@ -33,7 +33,7 @@ class InputValidation {
 		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
 				sprintf(self::$length_exception_format, ucfirst($name), $min_length, $max_length, $length) .
-				'<br/>' . self::$length_exception_addendum
+				($length > $max_length ? '<br/>' . self::$length_exception_addendum : '')
 			);
 		}
 	}
@@ -41,7 +41,6 @@ class InputValidation {
 	public static function validateAuthor($sub = null) {
 		$author = ($sub === null ? trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)) : $sub);
 		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH, 0);
-		User::$name = $author;
 		return $author;
 	}
 	

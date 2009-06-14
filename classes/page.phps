@@ -2,7 +2,7 @@
 class Page extends STemplator {
 	const FORUM_NAME = 'UAMB';
 	
-	const DEFAULT_ANNOUNCEMENT = 'welcome to UAMB, an unmoderated anonymous message board.';
+	const DEFAULT_ANNOUNCEMENT = 'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
 	
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
