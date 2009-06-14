@@ -47,7 +47,9 @@ class Posts {
 		echo '<div class="post" id="', (isset($post_info['id']) ? self::htmlId($post_info['id']) : ''), '">',
 		'<div class="post-info-wrap">', '<ul class="post-info">',
 			'<li>by ', User::author($post_info['author']), '</li>',
-			'<li>', Page::formatTime($post_info['toc'], $post_info['date']), '</li>';
+			'<li>',
+				Page::formatTime($post_info['toc'], (isset($post_info['date']) ? $post_info['date'] : null)),
+			'</li>';
 			if(isset($post_info['id'])) {
 				if(!isset($post_info['topic'])) {
 					$post_info['topic'] = self::getTopicById($post_info['id']);
