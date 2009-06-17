@@ -1,6 +1,7 @@
 <?php
 class Page extends STemplator {
 	const FORUM_NAME = 'UAMB';
+	const ABSOLUTE_PATH = 'http://scrap.ath.cx:99/uamb/';
 	
 	const DEFAULT_ANNOUNCEMENT = 'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
 	

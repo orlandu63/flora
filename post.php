@@ -65,7 +65,7 @@ if($valid) {
 			$new_post_id = $new_info['post'];
 		}
 		header('HTTP/1.1 303 See Other');
-		Page::redirect(Topics::makeURI($new_topic_id, $new_post_id));
+		Page::redirect(Page::ABSOLUTE_PATH . Topics::makeURI($new_topic_id, $new_post_id));
 	}
 }
 
