@@ -79,7 +79,7 @@ class Page extends STemplator {
 		die;
 	}
 	
-	public static function displayPostForm($type, array $data = array()) {
+	public function displayPostForm($type, array $data = array()) {
 		static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
 		if(empty($data)) {
 			$data = array(
@@ -103,29 +103,20 @@ class Page extends STemplator {
 				$submit_value = 'Make Topic';
 				break;
 		}
-		echo '<h2>', $header , '</h2>',
-			'<form action="', self::makeURI(self::PAGE_POST, $params), '" method="post">',
-			'<fieldset>',
-			'<legend>', $legend , '</legend>',
-			'<label>Name: ',
-				sprintf($input_format, User::MAX_AUTHOR_LENGTH, $data['author'], 'author'),
-			'</label> <small>(optional)</small><br/>';
-		if($type === self::FORM_TOPIC) {
-			echo '<label>Title: ',
-				sprintf($input_format, Topics::MAX_TITLE_LENGTH, $data['title'], 'title'),
-			'</label><br/>';
-		}
-		echo '<label>Body: (you may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>',
-			'<textarea name="body" cols="80" rows="10">', $data['body'], '</textarea>',
-			'</label><br/>',
-			'<input type="submit" value="',  $submit_value, '" name="submit"/> ',
-			'<input type="submit" value="Preview" name="preview"/>',
-			'</fieldset>',
-		'</form>';
+		$this->load('post_form', array(
+			'header' => $header,
+			'action_uri' => self::makeURI(self::PAGE_POST, $params),
+			'legend' => $legend,
+			'input_format' => $input_format,
+			'type' => $type,
+			'data' => $data,
+			'submit_value' => $submit_value
+		));
 	}
 		
 	public static function formatTime($timestamp, $date = null, $max_precision = 2) {
-		static $format = '<span class="time" title="%s">%s ago</span>';
+		static $html_format = '<span class="time" title="%s">%s ago</span>';
+		static $date_format = 'Y-m-d H:i:s';
 		static $periods = array(
 				2629743 => 'mth',
 				604800 => 'wk',
@@ -158,6 +149,6 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($format, ($date === null ? date('r', $timestamp) : $date), implode($durations, ', '));
+		return sprintf($html_format, ($date === null ? date($date_format, $timestamp) : $date), implode($durations, ', '));
 	}
 }

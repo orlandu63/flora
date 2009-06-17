@@ -18,4 +18,4 @@ $Page->page_id .= $page_number;
 $Topiclist = new Topiclist($page_number);
 $Topiclist->render(Topiclist::WITH_PAGINATION);
 
-Page::displayPostForm(Page::FORM_TOPIC);
+$Page->displayPostForm(Page::FORM_TOPIC);
