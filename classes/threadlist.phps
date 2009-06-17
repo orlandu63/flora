@@ -50,7 +50,7 @@ class ThreadList {
 		}
 	}
 	
-	protected function generatePostClasses(array $post_info) {
+	public static function generatePostClasses(array $post_info) {
 		$classes = array('post');
 		return implode(' ', $classes);
 	}

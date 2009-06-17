@@ -18,30 +18,18 @@ class TopicList {
 	}
 	
 	protected function renderTopics() {
-		$affinity = 0;
-		foreach($this->topics as $topic_info) {
-			$topic_classes = $this->generateTopicClasses($topic_info);
-			echo '<div class="', implode(' ', $topic_classes) , '">',
-				'<h3><a href="', Topics::makeURI($topic_info['id'], $topic_info['post']) , '">', $topic_info['title'], '</a></h3>',
-				'<ul class="topic-info">',
-					'<li>by ', User::author($topic_info['author']), '</li>',
-					'<li>', $topic_info['replies'], ' replies</li>',
-					'<li>last post ',
-						'<a href="', Topics::makeURI($topic_info['id'], $topic_info['last_post_id']), '">',
-							Page::formatTime($topic_info['last_post'], $topic_info['last_post_date']),
-						'</a> by ', User::author($topic_info['last_post_author']),
-					'</li>',
-				'</ul>',
-			'</div>';
-		}
+		global $Page;
+		$Page->load('topiclist', array(
+			'topics' => $this->topics
+		));
 	}
 	
-	protected function generateTopicClasses(array $topic_info) {
+	public static function generateTopicClasses(array $topic_info) {
 		$classes = array('topic');
 		if($topic_info['is_sticky']) {
 			$classes[] = 'sticky';
 		}
-		return $classes;
+		return implode(' ', $classes);
 	}
 	
 	public function render($pagination) {
