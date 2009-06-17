@@ -13,7 +13,7 @@ class User {
 	
 	public static function save() {
 		if(self::getAuthorCookie() !== self::$name) {
-			setcookie('author', self::$name);
+			setcookie('author', self::$name, 60 * 60 * 24 * 365);
 		}
 	}
 	
