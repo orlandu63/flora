@@ -105,7 +105,7 @@ class Page extends STemplator {
 		}
 		$this->load('post_form', array(
 			'header' => $header,
-			'action_uri' => self::makeURI(self::PAGE_POST, $params),
+			'params' => $params,
 			'legend' => $legend,
 			'input_format' => $input_format,
 			'type' => $type,

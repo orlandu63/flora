@@ -1,5 +1,5 @@
 <h2><?php echo $header ?></h2>
-<form action="<?php echo $action_uri ?>" method="post">
+<form action="<?php echo Page::makeURI(Page::PAGE_POST, $params) ?>" method="post">
 <fieldset>
   <legend><?php echo $legend ?></legend>
   <label>Name: <?php echo sprintf($input_format, User::MAX_AUTHOR_LENGTH, $data['author'], 'author') ?></label>
