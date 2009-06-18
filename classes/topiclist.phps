@@ -39,7 +39,7 @@ class TopicList {
 	
 	protected function renderPagination() {
 		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
-		echo '<ul id="pages"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
+		echo '<ul id="pages" class="inline-list"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
 		if($this->page !== 0 ) {
 			echo '<li><a href="', self::makePaginationURI($this->page - 1), '">prev</a></li>';
 		}
@@ -55,7 +55,7 @@ class TopicList {
 		if($this->page !== $num_pages) {
 			echo '<li><a href="', self::makePaginationURI($this->page + 1), '">next</a></li>';
 		}
-		echo '<li id="forum-stats">',
+		echo '<li id="forum-stats" class="float-right">',
 			sprintf('displaying %d of %d topics', count($this->topics), Topics::count()),
 		'</li>';
 		echo '</ul>';

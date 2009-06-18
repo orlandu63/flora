@@ -22,7 +22,7 @@ class ThreadList {
 			$post_classes = Posts::generatePostClasses($post_info);
 			$user_classes = $this->generateUserClasses($post_info);
 			echo '<div class="', $post_classes, '" id="', Posts::htmlId($post_info['id']), '">',
-				'<div class="post-info-wrap">', '<ul class="post-info">',
+				'<div class="post-info-wrap float-wrap">', '<ul class="post-info float-left inline-list">',
 				'<li>by ',
 					User::author($post_info['author'], $user_classes),
 				'</li>',
@@ -30,7 +30,7 @@ class ThreadList {
 				'<li>',
 					sprintf('<a href="%s" title="reply to post">reply</a>',
 						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))),
-				'</li></ul><ul class="nav">';
+				'</li></ul><ul class="nav float-right inline-list">';
 				$nav_links = $this->generateNavLinks($post_info, $key);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;

@@ -8,7 +8,7 @@
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
  <p id="announcement"><?php echo $announcement ?></p>
- <ul id="site-nav">
+ <ul id="site-nav" class="float-right inline-list">
  <?php foreach($site_nav as $text => $uri): ?>
  <li><a href="<?php echo $uri ?>"><?php echo $text ?></a></li>
  <?php endforeach ?>
