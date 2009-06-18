@@ -15,18 +15,7 @@
  <input type="submit" value="Preview" name="preview"/>
 </div>
 <div class="float-right">
- <h4>Markdown Help</h4>
-<code><pre>
-*italic* **bold** ***both***
-`inline code`
-    code block (indent 4 spaces)
-* unordered list
-1. ordered list
-# h1 ... ###### h6
-> blockquote
-(text)[url]
-![alt text](image url)
-</pre></code>
+<?php $this->load('markdown_help') ?>
 </div>
 </fieldset>
 </form>

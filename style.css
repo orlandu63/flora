@@ -144,6 +144,11 @@ margin:0 auto;
 width:99%;
 }
 
+#markdown-help em {
+background: #eee;
+font-style: normal
+}
+
 textarea, input[type="text"] {
 max-width: 100%
 }
