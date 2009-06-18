@@ -13,7 +13,7 @@ display:block;
 }
 
 #footer {
-font:small Monospace;
+font-size:small;
 border-top: 2px solid #ccc;
 }
 
