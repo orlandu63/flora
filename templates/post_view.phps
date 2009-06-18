@@ -1,6 +1,6 @@
 <div class="<?php echo Posts::generatePostClasses($post_info) ?>"<?php if($id) echo ' id="', $id, '"' ?>>
 <div class="post-info-wrap">
- <ul class="post-info">
+ <ul class="post-info inline-list">
   <li>by <?php echo User::author($post_info['author']) ?></li>
   <li><?php echo Page::formatTime($post_info['toc'], (isset($post_info['date']) ? $post_info['date'] : null)) ?></li>
   <?php if(isset($post_info['id'])): ?>
