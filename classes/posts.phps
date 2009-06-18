@@ -54,6 +54,11 @@ class Posts {
 		));
 	}
 	
+	public function generatePostClasses(array $post_info) {
+		$classes = array('post');
+		return implode(' ', $classes);
+	}
+	
 	public static function getTopicById($id) {
 		global $DB;
 		return $DB->q('SELECT topic FROM post_info WHERE id = ?', $id)->fetchColumn();

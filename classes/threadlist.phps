@@ -19,7 +19,7 @@ class ThreadList {
 		$children_of_parent = $this->children[$parent];
 		foreach($children_of_parent as $key => $post_info) {
 			$post_info_has_children = !empty($this->children[$post_info['id']]);
-			$post_classes = $this->generatePostClasses($post_info);
+			$post_classes = Posts::generatePostClasses($post_info);
 			$user_classes = $this->generateUserClasses($post_info);
 			echo '<div class="', $post_classes, '" id="', Posts::htmlId($post_info['id']), '">',
 				'<div class="post-info-wrap">', '<ul class="post-info">',
@@ -48,11 +48,6 @@ class ThreadList {
 			}
 			echo '</div>';
 		}
-	}
-	
-	public static function generatePostClasses(array $post_info) {
-		$classes = array('post');
-		return implode(' ', $classes);
 	}
 	
 	protected function generateUserClasses(array $post_info) {

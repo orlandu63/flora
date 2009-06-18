@@ -3,6 +3,7 @@
 <head>
  <title><?php if(isset($title)) echo $title, ' — '; echo Page::FORUM_NAME ?> Message Boards</title>
  <link rel="stylesheet" href="style.css" type="text/css"/>
+ <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
 </head>
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>

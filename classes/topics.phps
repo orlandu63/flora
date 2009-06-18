@@ -33,6 +33,14 @@ class Topics {
 		global $DB;
 		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
+
+	public static function generateTopicClasses(array $topic_info) {
+		$classes = array('topic');
+		if($topic_info['is_sticky']) {
+			$classes[] = 'sticky';
+		}
+		return implode(' ', $classes);
+	}
 	
 	public static function makeURI($id, $post_id) {
 		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), 'm' . $post_id);

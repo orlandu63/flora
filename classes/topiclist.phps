@@ -24,14 +24,6 @@ class TopicList {
 		));
 	}
 	
-	public static function generateTopicClasses(array $topic_info) {
-		$classes = array('topic');
-		if($topic_info['is_sticky']) {
-			$classes[] = 'sticky';
-		}
-		return implode(' ', $classes);
-	}
-	
 	public function render($pagination) {
 		echo '<div id="topiclist">';
 			$this->renderTopics();
@@ -47,7 +39,7 @@ class TopicList {
 	
 	protected function renderPagination() {
 		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
-		echo '<ul id="pages"><li title="', self::PER_PAGE , ' per page">Pages:</li>';
+		echo '<ul id="pages"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
 		if($this->page !== 0 ) {
 			echo '<li><a href="', self::makePaginationURI($this->page - 1), '">prev</a></li>';
 		}
