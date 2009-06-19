@@ -91,7 +91,6 @@ display:inline;
 .inline-list li + li {
 border-left: 1px solid #dde;
 padding-left: .35em;
-margin-left: .35em;
 }
 
 #pages > #forum-stats:before {

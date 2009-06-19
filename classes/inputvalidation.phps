@@ -46,7 +46,7 @@ class InputValidation {
 	
 	public static function validateBody($sub = null) {
 		$body = ($sub === null ? filter_input(INPUT_POST, 'body') : $sub);
-		//validate before and after so that this weak server wont have to parse an oversized body
+		//validate before and after so that this weak server wont have to parse a huge piece of text
 		self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 1);
 		$parser = Markdown::getInstance();
 		$body = $parser->transform($body);

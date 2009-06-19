@@ -33,6 +33,10 @@ class User {
 		return $DB->q('SELECT 1 FROM post_info WHERE
 			ip = ? AND toc >= UNIX_TIMESTAMP() - 10 LIMIT 1', self::$ip)->fetchColumn();
 	}
+	
+	public static function generateUserClasses() {
+		return array();
+	}
 
 	public static function getAuthorCookie() {
 		return filter_input(INPUT_COOKIE, 'author');
