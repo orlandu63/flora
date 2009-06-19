@@ -28,7 +28,7 @@ class InputValidation {
 		return (count($return) === 1 ? reset($return) : $return);
 	}
 	
-	protected static function validateLength($name, $data, $max_length, $min_length = 1) {
+	public static function validateLength($name, $data, $max_length, $min_length = 1) {
 		$length = strlen($data);
 		if($length > $max_length || $length < $min_length) {
 			throw new LengthException(
