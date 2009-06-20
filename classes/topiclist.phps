@@ -13,8 +13,20 @@ class TopicList {
 		$offset = $this->page * self::PER_PAGE;
 		$this->topics = Topics::getList($page, self::PER_PAGE);
 		if(!empty($this->topics)) {
-			Page::cache($this->topics[0]['last_post']);
+			Page::cache($this->determineLastPost());
 		}
+	}
+	
+	#this is not optimizaed
+	protected function determineLastPost() {
+		$last_post = 0;
+		foreach($this->topics as $topic) {
+			$last_post = max($topic['last_post'], $last_post);
+			if(!$topic['is_sticky']) {
+				break;
+			}
+		}
+		return $last_post;
 	}
 	
 	protected function renderTopics() {
