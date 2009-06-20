@@ -6,7 +6,7 @@
 <em>&nbsp;&nbsp;&nbsp;&nbsp;</em>code block (indent 4 spaces)<br/>
 <em>* </em>unordered list<br/>
 <em>1. </em>ordered list<br/>
-<em># </em>h1 ... <em>###### </em>h6<br/>
+<em># </em>h1 … <em>###### </em>h6<br/>
 <em>> </em>blockquote<br/>
 <em>(text)[url]</em><br/>
 <em>![alt text](image url)</em></code>

@@ -10,7 +10,7 @@
  <p id="announcement"><?php echo $announcement ?></p>
  <ul id="site-nav" class="float-right inline-list">
  <?php foreach($site_nav as $text => $uri): ?>
- <li><a href="<?php echo $uri ?>"><?php echo $text ?></a></li>
+  <li><a href="<?php echo $uri ?>"><?php echo $text ?></a></li>
  <?php endforeach ?>
  </ul>
  <h2><?php echo $header ?></h2>

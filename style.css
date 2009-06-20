@@ -91,11 +91,12 @@ display:inline;
 .inline-list li + li {
 border-left: 1px solid #dde;
 padding-left: .35em;
+margin-left: .35em;
 }
 
 #pages > #forum-stats {
 border-left: none;
-padding-left: 0
+padding-left: 0;
 }
 
 .post-info-wrap {
