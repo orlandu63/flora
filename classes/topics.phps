@@ -1,5 +1,5 @@
 <?php
-class Topics {
+abstract class Topics {
 	const MAX_TITLE_LENGTH = 80;
 	
 	public static function getInfo($id) {

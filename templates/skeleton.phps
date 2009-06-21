@@ -15,7 +15,7 @@
  </ul>
  <h2><?php echo $header ?></h2>
  <?php echo $contents ?>
-<p id="footer"><code>exec(new <?php echo Page::FORUM_NAME ?>('<?php echo VERSION ?>')) →
+<p id="footer"><code>exec(new <?php echo SOFTWARE ?>('<?php echo VERSION ?>')) →
  <?php echo $time_index ?>
 </code></p>
 <?php $this->load('ga', array(), array('dir' => '')) /* so it uses include_path instead of templates/ */ ?>

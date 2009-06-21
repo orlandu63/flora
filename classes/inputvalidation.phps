@@ -1,5 +1,5 @@
 <?php
-class InputValidation {
+abstract class InputValidation {
 	const VALIDATE_AUTHOR = 1;
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;

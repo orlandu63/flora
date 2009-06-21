@@ -1,4 +1,5 @@
 <?php
+define('SOFTWARE', 'flora');
 define('VERSION', '1.0T');
 define('CLASS_DIR', 'classes/');
 

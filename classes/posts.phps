@@ -1,5 +1,5 @@
 <?php
-class Posts {
+abstract class Posts {
 	const MAX_BODY_LENGTH = 8000;
 	
 	public static function getInfo($id) {
