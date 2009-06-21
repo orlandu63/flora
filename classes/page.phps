@@ -3,7 +3,8 @@ class Page extends STemplator {
 	const FORUM_NAME = 'UAMB';
 	const ABSOLUTE_PATH = 'http://scrap.ath.cx:99/uamb/';
 	
-	const DEFAULT_ANNOUNCEMENT = 'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
+	const DEFAULT_ANNOUNCEMENT =
+		'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
 	
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
@@ -17,17 +18,23 @@ class Page extends STemplator {
 	protected $wd;
 
 	public function __construct() {
-		$this->wd = getcwd();
 		self::$dir = 'templates/';
 		self::$ext = '.phps';
-		$this->page_id = null;
 		parent::__construct('skeleton');
-		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
-		$this->site_nav = array();
+		$this->initializeVariables();
 		ob_start();
 	}
 	
+	protected function initializeVariables() {
+		$this->wd = getcwd();
+		$this->page_id = null;
+		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
+		$this->site_nav = array();
+	}
+	
 	public function __destruct() {
+		//because the cwd changes during shutdown,
+		//i change the working directory to its previous and then change it back
 		$prev_wd = getcwd();
 		chdir($this->wd);
 		$this->output();
@@ -150,6 +157,9 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($html_format, ($date === null ? date($date_format, $timestamp) : $date), implode($durations, ', '));
+		return sprintf($html_format,
+			($date === null ? date($date_format, $timestamp) : $date),
+			implode($durations, ', ')
+		);
 	}
 }
