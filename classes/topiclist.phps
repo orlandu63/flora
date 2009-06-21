@@ -29,20 +29,14 @@ class TopicList {
 		return $last_post;
 	}
 	
-	protected function renderTopics() {
+	public function render($pagination) {
 		global $Page;
 		$Page->load('topiclist', array(
 			'topics' => $this->topics
 		));
-	}
-	
-	public function render($pagination) {
-		echo '<div id="topiclist">';
-			$this->renderTopics();
-			if($pagination === self::WITH_PAGINATION) {
-				$this->renderPagination();
-			}
-		echo '</div>';
+		if($pagination === self::WITH_PAGINATION) {
+			$this->renderPagination();
+		}
 	}
 		
 	protected static function makePaginationURI($page) {

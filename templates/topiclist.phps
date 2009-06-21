@@ -1,3 +1,4 @@
+<div id="topiclist">
 <?php foreach($topics as $topic_info): ?>
 <div class="<?php echo Topics::generateTopicClasses($topic_info) ?>">
  <h3><a href="<?php echo Topics::makeURI($topic_info['id'], $topic_info['post']) ?>">
@@ -14,3 +15,4 @@
  </ul>
 </div>
 <?php endforeach ?>
+</div>
