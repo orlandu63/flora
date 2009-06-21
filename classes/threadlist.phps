@@ -29,14 +29,16 @@ class ThreadList {
 				'<li>', Page::formatTime($post_info['toc'], $post_info['date']), '</li>',
 				'<li>',
 					sprintf('<a href="%s" title="reply to post">reply</a>',
-						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))),
-				'</li></ul><ul class="nav float-right inline-list">';
+						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))
+					),
+				'</li></ul>', '<ul class="nav float-right inline-list">';
 				$nav_links = $this->generateNavLinks($post_info, $key);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
 					echo '<li>',
 						sprintf('<a href="%s" title="go to %s post">%s</a>',
-							Topics::makeURI($this->topic['id'], $message_id), $title, $text),
+							Topics::makeURI($this->topic['id'], $message_id), $title, $text
+						),
 					'</li>';
 				}
 				echo '</ul></div>',
