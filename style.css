@@ -31,7 +31,7 @@ padding-bottom: .5em;
 border-bottom: 1px solid #ccc;
 }
 
-#topiclist a:visited {
+#topiclist a:visited, .post-body a:visited {
 color:purple;
 }
 

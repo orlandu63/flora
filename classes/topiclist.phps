@@ -58,7 +58,7 @@ class TopicList {
 			}
 			echo '</li>';
 		}
-		if($this->page !== $num_pages) {
+		if($this->page < $num_pages) {
 			echo '<li><a href="', self::makePaginationURI($this->page + 1), '">next</a></li>';
 		}
 		echo '<li id="forum-stats" class="float-right">',

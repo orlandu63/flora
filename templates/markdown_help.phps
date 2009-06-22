@@ -8,6 +8,6 @@
 <em>1. </em>ordered list<br/>
 <em># </em>h1 … <em>###### </em>h6<br/>
 <em>> </em>blockquote<br/>
-<em>(text)[url]</em><br/>
-<em>![alt text](image url)</em></code>
+<em>[text](url)</em><br/>
+<em>!(alt text)[image url]</em></code>
 </div>
