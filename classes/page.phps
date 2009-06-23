@@ -1,7 +1,6 @@
 <?php
 class Page extends STemplator {
 	const FORUM_NAME = 'UAMB';
-	const ABSOLUTE_PATH = 'http://scrap.ath.cx:99/uamb/';
 	
 	const DEFAULT_ANNOUNCEMENT =
 		'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
@@ -62,12 +61,20 @@ class Page extends STemplator {
 		return $uri;
 	}
 	
-	public static function redirect($uri) {
+	public static function status($status_code) {
+		header('Status: ' . $status_code);
+	}
+	
+	public static function redirect($uri, $status_code) {
+		self::status($status_code);
 		header('Location: ' . $uri);
 		self::terminate();
 	}
 	
-	public static function error($error) {
+	public static function error($error, $status_code = null) {
+		if($status_code) {
+			self::status($status_code);
+		}
 		echo '<p id="error">', $error, '</p>';
 	}
 	

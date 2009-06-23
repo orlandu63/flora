@@ -42,7 +42,7 @@ try {
 	
 	$valid = true;
 } catch(Exception $exception) {
-	Page::error($exception->getMessage());
+	Page::error($exception->getMessage(), 400);
 	$valid = false;
 }
 
@@ -64,8 +64,7 @@ if($valid) {
 			$new_topic_id = $new_info['id'];
 			$new_post_id = $new_info['post'];
 		}
-		header('HTTP/1.1 303 See Other');
-		Page::redirect(Page::ABSOLUTE_PATH . Topics::makeURI($new_topic_id, $new_post_id));
+		Page::redirect(BASE_PATH . Topics::makeURI($new_topic_id, $new_post_id), 303);
 	}
 }
 

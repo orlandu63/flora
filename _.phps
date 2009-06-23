@@ -1,6 +1,7 @@
 <?php
 define('SOFTWARE', 'flora');
 define('VERSION', '1.0T');
+define('BASE_PATH', 'http://scrap.ath.cx:99/uamb/');
 define('CLASS_DIR', 'classes/');
 
 //these are located inside the include path

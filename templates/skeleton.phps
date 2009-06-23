@@ -18,6 +18,6 @@
 <p id="footer"><code>exec(new <?php echo SOFTWARE ?>('<?php echo VERSION ?>')) →
  <?php echo $time_index ?>
 </code></p>
-<?php $this->load('ga', array(), array('dir' => '')) /* so it uses include_path instead of templates/ */ ?>
+<?php $this->load('ga', array(), array('dir' => '')) /* so it uses include_path instead of templates/ dir */ ?>
 </body>
 </html>

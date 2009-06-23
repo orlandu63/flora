@@ -8,7 +8,7 @@ $Page->site_nav['Create a Topic'] = Page::makeURI(Page::PAGE_POST);
 
 $page_number = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
 if($page_number < 0) {
-	Page::error('Invalid page number');
+	Page::error('Invalid page number', 400);
 	return;
 }
 
