@@ -39,7 +39,7 @@ abstract class Topics {
 		if($topic_info['is_sticky']) {
 			$classes[] = 'sticky';
 		}
-		return implode(' ', $classes);
+		return $classes;
 	}
 	
 	public static function makeURI($id, $post_id) {

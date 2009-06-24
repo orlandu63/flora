@@ -109,12 +109,12 @@ color:#333;
 width:100%;
 }
 
-.post:target > .post-info-wrap,.post.new > .post-info-wrap {
+.post:target > .post-info-wrap {
 font-weight:700;
 }
 
 .reply-wrap {
-padding-left:.55em;
+padding-left:.5em;
 }
 
 .time {

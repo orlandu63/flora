@@ -56,7 +56,7 @@ abstract class Posts {
 	
 	public static function generatePostClasses(array $post_info) {
 		$classes = array('post');
-		return implode(' ', $classes);
+		return $classes;
 	}
 	
 	public static function getTopicById($id) {
