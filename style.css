@@ -13,8 +13,18 @@ display:block;
 }
 
 #footer {
+border-top:2px solid #ccc;
 font-size:small;
-border-top: 2px solid #ccc;
+}
+
+#markdown-help em {
+background:#eee;
+font-style:normal;
+}
+
+#pages > #forum-stats {
+border-left:none;
+padding-left:0;
 }
 
 #threadlist > .post {
@@ -26,12 +36,7 @@ color:red;
 content:'!!!';
 }
 
-.topic {
-padding-bottom: .5em;
-border-bottom: 1px solid #ccc;
-}
-
-#topiclist a:visited, .post-body a:visited {
+#topiclist a:visited,.post-body a:visited {
 color:purple;
 }
 
@@ -44,12 +49,28 @@ color:red;
 content:' *';
 }
 
+.float-left {
+float:left;
+}
+
 .float-right {
 float:right;
 }
 
-.float-left {
-float:left;
+.float-wrap {
+overflow:hidden;
+}
+
+.inline-list {
+list-style:none;
+margin:0;
+padding:0;
+}
+
+.inline-list li + li {
+border-left:1px solid #dde;
+margin-left:.35em;
+padding-left:.35em;
 }
 
 .nav a {
@@ -70,33 +91,16 @@ overflow:auto;
 padding-left:.2em;
 }
 
+.post-body a {
+padding:0;
+}
+
 .post-body a:hover {
 background:inherit;
 }
 
-.post-info {
+.post-info,.inline-list li {
 display:inline;
-}
-
-.inline-list {
-list-style:none;
-margin:0;
-padding:0;
-}
-
-.inline-list li {
-display:inline;
-}
-
-.inline-list li + li {
-border-left: 1px solid #dde;
-padding-left: .35em;
-margin-left: .35em;
-}
-
-#pages > #forum-stats {
-border-left: none;
-padding-left: 0;
 }
 
 .post-info-wrap {
@@ -105,11 +109,7 @@ color:#333;
 width:100%;
 }
 
-.float-wrap {
-overflow:hidden;
-}
-
-.post:target > .post-info-wrap, .post.new > .post-info-wrap {
+.post:target > .post-info-wrap,.post.new > .post-info-wrap {
 font-weight:700;
 }
 
@@ -121,14 +121,15 @@ padding-left:.55em;
 font-size:small;
 }
 
+.topic {
+border-bottom:1px solid #ccc;
+padding-bottom:.5em;
+}
+
 a {
 color:blue;
 padding:2px;
 text-decoration:none;
-}
-
-.post-body a {
-padding: 0
 }
 
 a:hover {
@@ -150,23 +151,14 @@ margin:0 auto;
 width:99%;
 }
 
-#markdown-help em {
-background: #eee;
-font-style: normal
-}
-
-textarea, input[type="text"] {
-max-width: 100%
-}
-
-img {
-max-width:100%
-}
-
 label {
 cursor:pointer;
 }
 
 p {
 margin:.9em 0 0;
+}
+
+textarea,input[type="text"],img {
+max-width:100%;
 }
