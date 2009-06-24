@@ -9,7 +9,7 @@
   <li><?php echo $topic_info['replies'] ?> replies</li>
   <li>last post 
    <a href="<?php echo Topics::makeURI($topic_info['id'], $topic_info['last_post_id']) ?>">
-    <?php echo Page::formatTime($topic_info['last_post'], $topic_info['last_post_date']) ?>
+    <?php echo Page::formatTime($topic_info['last_post']) ?>
    </a> by <?php echo User::author($topic_info['last_post_author']) ?>
   </li>
  </ul>

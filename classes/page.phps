@@ -129,9 +129,8 @@ class Page extends STemplator {
 		));
 	}
 		
-	public static function formatTime($timestamp, $date = null, $max_precision = 2) {
+	public static function formatTime($timestamp, $max_precision = 2) {
 		static $html_format = '<span class="time" title="%s">%s ago</span>';
-		static $date_format = 'Y-m-d H:i:s';
 		static $periods = array(
 				2629743 => 'mth',
 				604800 => 'wk',
@@ -164,9 +163,6 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($html_format,
-			($date === null ? date($date_format, $timestamp) : $date),
-			implode($durations, ', ')
-		);
+		return sprintf($html_format, date('r', $timestamp), implode($durations, ', '));
 	}
 }

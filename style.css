@@ -127,6 +127,10 @@ padding:2px;
 text-decoration:none;
 }
 
+.post-body a {
+padding: 0
+}
+
 a:hover {
 background:#B0C4DE;
 }
