@@ -1,4 +1,5 @@
-<div class="<?php echo implode(' ', Posts::generatePostClasses($post_info)) ?>"<?php if($id) echo ' id="', $id, '"' ?>>
+<?php $post_classes = Posts::generatePostClasses($post_info) ?>
+<div class="<?php echo implode(' ', $post_classes) ?>"<?php if($html_id) echo ' id="', $html_id, '"' ?>>
 <div class="post-info-wrap">
  <ul class="post-info inline-list">
   <li>by <?php echo User::author($post_info['author'], User::generateUserClasses($post_info)) ?></li>

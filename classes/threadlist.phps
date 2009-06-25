@@ -21,7 +21,7 @@ class ThreadList {
 			$post_info_has_children = !empty($this->children[$post_info['id']]);
 			$post_classes = Posts::generatePostClasses($post_info);
 			$user_classes = $this->generateUserClasses($post_info);
-			echo '<div class="', implode($post_classes), '" id="', Posts::htmlId($post_info['id']), '">',
+			echo '<div class="', implode(' ', $post_classes), '" id="', Posts::htmlId($post_info['id']), '">',
 				'<div class="post-info-wrap float-wrap">', '<ul class="post-info float-left inline-list">',
 				'<li>by ',
 					User::author($post_info['author'], $user_classes),
@@ -44,7 +44,7 @@ class ThreadList {
 				echo '</ul></div>',
 				'<div class="post-body">', $post_info['body'], '</div>';
 			if($post_info_has_children) {
-				echo '<div class="reply-wrap">';
+				echo '<div class="replies">';
 					$this->renderThread($post_info['id']);
 				echo '</div>';
 			}
