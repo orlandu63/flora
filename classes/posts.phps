@@ -45,9 +45,6 @@ abstract class Posts {
 	public static function display($id) {
 		global $Page;
 		$post_info = (is_array($id) ? $id : self::getInfo($id));
-		if(isset($post_info['id']) && !isset($post_info['topic'])) {
-			$post_info['topic'] = self::getTopicById($post_info['id']);
-		}
 		$Page->load('post_view', array(
 			'html_id' => (isset($post_info['id']) ? self::htmlId($post_info['id']) : ''),
 			'post_info' => $post_info

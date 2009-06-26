@@ -3,9 +3,9 @@ class User {
 	const ANON_NAME = 'anon';
 	const MAX_AUTHOR_LENGTH = 10;
 
-	public static $ip, $name, $last_active;
+	public static $ip, $name;
 	
-	public function __construct() {
+	private function __construct() {
 		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);
 		self::$name = self::getAuthorCookie();
 		register_shutdown_function(array(__CLASS__, 'save'));
@@ -18,7 +18,6 @@ class User {
 	}
 	
 	public static function author($author, array $classes = array()) {
-		$classes[] = 'author';
 		return '<span class="' . implode($classes, ' ') . '">' .
 			($author ? $author : self::ANON_NAME) .
 		'</span>';
@@ -35,7 +34,7 @@ class User {
 	}
 	
 	public static function generateUserClasses() {
-		return array();
+		return array('user');
 	}
 
 	public static function getAuthorCookie() {

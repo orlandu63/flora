@@ -44,7 +44,7 @@ color:purple;
 margin:.6em 0;
 }
 
-.author.tc:after {
+.user.tc:after {
 color:red;
 content:' *';
 }
@@ -114,7 +114,7 @@ font-weight:700;
 }
 
 .replies {
-padding-left:.5em;
+padding-left:.35em;
 }
 
 .time {
