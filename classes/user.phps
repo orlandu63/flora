@@ -18,7 +18,7 @@ class User {
 	}
 	
 	public static function author($author, array $classes = array()) {
-		return '<span class="' . implode($classes, ' ') . '">' .
+		return '<span class="' . implode(' ', $classes) . '">' .
 			($author ? $author : self::ANON_NAME) .
 		'</span>';
 	}
