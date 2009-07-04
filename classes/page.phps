@@ -130,13 +130,13 @@ class Page extends STemplator {
 	}
 		
 	public static function formatTime($timestamp, $max_precision = 2) {
-		static $html_format = '<span class="time" title="%s">%s ago</span>';
-		static $periods = array(
-				2629743 => 'mth',
-				604800 => 'wk',
-				86400 => 'day',
-				3600 => 'hr',
-				60 => 'min'
+		$html_format = '<span class="time" title="%s">%s ago</span>';
+		$periods = array(
+			2629743 => 'mth',
+			604800 => 'wk',
+			86400 => 'day',
+			3600 => 'hr',
+			60 => 'min'
 		);
 		
 		$seconds = time() - $timestamp;

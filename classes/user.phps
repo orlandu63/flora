@@ -18,6 +18,9 @@ class User {
 	}
 	
 	public static function author($author, array $classes = array()) {
+		if(empty($classes)) {
+			$classes = self::generateUserClasses();
+		}
 		return '<span class="' . implode(' ', $classes) . '">' .
 			($author ? $author : self::ANON_NAME) .
 		'</span>';

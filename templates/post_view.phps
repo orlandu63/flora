@@ -2,7 +2,7 @@
 <div class="<?php echo implode(' ', $post_classes) ?>"<?php if($html_id) echo ' id="', $html_id, '"' ?>>
 <div class="post-info-wrap">
  <ul class="post-info inline-list">
-  <li>by <?php echo User::author($post_info['author'], User::generateUserClasses($post_info)) ?></li>
+  <li>by <?php echo User::author($post_info['author']) ?></li>
   <li><?php echo Page::formatTime($post_info['toc']) ?></li>
   <?php if(isset($post_info['id'])): ?>
   <li><a href="<?php echo Topics::makeURI($post_info['topic'], $post_info['id']) ?>"
