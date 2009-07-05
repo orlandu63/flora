@@ -22,9 +22,8 @@ background:#eee;
 font-style:normal;
 }
 
-#pages > #forum-stats {
-border-left:none;
-padding-left:0;
+#forum-stats:before {
+display: none;
 }
 
 #threadlist > .post {
@@ -67,10 +66,9 @@ margin:0;
 padding:0;
 }
 
-.inline-list li + li {
-border-left:1px solid #dde;
-margin-left:.35em;
-padding-left:.35em;
+.inline-list li + li:before {
+content: ' | ';
+color: #dde;
 }
 
 .post {
@@ -93,6 +91,10 @@ padding:0;
 
 .post-body a:hover {
 background:inherit;
+}
+
+.nav  a{
+padding: 0 .2em
 }
 
 .post-info,.inline-list li {
