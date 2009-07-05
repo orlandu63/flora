@@ -16,7 +16,7 @@
  <h2><?php echo $header ?></h2>
  <?php echo $contents ?>
 <p id="footer"><code>exec(new <?php echo SOFTWARE ?>('<?php echo VERSION ?>')) →
- <?php echo $time_index ?>s allocating <?php echo memory_get_peak_usage() ?> bytes
+ <?php echo $time_index ?>s allocating <?php echo $memory_alloc ?> bytes
 </code></p>
 </body>
 </html>

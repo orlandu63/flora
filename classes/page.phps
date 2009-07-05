@@ -47,6 +47,7 @@ class Page extends STemplator {
 		}
 		$this->contents = $contents;
 		$this->time_index = round(xdebug_time_index(), 2);
+		$this->memory_alloc = memory_get_peak_usage();
 		parent::output();
 	}
 	
@@ -132,11 +133,11 @@ class Page extends STemplator {
 	public static function formatTime($timestamp, $max_precision = 2) {
 		$html_format = '<span class="time" title="%s">%s ago</span>';
 		$periods = array(
-			2629743 => 'mth',
-			604800 => 'wk',
-			86400 => 'day',
-			3600 => 'hr',
-			60 => 'min'
+				2629743 => 'mth',
+				604800 => 'wk',
+				86400 => 'day',
+				3600 => 'hr',
+				60 => 'min'
 		);
 		
 		$seconds = time() - $timestamp;
