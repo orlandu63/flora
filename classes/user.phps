@@ -18,10 +18,14 @@ class User {
 	}
 	
 	public static function author($author, array $classes = array()) {
+<<<<<<< HEAD:classes/user.phps
 		if(empty($classes)) {
 			$classes = self::generateUserClasses();
 		}
 		return '<span class="' . implode(' ', $classes) . '">' .
+=======
+		return '<span class="' . implode($classes, ' ') . '">' .
+>>>>>>> f0b7415... inconsistency of the order of arguments:classes/user.phps
 			($author ? $author : self::ANON_NAME) .
 		'</span>';
 	}
