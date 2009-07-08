@@ -22,7 +22,7 @@ class User {
 			$classes = self::generateUserClasses();
 		}
 		return '<span class="' . implode(' ', $classes) . '">' .
-			($author ? $author : self::ANON_NAME) .
+			($author ?: self::ANON_NAME) .
 		'</span>';
 	}
 	
