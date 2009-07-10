@@ -13,6 +13,9 @@ if($page_number < 0) {
 }
 
 $Page->header = 'Topic Index';
+if($page_number > 0) {
+	$Page->header .= sprintf(', page %d', $page_number + 1);
+}
 $Page->page_id .= $page_number;
 
 $Topiclist = new Topiclist($page_number);
