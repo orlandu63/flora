@@ -6,7 +6,7 @@
  </a></h3>
  <ul class="topic-info inline-list">
   <li>by <?php echo User::author($topic_info['author']) ?></li>
-  <li><?php echo $topic_info['replies'] ?> replies</li>
+  <li><?php echo $topic_info['replies'] ?> repl<?php echo ($topic_info['replies'] === '1' ? 'y' : 'ies') ?></li>
   <li>last post 
    <a href="<?php echo Topics::makeURI($topic_info['id'], $topic_info['last_post_id']) ?>">
     <?php echo Page::formatTime($topic_info['last_post']) ?>
