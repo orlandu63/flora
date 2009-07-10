@@ -164,6 +164,6 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
-		return sprintf($html_format, date('r', $timestamp), implode($durations, ', '));
+		return sprintf($html_format, date('r', $timestamp), implode(', ', $durations));
 	}
 }
