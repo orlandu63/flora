@@ -8,7 +8,7 @@
  <?php if($type === Page::FORM_TOPIC): ?>
  <label>Title: <?php echo sprintf($input_format, Topics::MAX_TITLE_LENGTH, $data['title'], 'title') ?></label><br/>
  <?php endif ?>
- <label>Body: (you may use <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a>)<br/>
+ <label>Body: (you may use Markdown)<br/>
   <textarea name="body" cols="80" rows="10"><?php echo $data['body'] ?></textarea>
  </label><br/>
  <input type="submit" value="<?php echo $submit_value ?>" name="submit"/>
