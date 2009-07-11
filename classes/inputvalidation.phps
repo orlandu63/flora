@@ -28,10 +28,15 @@ abstract class InputValidation {
 		return (count($return) === 1 ? reset($return) : $return);
 	}
 	
-	public static function validateInt($name, $min, $max = false, $input = INPUT_GET) {
-		$options = array('options' =>
-			array('min_range' => $min, 'max_range' => ($max !== false ? $max : PHP_INT_MAX))
-		);
+	public static function validateInt($name, $min = false, $max = false, $input = INPUT_GET) {
+		$options = array();
+		if($min !== false) {
+			$options['min_range'] = $min;
+		}
+		if($max !== false) {
+			$options['max_range'] = $max;
+		}
+		$options = array('options' => $options);
 		$int = ($input ?
 			filter_input($input, $name, FILTER_VALIDATE_INT, $options) :
 			filter_var($name, FILTER_VALIDATE_INT, $options)
