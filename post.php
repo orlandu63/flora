@@ -1,13 +1,12 @@
 <?php
 require '_.phps';
-require CLASS_DIR . 'inputvalidation.phps';
 require 'markdown.phps';
 
 $Page->page_id = Page::PAGE_POST;
 $Page->title = $Page->header = 'Post';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
-$replying_to = filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
+$replying_to = InputValidation::validateInt('post', 1, Posts::count());
 $making_topic = !$replying_to;
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');

@@ -8,10 +8,15 @@ define('CLASS_DIR', 'classes/');
 require 'db.phps';
 require 'stemplator.phps';
 
-require CLASS_DIR . 'user.phps';
-require CLASS_DIR . 'page.phps';
-require CLASS_DIR . 'posts.phps';
-require CLASS_DIR . 'topics.phps';
+function load_class($name) {
+	require CLASS_DIR . $name . '.phps';
+}
+
+load_class('page');
+load_class('user');
+load_class('posts');
+load_class('topics');
+load_class('inputvalidation');
 
 $Page = new Page;
 $DB = new DB('flora');

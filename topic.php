@@ -1,14 +1,13 @@
 <?php
 require '_.phps';
-require CLASS_DIR . 'threadlist.phps';
+load_class('threadlist');
 
 $Page->page_id = Page::PAGE_TOPIC;
 $Page->title = 'Topic';
 $Page->header = 'Topic';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
-$topic = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-
+$topic = InputValidation::validateInt('id', 1, Topics::count());
 if(!Topics::exists($topic)) {
 	Page::error('Invalid topic ID', 404);
 	return;
