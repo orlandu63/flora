@@ -31,7 +31,12 @@ abstract class Topics {
 	
 	public static function count() {
 		global $DB;
-		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
+		return $DB->query('SELECT COUNT(*) FROM topic_info')->fetchColumn();
+	}
+	
+	public static function max() {
+		global $DB;
+		return $DB->query('SELECT MAX(id) FROM topic_info')->fetchColumn();
 	}
 
 	public static function generateTopicClasses(array $topic_info) {

@@ -7,7 +7,7 @@ $Page->title = 'Topic';
 $Page->header = 'Topic';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
-$topic = InputValidation::validateInt('id', 1, Topics::count());
+$topic = InputValidation::validateInt('id', 1, Topics::max());
 if(!Topics::exists($topic)) {
 	Page::error('Invalid topic ID', 404);
 	return;

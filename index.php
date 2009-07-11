@@ -7,7 +7,7 @@ $Page->site_nav['Home'] = '/';
 $Page->site_nav['Create a Topic'] = Page::makeURI(Page::PAGE_POST);
 $Page->header = 'Topic Index';
 
-$page_number = InputValidation::validateInt('page', 0, Topics::count() / Topiclist::PER_PAGE);
+$page_number = InputValidation::validateInt('page', 0, Topics::max() / Topiclist::PER_PAGE);
 if($page_number === false) {
 	Page::error('Invalid page number', 400);
 	return;

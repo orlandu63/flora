@@ -38,6 +38,11 @@ abstract class Posts {
 		return $DB->query('SELECT COUNT(*) FROM post_info')->fetchColumn();
 	}
 	
+	public static function max() {
+		global $DB;
+		return $DB->query('SELECT MAX(id) FROM post_info')->fetchColumn();
+	}
+	
 	public static function htmlId($id) {
 		return 'm' . $id;
 	}

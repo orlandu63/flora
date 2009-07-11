@@ -78,7 +78,7 @@ class ThreadList {
 			}
 		} elseif(!$post_has_children && !empty($sibling_stack)) {
 			$next_logical_post = array_pop($sibling_stack);
-			$nav_links[$next_logical_post] = array('↙', 'subsequent uncle of');
+			$nav_links[$next_logical_post] = array('↙', 'next logical');
 		}
 		if($post_has_children) {
 			$nav_links[$this->children[$post_info['id']][0]['id']] = array('↘¹', 'first reply of');
