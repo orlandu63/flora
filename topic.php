@@ -3,8 +3,7 @@ require '_.phps';
 load_class('threadlist');
 
 $Page->page_id = Page::PAGE_TOPIC;
-$Page->title = 'Topic';
-$Page->header = 'Topic';
+$Page->title = $Page->header = 'Topic';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $topic = InputValidation::validateInt('id', 1, Topics::max());

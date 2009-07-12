@@ -2,9 +2,10 @@
 abstract class Posts {
 	const MAX_BODY_LENGTH = 8000;
 	
-	public static function getInfo($id) {
+	public static function getInfo($id, $what = null) {
 		global $DB;
-		return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
+		$post_info = $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
+		return ($what ? $post_info[$what] : $post_info);
 	}
 	
 	public static function getOfTopic($topic) {
@@ -29,8 +30,7 @@ abstract class Posts {
 	}
 	
 	public static function exists($id) {
-		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE id = ?', $id)->fetchColumn();
+		return (bool)self::getInfo($id);
 	}
 	
 	public static function count() {
@@ -58,10 +58,5 @@ abstract class Posts {
 	
 	public static function generatePostClasses(array $post_info) {
 		return array('post');
-	}
-	
-	public static function getTopicById($id) {
-		global $DB;
-		return $DB->q('SELECT topic FROM post_info WHERE id = ?', $id)->fetchColumn();
 	}
 }

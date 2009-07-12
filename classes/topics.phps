@@ -2,9 +2,10 @@
 abstract class Topics {
 	const MAX_TITLE_LENGTH = 80;
 	
-	public static function getInfo($id) {
+	public static function getInfo($id, $what = null) {
 		global $DB;
-		return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
+		$topic_info = $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
+		return ($what ? $topic_info[$what] : $topic_info);
 	}
 	
 	public static function getList($page, $per_page) {
@@ -25,8 +26,7 @@ abstract class Topics {
 	}
 	
 	public static function exists($id) {
-		global $DB;
-		return $DB->q('SELECT 1 FROM topic_info WHERE id = ?', $id)->fetchColumn();
+		return (bool)self::getInfo($id);
 	}
 	
 	public static function count() {

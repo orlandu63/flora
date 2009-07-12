@@ -43,8 +43,12 @@ class TopicList {
 		return Page::makeURI(Page::PAGE_INDEX, ($page !== 0 ? array('page' => $page) : array()));
 	}
 	
+	public static function getNumPages() {
+		return (int)((Topics::count() - 1) / self::PER_PAGE);
+	}
+	
 	protected function renderPagination() {
-		$num_pages = (int)((Topics::count() - 1) / self::PER_PAGE);
+		$num_pages = self::getNumPages();
 		echo '<ul id="pages" class="inline-list"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
 		if($this->page !== 0 ) {
 			echo '<li><a href="', self::makePaginationURI($this->page - 1), '">prev</a></li>';

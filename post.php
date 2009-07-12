@@ -12,7 +12,7 @@ $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 
 if($replying_to && Posts::exists($replying_to)) {
-	$topic_info = Topics::getInfo(Posts::getTopicById($replying_to));
+	$topic_info = Topics::getInfo(Posts::getInfo($replying_to, 'topic'));
 	$Page->page_id .= $replying_to;
 	$Page->site_nav['Back to Post'] = Topics::makeURI($topic_info['id'], $replying_to);
 	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
