@@ -35,12 +35,12 @@ abstract class Posts {
 	
 	public static function count() {
 		global $DB;
-		return $DB->query('SELECT COUNT(*) FROM post_info')->fetchColumn();
+		return $DB->q('SELECT COUNT(*) FROM post_info')->fetchColumn();
 	}
 	
 	public static function max() {
 		global $DB;
-		return $DB->query('SELECT MAX(id) FROM post_info')->fetchColumn();
+		return $DB->q('SELECT MAX(id) FROM post_info')->fetchColumn();
 	}
 	
 	public static function htmlId($id) {

@@ -9,8 +9,7 @@ class TopicList {
 	protected $page = 0;
 	
 	public function __construct($page = 0) {
-		$this->page = (int)$page;
-		$offset = $this->page * self::PER_PAGE;
+		$this->page = $page;
 		$this->topics = Topics::getList($page, self::PER_PAGE);
 		if(!empty($this->topics)) {
 			Page::cache($this->determineLastPost());

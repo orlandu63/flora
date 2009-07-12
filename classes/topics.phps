@@ -11,7 +11,7 @@ abstract class Topics {
 	public static function getList($page, $per_page) {
 		global $DB;
 		$per_page = (int)$per_page;
-		return $DB->query('SELECT * FROM topics
+		return $DB->q('SELECT * FROM topics
 			ORDER BY is_sticky DESC, last_post_id DESC
 			LIMIT ' . ($page * $per_page) . ', ' . $per_page)->fetchAll();
 	}
@@ -31,12 +31,12 @@ abstract class Topics {
 	
 	public static function count() {
 		global $DB;
-		return $DB->query('SELECT COUNT(*) FROM topic_info')->fetchColumn();
+		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
 	}
 	
 	public static function max() {
 		global $DB;
-		return $DB->query('SELECT MAX(id) FROM topic_info')->fetchColumn();
+		return $DB->q('SELECT MAX(id) FROM topic_info')->fetchColumn();
 	}
 
 	public static function generateTopicClasses(array $topic_info) {
