@@ -16,7 +16,7 @@ abstract class Posts {
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
 			if($parent !== null) {
-				$topic = $DB->q('SELECT topic FROM post_info WHERE id = ?', $parent)->fetchColumn();
+				$topic = self::getInfo($parent, 'topic');
 			} elseif($topic === null) {
 				throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
 			}
