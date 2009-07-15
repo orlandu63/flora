@@ -9,8 +9,8 @@
   <li><?php echo $topic_info['replies'] ?> repl<?php echo ($topic_info['replies'] == 1 ? 'y' : 'ies') ?></li>
   <li>last post 
    <a href="<?php echo Topics::makeURI($topic_info['id'], $topic_info['last_post_id']) ?>">
-    <?php echo Page::formatTime($topic_info['last_post']) ?>
-   </a> by <?php echo User::author($topic_info['last_post_author']) ?>
+    <?php echo Page::formatTime($topic_info['last_post']) ?></a>
+	by <?php echo User::author($topic_info['last_post_author']) ?>
   </li>
  </ul>
 </div>
