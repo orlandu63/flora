@@ -15,17 +15,17 @@ abstract class Posts {
 
 	public static function make($parent, $author, $body, $topic = null) {
 		global $DB;
-			if($parent !== null) {
-				$topic = self::getInfo($parent, 'topic');
-			} elseif($topic === null) {
-				throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
-			}
-			$DB->q('INSERT INTO post_info (topic, parent, author, toc, ip) VALUES(?, ?, ?, UNIX_TIMESTAMP(), ?)',
-				$topic, $parent, $author, User::$ip);
-			$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
-			$post_id = $DB->lastInsertId();
-			$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
-				$post_id, $topic);
+		if($parent !== null) {
+			$topic = self::getInfo($parent, 'topic');
+		} elseif($topic === null) {
+			throw new InvalidArgumentException('ERROR: LOST CHILD. $parent = ' . $parent);
+		}
+		$DB->q('INSERT INTO post_info (topic, parent, author, toc, ip) VALUES(?, ?, ?, UNIX_TIMESTAMP(), ?)',
+			$topic, $parent, $author, User::$ip);
+		$DB->q('INSERT INTO post_data (body) VALUES(?)', $body);
+		$post_id = $DB->lastInsertId();
+		$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
+			$post_id, $topic);
 		return self::getInfo($post_id);
 	}
 	
