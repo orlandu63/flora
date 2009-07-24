@@ -51,7 +51,6 @@ abstract class Posts {
 		global $Page;
 		$post_info = (is_array($id) ? $id : self::getInfo($id));
 		$Page->load('post_view', array(
-			'html_id' => (isset($post_info['id']) ? self::htmlId($post_info['id']) : ''),
 			'post_info' => $post_info
 		));
 	}
