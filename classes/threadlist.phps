@@ -18,7 +18,7 @@ class ThreadList {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$parent];
 		foreach($children_of_parent as $key => $post_info) {
-			$post_info_has_children = !empty($this->children[$post_info['id']]);
+			$post_has_children = !empty($this->children[$post_info['id']]);
 			$post_classes = Posts::generatePostClasses($post_info);
 			$user_classes = $this->generateUserClasses($post_info);
 			echo '<div class="', implode(' ', $post_classes), '" id="', Posts::htmlId($post_info['id']), '">',
@@ -43,7 +43,7 @@ class ThreadList {
 				}
 				echo '</ul></div>',
 				'<div class="post-body">', $post_info['body'], '</div>';
-			if($post_info_has_children) {
+			if($post_has_children) {
 				echo '<div class="replies">';
 					$this->renderThread($post_info['id']);
 				echo '</div>';
@@ -60,7 +60,7 @@ class ThreadList {
 		return $user_classes;
 	}
 	
-	protected function generateNavLinks(array $post_info, $key) {
+	protected function generateNavLinks(array $post_info, $position) {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$post_info['parent']];
 		$post_has_children = !empty($this->children[$post_info['id']]);
@@ -68,13 +68,13 @@ class ThreadList {
 		if($post_info['parent'] !== null) {
 			$nav_links[$post_info['parent']] = array('↖', 'parent');
 		}
-		if(isset($children_of_parent[$key-1])) {
-			$nav_links[$children_of_parent[$key-1]['id']] = array('↑', 'preceding');
+		if(isset($children_of_parent[$position-1])) {
+			$nav_links[$children_of_parent[$position-1]['id']] = array('↑', 'preceding');
 		}
-		if(isset($children_of_parent[$key+1])) {
-			$nav_links[$children_of_parent[$key+1]['id']] = array('↓', 'proceeding');
+		if(isset($children_of_parent[$position+1])) {
+			$nav_links[$children_of_parent[$position+1]['id']] = array('↓', 'proceeding');
 			if($post_has_children) {
-				$sibling_stack[] = $children_of_parent[$key+1]['id'];
+				$sibling_stack[] = $children_of_parent[$position+1]['id'];
 			}
 		} elseif(!$post_has_children && !empty($sibling_stack)) {
 			$next_logical_post = array_pop($sibling_stack);
