@@ -1,6 +1,6 @@
 <div id="topiclist">
 <?php foreach($topics as $topic_info): ?>
-<div class="<?php echo implode(' ', Topics::generateTopicClasses($topic_info)) ?>">
+<div id="<?php echo Topics::htmlId($topic_info['id']) ?>" class="<?php echo implode(' ', Topics::generateTopicClasses($topic_info)) ?>">
  <h3><a href="<?php echo Topics::makeURI($topic_info['id'], $topic_info['post']) ?>">
   <?php echo $topic_info['title'] ?>
  </a></h3>

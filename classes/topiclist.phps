@@ -37,7 +37,7 @@ class TopicList {
 			$this->renderPagination();
 		}
 	}
-		
+	
 	protected static function makePaginationURI($page) {
 		return Page::makeURI(Page::PAGE_INDEX, ($page !== 0 ? array('page' => $page) : array()));
 	}

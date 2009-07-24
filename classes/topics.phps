@@ -39,6 +39,10 @@ abstract class Topics {
 		return $DB->q('SELECT MAX(id) FROM topic_info')->fetchColumn();
 	}
 
+	public static function htmlId($id) {
+		return 't' . $id;
+	}
+
 	public static function generateTopicClasses(array $topic_info) {
 		$classes = array('topic');
 		if($topic_info['is_sticky']) {
