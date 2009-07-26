@@ -1,6 +1,7 @@
 <?php
 abstract class Posts {
 	const MAX_BODY_LENGTH = 8000;
+	const POSTS_PER_SECOND = 0.1;
 	
 	public static function getInfo($id, $what = null) {
 		global $DB;
@@ -27,6 +28,11 @@ abstract class Posts {
 		$DB->q('UPDATE topic_info SET last_post_id = ?, replies = replies + 1 WHERE id = ?',
 			$post_id, $topic);
 		return self::getInfo($post_id);
+	}
+	
+	public static function getVanillaText($id) {
+		global $DB;
+		$DB->q('SELECT body_vanilla FROM post_data WHERE id = ?', $id)->fetchColumn();
 	}
 	
 	public static function exists($id) {
