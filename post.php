@@ -23,7 +23,7 @@ if($replying_to && Posts::exists($replying_to)) {
 
 try {
 	if(User::isFlooding()) {
-		throw new Exception('You can only post once every ' . (1 / Posts::POSTS_PER_SECOND) . ' seconds.');
+		throw new Exception(sprintf('You can only post once every %d seconds', (1 / Posts::POSTS_PER_SECOND)));
 	}
 
 	if($replying_to && !Posts::exists($replying_to)) {

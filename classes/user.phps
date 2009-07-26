@@ -32,8 +32,8 @@ class User {
 	
 	public static function isFlooding() {
 		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE
-			ip = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1', self::$ip, 1 / Posts::POSTS_PER_SECOND)->fetchColumn();
+		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
+			self::$ip, 1 / Posts::POSTS_PER_SECOND)->fetchColumn();
 	}
 	
 	public static function generateUserClasses() {
