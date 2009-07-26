@@ -17,7 +17,7 @@ class ThreadList {
 	protected function renderThread($parent) {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$parent];
-		foreach($children_of_parent as $key => $post_info) {
+		foreach($children_of_parent as $position => $post_info) {
 			$post_has_children = !empty($this->children[$post_info['id']]);
 			$post_classes = Posts::generatePostClasses($post_info);
 			$user_classes = $this->generateUserClasses($post_info);
@@ -32,7 +32,7 @@ class ThreadList {
 						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))
 					),
 				'</li></ul>', '<ul class="nav float-right inline-list">';
-				$nav_links = $this->generateNavLinks($post_info, $key);
+				$nav_links = $this->generateNavLinks($post_info, $position);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
 					echo '<li>',
