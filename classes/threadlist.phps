@@ -23,9 +23,7 @@ class ThreadList {
 			$user_classes = $this->generateUserClasses($post_info);
 			echo '<div class="', implode(' ', $post_classes), '" id="', Posts::htmlId($post_info['id']), '">',
 				'<div class="post-info-wrap float-wrap">', '<ul class="post-info float-left inline-list">',
-				'<li>by ',
-					User::author($post_info['author'], $user_classes),
-				'</li>',
+				'<li>by ', User::author($post_info['author'], $user_classes), '</li>',
 				'<li>', Page::formatTime($post_info['toc']), '</li>',
 				'<li>',
 					sprintf('<a href="%s" title="reply to post">reply</a>',
