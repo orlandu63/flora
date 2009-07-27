@@ -1,6 +1,6 @@
 <?php
 define('SOFTWARE', 'flora');
-define('VERSION', '1.0');
+define('VERSION', '1.1');
 define('BASE_PATH', 'http://scrap.ath.cx:99/uamb/');
 define('CLASS_DIR', 'classes/');
 
