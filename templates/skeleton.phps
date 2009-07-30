@@ -15,8 +15,9 @@
  </ul>
  <h2><?php echo $header ?></h2>
  <?php echo $contents ?>
-<p id="footer"><code>exec(new <?php echo SOFTWARE ?>('<?php echo VERSION ?>')) →
- <?php echo $time_index ?>s allocating <?php echo $memory_alloc ?> bytes
+<p id="footer"><code>
+ <?php printf('exec(new %s(\'%s\')) → %.2fs allocating %d bytes, using %d template(s)',
+	SOFTWARE, VERSION, $time_index, $memory_alloc, self::$num_tpls) ?>
 </code></p>
 </body>
 </html>

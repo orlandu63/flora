@@ -13,20 +13,18 @@ class Page extends STemplator {
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
-	
-	public $do_output = true;
+
 	protected $wd;
 
 	public function __construct() {
-		self::$dir = 'templates/';
-		self::$ext = '.phps';
+		$this->wd = getcwd();
+		$this->setDirExt('templates/', '.phps');
 		parent::__construct('skeleton');
-		$this->initializeVariables();
+		$this->initializeTemplateVars();
 		ob_start();
 	}
 	
-	protected function initializeVariables() {
-		$this->wd = getcwd();
+	protected function initializeTemplateVars() {
 		$this->page_id = null;
 		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
 		$this->site_nav = array();
@@ -42,12 +40,13 @@ class Page extends STemplator {
 	}
 	
 	public function output() {
-		$contents = ob_get_clean();
 		if(!$this->do_output) {
+			ob_clean();
 			return;
 		}
+		$contents = ob_get_clean();
 		$this->contents = $contents;
-		$this->time_index = round(xdebug_time_index(), 2);
+		$this->time_index = xdebug_time_index();
 		$this->memory_alloc = memory_get_peak_usage();
 		parent::output();
 	}
