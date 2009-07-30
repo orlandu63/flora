@@ -52,7 +52,7 @@ if($valid) {
 			echo ' ', $title;
 		}
 		echo '</h3>';
-		Posts::display(array('body' => $body, 'author' => $author, 'toc' => time()));
+		Posts::display(array('body' => $body, 'author' => $author, 'toc' => $_SERVER['REQUEST_TIME']));
 	} elseif($submit) {
 		if($replying_to) {
 			$new_info = Posts::make($replying_to, $author, $body);

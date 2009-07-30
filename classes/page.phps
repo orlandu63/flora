@@ -141,7 +141,7 @@ class Page extends STemplator {
 				60 => 'min'
 		);
 		
-		$seconds = time() - $timestamp;
+		$seconds = $_SERVER['REQUEST_TIME'] - $timestamp;
 
 		$durations = array();
 		$precision = 0;

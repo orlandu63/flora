@@ -30,11 +30,6 @@ abstract class Posts {
 		return self::getInfo($post_id);
 	}
 	
-	public static function getVanillaText($id) {
-		global $DB;
-		$DB->q('SELECT body_vanilla FROM post_data WHERE id = ?', $id)->fetchColumn();
-	}
-	
 	public static function exists($id) {
 		return (bool)self::getInfo($id);
 	}
