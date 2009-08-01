@@ -21,12 +21,10 @@ class User {
 		if(empty($classes)) {
 			$classes = self::generateUserClasses();
 		}
-		return '<span class="' . implode(' ', $classes) . '">' .
-			($author ?: self::ANON_NAME) .
-		'</span>';
+		return sprintf('<span class="%s">%s</span>', implode(' ', $classes), ($author ?: self::ANON_NAME));
 	}
 	
-	public static function refresh() {
+	public static function reload() {
 		new self;
 	}
 	

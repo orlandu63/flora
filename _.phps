@@ -20,4 +20,4 @@ load_class('inputvalidation');
 
 $Page = new Page;
 $DB = new DB('flora');
-User::refresh();
+User::reload();

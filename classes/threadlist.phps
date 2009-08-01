@@ -33,11 +33,9 @@ class ThreadList {
 				$nav_links = $this->generateNavLinks($post_info, $position);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;
-					echo '<li>',
-						sprintf('<a href="%s" title="go to %s post">%s</a>',
-							Topics::makeURI($this->topic['id'], $message_id), $title, $text
-						),
-					'</li>';
+					printf('<li><a href="%s" title="go to %s post">%s</a></li>',
+						Topics::makeURI($this->topic['id'], $message_id), $title, $text
+					);
 				}
 				echo '</ul></div>',
 				'<div class="post-body">', $post_info['body'], '</div>';
@@ -79,7 +77,8 @@ class ThreadList {
 			$nav_links[$next_logical_post] = array('↙', 'next logical');
 		}
 		if($post_has_children) {
-			$nav_links[$this->children[$post_info['id']][0]['id']] = array('↘¹', 'first reply of');
+			$first_child = $this->children[$post_info['id']][0]['id'];
+			$nav_links[$first_child] = array('↘¹', 'first reply of');
 		}
 		$nav_links[$post_info['id']] = array(
 			'#' . str_pad($post_info['id'], $this->max_id_length, '0', STR_PAD_LEFT), 'this'
