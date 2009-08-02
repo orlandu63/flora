@@ -23,7 +23,7 @@ try {
 
 $search_results = Topics::search($query);
 if(empty($search_results)) {
-	Page::error('No results.', 400);
+	Page::error('No results. Your search is too vague or too narrow or is composed fully of stopwords.', 400);
 } else {
 	$Topiclist = new Topiclist($search_results);
 	$Topiclist->render();
