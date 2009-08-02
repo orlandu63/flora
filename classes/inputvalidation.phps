@@ -54,18 +54,18 @@ abstract class InputValidation {
 		}
 	}
 	
-	public static function validateAuthor($sub = null) {
+	public static function validateAuthor($sub = null, $name = 'name') {
 		$author = ($sub ?: trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS)));
-		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH, 0);
+		self::validateLength($name, $author, User::MAX_AUTHOR_LENGTH, 0);
 		return $author;
 	}
 	
-	public static function validateBody($sub = null) {
+	public static function validateBody($sub = null, $name = 'body') {
 		$body = ($sub ?: filter_input(INPUT_POST, 'body'));
 		//validate before and after so that this weak server wont have to parse a huge piece of text
 		$validateLength = function() use($body) {
 			$self = __CLASS__;
-			$self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 1);
+			$self::validateLength($name, $body, Posts::MAX_BODY_LENGTH, 1);
 		};
 		$validateLength();
 		$parser = Markdown::getInstance();
@@ -74,9 +74,9 @@ abstract class InputValidation {
 		return $body;
 	}
 	
-	public static function validateTitle($sub = null) {
+	public static function validateTitle($sub = null, $name = 'title') {
 		$title = ($sub ?: trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS)));
-		self::validateLength('title', $title, Topics::MAX_TITLE_LENGTH);
+		self::validateLength($name, $title, Topics::MAX_TITLE_LENGTH);
 		return $title;
 	}
 }

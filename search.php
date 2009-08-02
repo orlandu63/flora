@@ -15,15 +15,17 @@ if(!filter_has_var(INPUT_POST, 'submit')) {
 }
 
 try {
-	$query = InputValidation::validateTitle(filter_input(INPUT_POST, 'query'));
+	$query = InputValidation::validateTitle(filter_input(INPUT_POST, 'query'), 'query');
 } catch(Exception $exception) {
 	Page::error($exception->getMessage(), 400);
 	return;
 }
 
+$Page->header .= ': ' . $query;
+
 $search_results = Topics::search($query);
 if(empty($search_results)) {
-	Page::error('No results. Your search is too vague or too narrow or is composed fully of stopwords.', 400);
+	Page::error('No results.', 404);
 } else {
 	$Topiclist = new Topiclist($search_results);
 	$Topiclist->render();
