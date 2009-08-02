@@ -41,7 +41,7 @@ abstract class InputValidation {
 			filter_input($input, $name, FILTER_VALIDATE_INT, $options) :
 			filter_var($name, FILTER_VALIDATE_INT, $options)
 		);
-		return $int;
+		return (int)$int;
 	}
 	
 	public static function validateLength($name, $data, $max_length, $min_length = 1) {

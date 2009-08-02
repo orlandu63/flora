@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" id="<?php echo $page_id ?>">
 <head>
  <title><?php if(isset($title)) echo $title, ' :: '; echo Page::FORUM_NAME ?> Message Board</title>
- <link rel="stylesheet" href="style.css" type="text/css"/>
+ <link rel="stylesheet" href="<?php echo Page::fingerprint('style.css') ?>" type="text/css"/>
  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
 </head>
 <body>

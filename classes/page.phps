@@ -8,11 +8,14 @@ class Page extends STemplator {
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
 	const PAGE_POST = 'post';
+	const PAGE_SEARCH = 'search';
 	
 	const PAGE_SUFFIX = '.php';
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
+	
+	static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
 
 	protected $wd;
 
@@ -51,8 +54,11 @@ class Page extends STemplator {
 		parent::output();
 	}
 	
-	public static function makeURI($name, array $params = array(), $hash = null) {
-		$uri = $name . self::PAGE_SUFFIX;
+	public static function makeURI($name, array $params = array(), $hash = null, $suffix = self::PAGE_SUFFIX) {
+		$uri = $name;
+		if($suffix) {
+			$uri .= $suffix;
+		}
 		if(!empty($params)) {
 			$uri .= '?' . http_build_query($params);
 		}
@@ -90,13 +96,17 @@ class Page extends STemplator {
 		}
 	}
 	
+	public static function fingerprint($file, array $extra_params = array()) {
+		$params = array('v' => base_convert(filemtime($file), 10, 36)) + $extra_params;
+		return self::makeURI($file, $params, null, null);
+	}
+	
 	public static function terminate() {
 		$this->do_output = false;
 		die;
 	}
 	
 	public function displayPostForm($type, array $data = array()) {
-		static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
 		if(empty($data)) {
 			$data = array(
 				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
@@ -119,11 +129,10 @@ class Page extends STemplator {
 				$submit_value = 'Make Topic';
 				break;
 		}
-		$this->load('post_form', array(
+		$this->load('forms/post', array(
 			'header' => $header,
 			'params' => $params,
 			'legend' => $legend,
-			'input_format' => $input_format,
 			'type' => $type,
 			'data' => $data,
 			'submit_value' => $submit_value

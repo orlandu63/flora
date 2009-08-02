@@ -25,6 +25,12 @@ abstract class Topics {
 		return self::getInfo($topic_id);
 	}
 	
+	public static function search($text) {
+		global $DB;
+		return $DB->q('SELECT SQL_NO_CACHE * FROM topics WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)', $text)
+			->fetchAll();
+	}
+	
 	public static function exists($id) {
 		return (bool)self::getInfo($id);
 	}

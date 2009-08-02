@@ -2,15 +2,10 @@
 class TopicList {
 	const PER_PAGE = 30;
 	
-	const WITH_PAGINATION = 1;
-	const WITHOUT_PAGINATION = 2;
-	
 	protected $topics = array();
-	protected $page = 0;
 	
-	public function __construct($page = 0) {
-		$this->page = (int)$page;
-		$this->topics = Topics::getList($page, self::PER_PAGE);
+	public function __construct(array $topics) {
+		$this->topics = $topics;
 		if(!empty($this->topics)) {
 			Page::cache($this->determineLastPost());
 		}
@@ -28,44 +23,41 @@ class TopicList {
 		return $last_post;
 	}
 	
-	public function render($pagination) {
+	public function render() {
 		global $Page;
 		$Page->load('topiclist', array(
 			'topics' => $this->topics
 		));
-		if($pagination === self::WITH_PAGINATION) {
-			$this->renderPagination();
-		}
 	}
 	
 	protected static function makePaginationURI($page) {
 		return Page::makeURI(Page::PAGE_INDEX, ($page !== 0 ? array('page' => $page) : array()));
 	}
 	
-	public static function getNumPages() {
-		return (int)((Topics::count() - 1) / self::PER_PAGE);
+	public static function getNumPages($total) {
+		return (int)(($total - 1) / self::PER_PAGE);
 	}
 	
-	protected function renderPagination() {
-		$num_pages = self::getNumPages();
+	public function renderPagination($page, $total) {
+		$num_pages = self::getNumPages($total);
 		echo '<ul id="pages" class="inline-list"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
-		if($this->page !== 0 ) {
-			echo '<li><a href="', self::makePaginationURI($this->page - 1), '">prev</a></li>';
+		if($page !== 0 ) {
+			echo '<li><a href="', self::makePaginationURI($page - 1), '">prev</a></li>';
 		}
 		for($cur_page = 0; $cur_page <= $num_pages; ++$cur_page) {
 			echo '<li>';
-			if($cur_page === $this->page) {
+			if($cur_page === $page) {
 				echo $cur_page;
 			} else {
 				echo '<a href="', self::makePaginationURI($cur_page), '">', $cur_page, '</a>';
 			}
 			echo '</li>';
 		}
-		if($this->page < $num_pages) {
-			echo '<li><a href="', self::makePaginationURI($this->page + 1), '">next</a></li>';
+		if($page < $num_pages) {
+			echo '<li><a href="', self::makePaginationURI($page + 1), '">next</a></li>';
 		}
 		echo '<li id="forum-stats" class="float-right">',
-			sprintf('displaying %d of %d topics', count($this->topics), Topics::count()),
+			sprintf('displaying %d of %d topics', count($this->topics), $total),
 		'</li>';
 		echo '</ul>';
 	}
