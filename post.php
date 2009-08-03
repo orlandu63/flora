@@ -7,35 +7,38 @@ $Page->title = $Page->header = 'Post';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $replying_to = InputValidation::validateInt('post', 1, Posts::max());
+$post_exists = ($replying_to ? Posts::exists($replying_to) : null);
 $making_topic = !$replying_to;
+
 $submit = (bool)filter_input(INPUT_POST, 'submit');
 $preview = (bool)filter_input(INPUT_POST, 'preview');
 
-if($replying_to && Posts::exists($replying_to)) {
-	$topic_info = Topics::getInfo(Posts::getInfo($replying_to, 'topic'));
+if($replying_to && $post_exists) {
+	$post_info = Posts::getInfo($replying_to);
+	$topic_info = Topics::getInfo($post_info['topic']);
 	$Page->page_id .= $replying_to;
 	$Page->site_nav['Back to Post'] = Topics::makeURI($topic_info['id'], $replying_to);
 	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
 		$topic_info['title'],
 	'</a></h3>';
-	Posts::display($replying_to);
+	Posts::display($post_info);
 }
 
 try {
 	if(User::isFlooding()) {
-		throw new Exception(sprintf('You can only post once every %d seconds', (1 / Posts::POSTS_PER_SECOND)));
+		throw new Exception(sprintf('You can only post once every %d seconds.', (1 / Posts::POSTS_PER_SECOND)));
 	}
 
-	if($replying_to && !Posts::exists($replying_to)) {
+	if($replying_to && !$post_exists) {
 		throw new InvalidArgumentException('Post does not exist.');
 	}
 
 	if($submit || $preview) {
-		$author = InputValidation::validate(InputValidation::VALIDATE_AUTHOR);
+		$author = InputValidation::validateAuthor();
 		User::$name = $author;
-		$body = InputValidation::validate(InputValidation::VALIDATE_BODY);
+		$body = InputValidation::validateBody();
 		if($making_topic) {
-			$title = InputValidation::validate(InputValidation::VALIDATE_TITLE);
+			$title = InputValidation::validateTitle();
 		}
 	}
 	

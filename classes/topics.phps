@@ -27,7 +27,7 @@ abstract class Topics {
 	
 	public static function search($text) {
 		global $DB;
-		return $DB->q('SELECT SQL_NO_CACHE * FROM topics WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)', $text)
+		return $DB->q('SELECT * FROM topics WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)', $text)
 			->fetchAll();
 	}
 	

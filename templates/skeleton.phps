@@ -16,8 +16,8 @@
  <h2><?php echo $header ?></h2>
  <?php echo $contents ?>
 <p id="footer"><code>
- <?php printf('exec(new %s(\'%s\')) → %.2fs allocating %d bytes, using %d template%s',
-	SOFTWARE, VERSION, $time_index, $memory_alloc, self::$num_tpls, (self::$num_tpls !== 1 ? 's' : '')) ?>
+ <?php printf('exec(new %s(\'%s\')) → %.2fs allocating %s, using %d template(s) and %d query(s)',
+	SOFTWARE, VERSION, $time_index, $memory_alloc, self::$num_tpls, DB::$num_queries) ?>
 </code></p>
 </body>
 </html>

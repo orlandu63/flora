@@ -50,7 +50,7 @@ class Page extends STemplator {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		$this->time_index = xdebug_time_index();
-		$this->memory_alloc = memory_get_peak_usage();
+		$this->memory_alloc = round(memory_get_peak_usage() / 1024) . 'Kb';
 		parent::output();
 	}
 	
