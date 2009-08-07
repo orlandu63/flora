@@ -10,8 +10,9 @@ $replying_to = InputValidation::validateInt('post', 1, Posts::max());
 $post_exists = ($replying_to ? Posts::exists($replying_to) : null);
 $making_topic = !$replying_to;
 
-$submit = (bool)filter_input(INPUT_POST, 'submit');
-$preview = (bool)filter_input(INPUT_POST, 'preview');
+$submit = filter_has_var(INPUT_POST, 'submit');
+$preview = filter_has_var(INPUT_POST, 'preview');
+$form_submitted = $submit || $preview;
 
 if($replying_to && $post_exists) {
 	$post_info = Posts::getInfo($replying_to);
@@ -25,7 +26,7 @@ if($replying_to && $post_exists) {
 }
 
 try {
-	if(User::isFlooding()) {
+	if($form_submitted && User::isFlooding()) {
 		throw new Exception(sprintf('You can only post once every %d seconds.', (1 / Posts::POSTS_PER_SECOND)));
 	}
 
@@ -33,12 +34,12 @@ try {
 		throw new InvalidArgumentException('Post does not exist.');
 	}
 
-	if($submit || $preview) {
-		$author = InputValidation::validateAuthor();
+	if($form_submitted) {
+		$author = InputValidation::validateAuthor('author');
 		User::$name = $author;
-		$body = InputValidation::validateBody();
+		$body = InputValidation::validateBody('body');
 		if($making_topic) {
-			$title = InputValidation::validateTitle();
+			$title = InputValidation::validateTitle('title');
 		}
 	}
 	
@@ -67,6 +68,7 @@ if($valid) {
 			$new_post_id = $new_info['post'];
 		}
 		Page::redirect(BASE_PATH . Topics::makeURI($new_topic_id, $new_post_id), 303);
+		$Page->terminate();
 	}
 }
 

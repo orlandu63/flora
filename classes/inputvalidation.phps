@@ -1,4 +1,5 @@
 <?php
+define('FILTER_USER', -1);
 abstract class InputValidation {
 	const VALIDATE_AUTHOR = 1;
 	const VALIDATE_BODY = 2;
@@ -8,8 +9,15 @@ abstract class InputValidation {
 		'<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
 	protected static $length_exception_addendum =
 		'Note that "&lt;," "&gt;" and "&amp;" are actually 4, 4 and 5 characters in web form, respectively.';
+		
+	public static function filter_input($type, $variable, $filter = FILTER_DEFAULT, $options = null) {
+		return ($type !== FILTER_USER ?
+			filter_input($type, $variable, $filter, $options) :
+			filter_var($variable, $filter, $options)
+		);
+	}
 	
-	public static function validateInt($name, $min = false, $max = false, $input = INPUT_GET) {
+	public static function validateInt($name, $min = false, $max = false, $type = INPUT_GET) {
 		$options = array();
 		if($min !== false) {
 			$options['min_range'] = $min;
@@ -18,11 +26,8 @@ abstract class InputValidation {
 			$options['max_range'] = $max;
 		}
 		$options = array('options' => $options);
-		$int = ($input ?
-			filter_input($input, $name, FILTER_VALIDATE_INT, $options) :
-			filter_var($name, FILTER_VALIDATE_INT, $options)
-		);
-		return (int)$int;
+		$int = self::filter_input($type, $name, FILTER_VALIDATE_INT, $options);
+		return ($int !== false ? (int)$int : false);
 	}
 	
 	public static function validateLength($name, $data, $max_length, $min_length = 1) {
@@ -35,14 +40,15 @@ abstract class InputValidation {
 		}
 	}
 	
-	public static function validateAuthor() {
-		$author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
+	public static function validateAuthor($name, $filter = INPUT_POST) {
+		$author = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
+		$author = trim($author);
 		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH, 0);
 		return $author;
 	}
 	
-	public static function validateBody() {
-		$body = filter_input(INPUT_POST, 'body');
+	public static function validateBody($name, $filter = INPUT_POST) {
+		$body = self::filter_input($filter, $name);
 		//validate before and after so that this weak server wont have to parse a huge piece of text
 		$validateLength = function() use($body) {
 			$self = __CLASS__;
@@ -55,9 +61,17 @@ abstract class InputValidation {
 		return $body;
 	}
 	
-	public static function validateTitle() {
-		$title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
+	public static function validateTitle($name, $filter = INPUT_POST) {
+		$title = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
+		$title = trim($title);
 		self::validateLength('title', $title, Topics::MAX_TITLE_LENGTH);
 		return $title;
+	}
+	
+	public static function validateQuery($name, $filter = INPUT_POST) {
+		$query = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
+		$query = trim($query);
+		self::validateLength('query', $query, Topics::MAX_TITLE_LENGTH);
+		return $query;
 	}
 }

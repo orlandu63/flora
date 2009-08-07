@@ -75,7 +75,6 @@ class Page extends STemplator {
 	public static function redirect($uri, $status_code) {
 		self::status($status_code);
 		header('Location: ' . $uri);
-		self::terminate();
 	}
 	
 	public static function error($error, $status_code = null) {
@@ -88,12 +87,9 @@ class Page extends STemplator {
 		
 	public static function cache($last_modified) {
 		$etag = base_convert($last_modified, 10, 36);
-		header('Cache-Control: public, max-age=300');
+		header('Cache-Control: public, max-age=0');
 		header('Last-Modified: ' . date('r', $last_modified));
 		header('ETag: ' . $etag);
-		if($_SERVER['REQUEST_METHOD'] === 'HEAD') {
-			self::terminate();
-		}
 	}
 	
 	public static function fingerprint($file, array $extra_params = array()) {
@@ -101,7 +97,7 @@ class Page extends STemplator {
 		return self::makeURI($file, $params, null, null);
 	}
 	
-	public static function terminate() {
+	public function terminate() {
 		$this->do_output = false;
 		die;
 	}
