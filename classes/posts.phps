@@ -45,7 +45,7 @@ abstract class Posts {
 	}
 	
 	public static function htmlId($id) {
-		return 'm' . $id;
+		return 'p' . $id;
 	}
 	
 	public static function display($id) {

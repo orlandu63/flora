@@ -58,6 +58,6 @@ abstract class Topics {
 	}
 	
 	public static function makeURI($id, $post_id) {
-		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), 'm' . $post_id);
+		return Page::makeURI(Page::PAGE_TOPIC, array('id' => $id), Posts::htmlId($post_id));
 	}
 }
