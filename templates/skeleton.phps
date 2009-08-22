@@ -3,7 +3,7 @@
 <head>
  <title><?php if(isset($title)) echo $title, ' :: '; echo Page::FORUM_NAME ?> Message Board</title>
  <link rel="stylesheet" href="<?php echo Page::fingerprint('style.css') ?>" type="text/css"/>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
