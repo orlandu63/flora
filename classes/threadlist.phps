@@ -49,7 +49,7 @@ class ThreadList {
 	}
 	
 	protected function generateUserClasses(array $post_info) {
-		$user_classes =  User::generateUserClasses();
+		$user_classes = array();
 		if($this->topic['ip'] === $post_info['ip']) {
 			$user_classes[] = 'tc';
 		}

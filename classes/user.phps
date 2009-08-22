@@ -18,9 +18,7 @@ class User {
 	}
 	
 	public static function display($author, array $classes = array()) {
-		if(empty($classes)) {
-			$classes = self::generateUserClasses();
-		}
+		$classes = array_merge(self::generateUserClasses(), $classes);
 		return sprintf('<span class="%s">%s</span>', implode(' ', $classes), ($author ?: self::ANON_NAME));
 	}
 	
