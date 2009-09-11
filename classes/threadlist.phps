@@ -1,4 +1,6 @@
 <?php
+//i just realiezd that it's not really a thread list, more like a thread thread.. but am i that
+// pedantic to change it?
 class ThreadList {
 	public $topic = array(), $children = array();
 	protected $max_id_length;

@@ -134,22 +134,19 @@ class Page extends STemplator {
 			'submit_value' => $submit_value
 		));
 	}
-		
-	public static function formatTime($timestamp, $max_precision = 2) {
-		$html_format = '<span class="time" title="%s">%s ago</span>';
+	
+	//!!!i need to work on my terminology
+	public static function transformDuration($seconds, $max_precision = 2) {
 		$periods = array(
-				2629743 => 'mth',
-				604800 => 'wk',
-				86400 => 'day',
-				3600 => 'hr',
-				60 => 'min'
+			2629743 => 'mth',
+			604800 => 'wk',
+			86400 => 'day',
+			3600 => 'hr',
+			60 => 'min'
 		);
-		
-		$seconds = $_SERVER['REQUEST_TIME'] - $timestamp;
-
 		$durations = array();
 		$precision = 0;
-
+		
 		foreach($periods as $seconds_in_period => $period) {
 			if($seconds >= $seconds_in_period) {
 				$num_periods = (int)($seconds / $seconds_in_period);
@@ -160,7 +157,7 @@ class Page extends STemplator {
 				}
 			}
 		}
-
+		
 		if(empty($durations)) {
 			$durations = array('not long');
 		} else {
@@ -169,6 +166,16 @@ class Page extends STemplator {
 				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
 			}
 		}
+		
+		return $durations;
+	}
+		
+	public static function formatTime($timestamp) {
+		$html_format = '<span class="time" title="%s">%s ago</span>';
+		
+		$seconds = $_SERVER['REQUEST_TIME'] - $timestamp;
+		$durations = self::transformDuration($seconds);
+		
 		return sprintf($html_format, date('r', $timestamp), implode(', ', $durations));
 	}
 }
