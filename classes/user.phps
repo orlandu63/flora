@@ -7,19 +7,23 @@ class User {
 	
 	private function __construct() {
 		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);
-		self::$name = self::getAuthorCookie();
+		self::$name = self::getAuthor();
 		register_shutdown_function(array(__CLASS__, 'save'));
 	}
 	
 	public static function save() {
-		if(self::getAuthorCookie() !== self::$name) {
+		if(self::getAuthor() !== self::$name) {
 			setcookie('author', self::$name, $_SERVER['REQUEST_TIME'] + 60 * 60 * 24 * 365);
 		}
 	}
 	
-	public static function display($author, array $classes = array()) {
+	public static function display($author, $ip, array $classes = array()) {
 		$classes = array_merge(self::generateUserClasses(), $classes);
-		return sprintf('<span class="%s">%s</span>', implode(' ', $classes), ($author ?: self::ANON_NAME));
+		return sprintf('<span class="%s" title="trip: %s">%s</span>',
+			implode(' ', $classes),
+			substr(hash('md5', $ip), 0, 5),
+			($author ?: self::ANON_NAME)
+		);
 	}
 	
 	public static function reload() {
@@ -36,7 +40,7 @@ class User {
 		return array('user');
 	}
 
-	public static function getAuthorCookie() {
+	public static function getAuthor() {
 		return filter_input(INPUT_COOKIE, 'author');
 	}
 }
