@@ -2,12 +2,13 @@
 class User {
 	const ANON_NAME = 'anon';
 	const MAX_AUTHOR_LENGTH = 10;
+	const ID_LENGTH = 6;
 
-	public static $ip, $name;
+	public static $id, $name;
 	
 	private function __construct() {
-		self::$ip = ip2long($_SERVER['REMOTE_ADDR']);
-		self::$name = self::getAuthor();
+		self::$id = substr(hash('md5', ip2long($_SERVER['REMOTE_ADDR'])), 0, self::ID_LENGTH);
+		self::$name = substr(self::getAuthor(), 0, self::MAX_AUTHOR_LENGTH);
 		register_shutdown_function(array(__CLASS__, 'save'));
 	}
 	
@@ -17,11 +18,11 @@ class User {
 		}
 	}
 	
-	public static function display($author, $ip, array $classes = array()) {
+	public static function display($author, $id, array $classes = array()) {
 		$classes = array_merge(self::generateUserClasses(), $classes);
-		return sprintf('<span class="%s" title="trip: %s">%s</span>',
+		return sprintf('<span class="%s" title="id: %s">%s</span>',
 			implode(' ', $classes),
-			substr(hash('md5', $ip), 0, 5),
+			$id,
 			($author ?: self::ANON_NAME)
 		);
 	}
@@ -32,8 +33,8 @@ class User {
 	
 	public static function isFlooding() {
 		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE ip = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
-			self::$ip, (1 / Posts::POSTS_PER_SECOND))->fetchColumn();
+		return $DB->q('SELECT 1 FROM post_info WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
+			self::$id, (1 / Posts::POSTS_PER_SECOND))->fetchColumn();
 	}
 	
 	public static function generateUserClasses() {
