@@ -31,7 +31,8 @@ class ThreadList {
 					sprintf('<a href="%s" title="reply to post">reply</a>',
 						Page::makeURI(Page::PAGE_POST, array('post' => $post_info['id']))
 					),
-				'</li></ul>', '<ul class="nav float-right inline-list">';
+				'</li>',
+				'</ul><ul class="nav float-right inline-list">';
 				$nav_links = $this->generateNavLinks($post_info, $position);
 				foreach($nav_links as $message_id => $info) {
 					list($text, $title) = $info;

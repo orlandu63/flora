@@ -19,7 +19,7 @@ class User {
 	}
 	
 	public static function display($author, $id, array $classes = array()) {
-		$classes = array_merge(self::generateUserClasses(), $classes);
+		$classes = array_merge(self::generateUserClasses($author, $id), $classes);
 		return sprintf('<span class="%s" title="id: %s">%s</span>',
 			implode(' ', $classes),
 			$id,
@@ -37,8 +37,12 @@ class User {
 			self::$id, (1 / Posts::POSTS_PER_SECOND))->fetchColumn();
 	}
 	
-	public static function generateUserClasses() {
-		return array('user');
+	public static function generateUserClasses($author, $id) {
+		$classes = array('user');
+		if($id === '63dc48') { //that's me!
+			$classes[] = 'admin';
+		}
+		return $classes;
 	}
 
 	public static function getAuthor() {

@@ -1,12 +1,12 @@
 <h2><?php echo $header ?></h2>
-<form action="<?php echo Page::makeURI(Page::PAGE_POST, $params) ?>" method="post">
+<form action="<?php echo static::makeURI(static::PAGE_POST, $params) ?>" method="post">
 <fieldset class="float-wrap">
 <legend><?php echo $legend ?></legend>
  <div class="float-left">
- <label>Name: <?php printf(Page::$input_format, User::MAX_AUTHOR_LENGTH, $data['author'], 'author') ?></label>
+ <label>Name: <?php printf(static::$input_format, User::MAX_AUTHOR_LENGTH, $data['author'], 'author') ?></label>
   <small>(optional)</small><br/>
- <?php if($type === Page::FORM_TOPIC): ?>
- <label>Title: <?php printf(Page::$input_format, Topics::MAX_TITLE_LENGTH, $data['title'], 'title') ?></label><br/>
+ <?php if($type === static::FORM_TOPIC): ?>
+ <label>Title: <?php printf(static::$input_format, Topics::MAX_TITLE_LENGTH, $data['title'], 'title') ?></label><br/>
  <?php endif ?>
  <label>Body: (you may use Markdown →)<br/>
   <textarea name="body" cols="80" rows="10"><?php echo $data['body'] ?></textarea>

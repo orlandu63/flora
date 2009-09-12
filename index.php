@@ -4,7 +4,6 @@ load_class('topiclist');
 
 $Page->page_id = Page::PAGE_INDEX;
 $Page->header = 'Topic Index';
-$Page->site_nav['Home'] = '/';
 $Page->site_nav['Create a Topic'] = Page::makeURI(Page::PAGE_POST);
 $Page->site_nav['Search Topics'] = Page::makeURI(Page::PAGE_SEARCH);
 

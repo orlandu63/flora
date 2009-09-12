@@ -1,8 +1,8 @@
-<form action="<?php echo Page::makeURI(Page::PAGE_SEARCH) ?>" method="post">
+<form action="<?php echo static::makeURI(static::PAGE_SEARCH) ?>" method="post">
 <fieldset class="float-wrap">
 <legend>Search</legend>
  <div class="float-left">
-  <label>Query: <?php printf(Page::$input_format,
+  <label>Query: <?php printf(static::$input_format,
 	Topics::MAX_TITLE_LENGTH,
 	filter_input(INPUT_POST, 'query', FILTER_SANITIZE_SPECIAL_CHARS),
 	'query') ?></label>
