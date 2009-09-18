@@ -6,9 +6,8 @@ class ThreadList {
 	protected $max_id_length;
 
 	public function __construct($id) {
-		global $DB;
 		$this->topic = Topics::getInfo($id);
-		Page::cache($this->topic['last_post']);
+		Page::HTTPCache($this->topic['last_post']);
 		$posts = Posts::getOfTopic($id);
 		$this->max_id_length = strlen($this->topic['last_post_id']);
 		foreach($posts as $post) {

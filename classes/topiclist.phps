@@ -7,7 +7,7 @@ class TopicList {
 	public function __construct(array $topics) {
 		$this->topics = $topics;
 		if(!empty($this->topics)) {
-			Page::cache($this->determineLastPost());
+			Page::HTTPCache($this->determineLastPost());
 		}
 	}
 	

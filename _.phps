@@ -12,6 +12,15 @@ function load_class($name) {
 	require CLASS_DIR . $name . '.phps';
 }
 
+function memoize($key, Closure $callback, $overwrite = false) {
+	static $cache = array();
+	if(!array_key_exists($key, $cache) || $overwrite) {
+		$cache[$key] = $callback();
+	}
+	return $cache[$key];
+}
+
+
 load_class('page');
 load_class('user');
 load_class('posts');

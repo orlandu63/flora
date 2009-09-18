@@ -24,7 +24,7 @@ class Page extends STemplator {
 		$this->setDirExt('templates/', '.phps');
 		parent::__construct('skeleton');
 		$this->initializeTemplateVars();
-		ob_start();
+		header('Cache-Control: public, max-age=0');
 	}
 	
 	protected function initializeTemplateVars() {
@@ -50,7 +50,7 @@ class Page extends STemplator {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		$this->time_index = xdebug_time_index();
-		$this->memory_alloc = round(memory_get_peak_usage() / 1024) . 'Kib';
+		$this->memory_alloc = round(memory_get_peak_usage() >> 10) . 'Kib';
 		parent::output();
 	}
 	
@@ -85,14 +85,13 @@ class Page extends STemplator {
 	}
 	
 		
-	public static function cache($last_modified) {
+	public static function HTTPCache($last_modified) {
 		$etag = base_convert($last_modified, 10, 36);
 		header('Last-Modified: ' . date('r', $last_modified));
-		header('Cache-Control: public, max-age=0');
 		header('ETag: ' . $etag);
 	}
 	
-	public static function fingerprint($file, array $extra_params = array()) {
+	public static function makeFingerprintURI($file, array $extra_params = array()) {
 		$params = array('v' => base_convert(filemtime($file), 10, 36)) + $extra_params;
 		return self::makeURI($file, $params, null, null);
 	}

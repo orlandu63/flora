@@ -3,8 +3,10 @@ abstract class Topics {
 	const MAX_TITLE_LENGTH = 80;
 	
 	public static function getInfo($id, $what = null) {
-		global $DB;
-		$topic_info = $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
+		$topic_info = memoize("t-$id", function() use($id) {
+			global $DB;
+			return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
+		});
 		return ($what ? $topic_info[$what] : $topic_info);
 	}
 	
@@ -36,13 +38,17 @@ abstract class Topics {
 	}
 	
 	public static function count() {
-		global $DB;
-		return $DB->q('SELECT COUNT(*) FROM topic_info')->fetchColumn();
+		return memoize('t-count', function() {
+			global $DB;
+			return $DB->q('SELECT COUNT(*) FROM topics')->fetchColumn();
+		});
 	}
 	
 	public static function max() {
-		global $DB;
-		return $DB->q('SELECT MAX(id) FROM topic_info')->fetchColumn();
+		return memoize('t-max', function() {
+			global $DB;
+			return $DB->q('SELECT MAX(id) FROM topics')->fetchColumn();
+		});
 	}
 
 	public static function htmlId($id) {

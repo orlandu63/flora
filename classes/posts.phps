@@ -4,8 +4,10 @@ abstract class Posts {
 	const POSTS_PER_SECOND = 0.1;
 	
 	public static function getInfo($id, $what = null) {
-		global $DB;
-		$post_info = $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
+		$post_info = memoize("p-$id", function() use($id) {
+			global $DB;
+			return $DB->q('SELECT * FROM posts WHERE id = ?', $id)->fetch();
+		});
 		return ($what ? $post_info[$what] : $post_info);
 	}
 	
@@ -35,13 +37,17 @@ abstract class Posts {
 	}
 	
 	public static function count() {
-		global $DB;
-		return $DB->q('SELECT COUNT(*) FROM post_info')->fetchColumn();
+		return memoize('p-count', function() {
+			global $DB;
+			return $DB->q('SELECT COUNT(*) FROM posts')->fetchColumn();
+		});
 	}
 	
 	public static function max() {
-		global $DB;
-		return $DB->q('SELECT MAX(id) FROM post_info')->fetchColumn();
+		return memoize('p-max', function() {
+			global $DB;
+			return $DB->q('SELECT MAX(id) FROM posts')->fetchColumn();
+		});
 	}
 	
 	public static function htmlId($id) {

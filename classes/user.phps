@@ -33,7 +33,7 @@ class User {
 	
 	public static function isFlooding() {
 		global $DB;
-		return $DB->q('SELECT 1 FROM post_info WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
+		return $DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
 			self::$id, (1 / Posts::POSTS_PER_SECOND))->fetchColumn();
 	}
 	
