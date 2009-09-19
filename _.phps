@@ -3,6 +3,7 @@ define('SOFTWARE', 'flora');
 define('VERSION', '1.4-dev');
 define('BASE_PATH', 'http://scrap.ath.cx:99/uamb/');
 define('CLASS_DIR', 'classes/');
+define('DB_NAME', 'flora');
 
 //these are located inside the include path
 require 'db.phps';
@@ -20,13 +21,9 @@ function memoize($key, Closure $callback, $overwrite = false) {
 	return $cache[$key];
 }
 
-
-load_class('page');
-load_class('user');
-load_class('posts');
-load_class('topics');
-load_class('inputvalidation');
+$essential_classes = array('page', 'user', 'posts', 'topics', 'inputvalidation');
+array_map('load_class', $essential_classes);
 
 $Page = new Page;
-$DB = new DB('flora');
+$DB = new DB(DB_NAME);
 User::reload();

@@ -104,10 +104,10 @@ class Page extends STemplator {
 	public function displayPostForm($type, array $data = array()) {
 		if(empty($data)) {
 			$data = array(
-				'post' => filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
+				'post' => InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
 				'author' => User::$name,
-				'title' => filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
-				'body' => filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
+				'title' => InputValidation::filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
+				'body' => InputValidation::filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
 			);
 		}
 		$params = array();

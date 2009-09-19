@@ -5,6 +5,8 @@ abstract class InputValidation {
 	const VALIDATE_BODY = 2;
 	const VALIDATE_TITLE = 4;
 	
+	const SEARCH_MIN_WORD_LENGTH = 3;
+	
 	protected static $length_exception_format =
 		'<strong>%s</strong> must be between %d and %d characters long: its current length is %d character(s).';
 	protected static $length_exception_addendum =
