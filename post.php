@@ -7,14 +7,13 @@ $Page->title = $Page->header = 'Post';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $replying_to = InputValidation::validateInt('post', 1, Posts::max());
-$post_exists = ($replying_to ? Posts::exists($replying_to) : null);
 $making_topic = !$replying_to;
 
 $submit = filter_has_var(INPUT_POST, 'submit');
 $preview = filter_has_var(INPUT_POST, 'preview');
 $form_submitted = $submit || $preview;
 
-if($replying_to && $post_exists) {
+if($replying_to && Posts::exists($replying_to)) {
 	$post_info = Posts::getInfo($replying_to);
 	$topic_info = Topics::getInfo($post_info['topic']);
 	$Page->page_id .= $replying_to;
@@ -30,7 +29,7 @@ try {
 		throw new Exception(sprintf('You can only post once every %d seconds.', (1 / Posts::POSTS_PER_SECOND)));
 	}
 
-	if($replying_to && !$post_exists) {
+	if($replying_to && !Posts::exists($replying_to)) {
 		throw new InvalidArgumentException('Post does not exist.');
 	}
 

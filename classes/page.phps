@@ -151,9 +151,9 @@ class Page extends STemplator {
 				$num_periods = (int)($seconds / $seconds_in_period);
 				$durations[] = $num_periods . ' ' . $period . ($num_periods === 1 ? '' : 's');
 				$seconds -= $num_periods * $seconds_in_period;
-				if(++$precision >= $max_precision) {
-					break;
-				}
+			}
+			if(!empty($durations) && ++$precision >= $max_precision) {
+				break;
 			}
 		}
 		
