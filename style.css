@@ -91,12 +91,11 @@ border:1px solid #eee;
 border-right-width: 0;
 border-bottom-width: 0;
 margin-top:1em;
-padding-left:.2em;
 }
 
 .post-body {
 overflow:auto;
-padding-left:.2em;
+padding-left:.4em;
 }
 
 .post-body a {

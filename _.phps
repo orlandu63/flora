@@ -10,10 +10,10 @@ require 'db.phps';
 require 'stemplator.phps';
 
 function load_class($name) {
-	require CLASS_DIR . $name . '.phps';
+	require_once CLASS_DIR . $name . '.phps';
 }
 
-function memoize($key, Closure $callback, $overwrite = false) {
+function memoize($key, $callback, $overwrite = false) {
 	static $cache = array();
 	if(!array_key_exists($key, $cache) || $overwrite) {
 		$cache[$key] = $callback();

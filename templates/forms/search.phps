@@ -9,7 +9,7 @@
   <input type="submit" name="submit" value="Search"/>
  </div>
  <div class="float-right">
-  Query omits words &lt;= <?php echo InputValidation::SEARCH_MIN_WORD_LENGTH ?> characters and common words
+  Query omits words &lt; <?php echo InputValidation::SEARCH_MIN_WORD_LENGTH ?> characters and common words
  </div>
 </fieldset>
 </form>
