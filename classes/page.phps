@@ -15,7 +15,7 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 	
-	static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
+	static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
 
 	protected $wd;
 
@@ -50,7 +50,7 @@ class Page extends STemplator {
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		$this->time_index = xdebug_time_index();
-		$this->memory_alloc = (memory_get_peak_usage() >> 10) . 'Kib';
+		$this->memory_alloc = round(memory_get_peak_usage() >> 10) . 'Kib';
 		parent::output();
 	}
 	
@@ -107,12 +107,10 @@ class Page extends STemplator {
 				'post' => InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
 				'author' => User::$name,
 				'title' => InputValidation::filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
-				'body' => InputValidation::filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS),
-				'tags' => 'doesn\'t work',
+				'body' => InputValidation::filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
 			);
 		}
 		$params = array();
-		$labels = array('author' => 'Name', 'body' => 'Body');
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
@@ -123,8 +121,6 @@ class Page extends STemplator {
 			case self::FORM_TOPIC:
 				$header = 'Create a Topic';
 				$legend = 'Topic Info';
-				$labels += array('title' => 'title', 'tags' => 'Tags');
-				array_push($labels, 'Topic', 'Tags');
 				$submit_value = 'Make Topic';
 				break;
 		}
@@ -133,7 +129,6 @@ class Page extends STemplator {
 			'params' => $params,
 			'legend' => $legend,
 			'type' => $type,
-			'labels' => $labels,
 			'data' => $data,
 			'submit_value' => $submit_value
 		));
