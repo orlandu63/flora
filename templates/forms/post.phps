@@ -3,13 +3,13 @@
 <fieldset class="float-wrap">
 <legend><?php echo $legend ?></legend>
  <div class="float-left">
- <label>Name: <?php printf(Page::$input_format,  'author', $data['author'], User::MAX_AUTHOR_LENGTH) ?></label>
+ <label>Name: <?php echo $form->input('author', User::MAX_AUTHOR_LENGTH) ?></label>
   <small>(optional)</small><br/>
  <?php if($type === Page::FORM_TOPIC): ?>
- <label>Title: <?php printf(Page::$input_format, 'title', $data['title'], Topics::MAX_TITLE_LENGTH) ?></label><br/>
+ <label>Title: <?php echo $form->input('title', Topics::MAX_TITLE_LENGTH) ?></label><br/>
  <?php endif ?>
  <label>Body: (you may use Markdown →)<br/>
-  <textarea name="body" cols="80" rows="10"><?php echo $data['body'] ?></textarea>
+  <textarea name="body" cols="80" rows="10"><?php echo $form_data['body'] ?></textarea>
  </label><br/>
  <input type="submit" value="<?php echo $submit_value ?>" name="submit"/>
  <input type="submit" value="Preview" name="preview"/>

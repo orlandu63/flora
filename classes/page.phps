@@ -14,8 +14,6 @@ class Page extends STemplator {
 	
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
-	
-	static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
 
 	protected $wd;
 
@@ -101,9 +99,9 @@ class Page extends STemplator {
 		die;
 	}
 	
-	public function displayPostForm($type, array $data = array()) {
+	public function displayPostForm($type, array $form_data = array()) {
 		if(empty($data)) {
-			$data = array(
+			$form_data = array(
 				'post' => InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
 				'author' => User::$name,
 				'title' => InputValidation::filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
@@ -124,13 +122,15 @@ class Page extends STemplator {
 				$submit_value = 'Make Topic';
 				break;
 		}
-		$this->load('forms/post', array(
-			'header' => $header,
-			'params' => $params,
-			'legend' => $legend,
-			'type' => $type,
-			'data' => $data,
-			'submit_value' => $submit_value
+		$this->load(new Form('post',
+			$form_data,
+			array(
+				'header' => $header,
+				'params' => $params,
+				'legend' => $legend,
+				'type' => $type,
+				'submit_value' => $submit_value
+			)
 		));
 	}
 	

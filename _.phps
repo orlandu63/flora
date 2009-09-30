@@ -21,7 +21,7 @@ function memoize($key, $callback, $overwrite = false) {
 	return $cache[$key];
 }
 
-$essential_classes = array('page', 'user', 'posts', 'topics', 'inputvalidation');
+$essential_classes = array('page', 'user', 'posts', 'topics', 'inputvalidation', 'form');
 array_map('load_class', $essential_classes);
 
 $Page = new Page;

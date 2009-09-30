@@ -2,11 +2,7 @@
 <fieldset class="float-wrap">
 <legend>Search</legend>
  <div class="float-left">
-  <label>Query: <?php printf(Page::$input_format,
-	'query',
-	InputValidation::filter_input(INPUT_POST, 'query', FILTER_SANITIZE_SPECIAL_CHARS),
-	Topics::MAX_TITLE_LENGTH
-	) ?></label>
+  <label>Query: <?php echo $form->input('query', Topics::MAX_TITLE_LENGTH) ?></label>
   <input type="submit" name="submit" value="Search"/>
  </div>
  <div class="float-right">
