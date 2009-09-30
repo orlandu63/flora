@@ -112,7 +112,7 @@ class Page extends STemplator {
 		switch($type) {
 			case self::FORM_THREAD:
 				$header = 'Reply';
-				$params['post'] = $data['post'];
+				$params['post'] = $form_data['post'];
 				$legend = 'Post Info';
 				$submit_value = 'Post Reply';
 				break;
