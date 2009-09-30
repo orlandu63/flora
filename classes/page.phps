@@ -15,7 +15,7 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 	
-	static $input_format = '<input type="text" size="%d" value="%s" name="%s" maxlength="%1$d"/>';
+	static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
 
 	protected $wd;
 
