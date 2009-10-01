@@ -65,19 +65,19 @@ class ThreadList {
 	
 	protected function generateNavLinks(array $post_info, $position) {
 		static $sibling_stack = array();
-		$children_of_parent = $this->children[$post_info['parent']];
+		$siblings = $this->children[$post_info['parent']];
 		$post_has_children = !empty($this->children[$post_info['id']]);
 		$nav_links = array();
 		if($post_info['parent'] !== null) {
 			$nav_links[$post_info['parent']] = array('↖', 'parent');
 		}
-		if(isset($children_of_parent[$position-1])) {
-			$nav_links[$children_of_parent[$position-1]['id']] = array('↑', 'preceding');
+		if(isset($siblings[$position-1])) {
+			$nav_links[$siblings[$position-1]['id']] = array('↑', 'preceding');
 		}
-		if(isset($children_of_parent[$position+1])) {
-			$nav_links[$children_of_parent[$position+1]['id']] = array('↓', 'proceeding');
+		if(isset($siblings[$position+1])) {
+			$nav_links[$siblings[$position+1]['id']] = array('↓', 'proceeding');
 			if($post_has_children) {
-				$sibling_stack[] = $children_of_parent[$position+1]['id'];
+				$sibling_stack[] = $siblings[$position+1]['id'];
 			}
 		} elseif(!$post_has_children && !empty($sibling_stack)) {
 			$next_logical_post = array_pop($sibling_stack);
