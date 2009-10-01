@@ -9,7 +9,7 @@ class Page extends STemplator {
 	const PAGE_INDEX = 'index';
 	const PAGE_POST = 'post';
 	const PAGE_SEARCH = 'search';
-	const PAGE_FAQ = 'faq';
+	const PAGE_HELP = 'help';
 	
 	const PAGE_SUFFIX = '.php';
 	

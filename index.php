@@ -6,7 +6,7 @@ $Page->page_id = Page::PAGE_INDEX;
 $Page->header = 'Topic Index';
 $Page->site_nav['Create a Topic'] = Page::makeURI(Page::PAGE_POST);
 $Page->site_nav['Search Topics'] = Page::makeURI(Page::PAGE_SEARCH);
-$Page->site_nav['FAQ'] = Page::makeURI(Page::PAGE_FAQ);
+$Page->site_nav['Help'] = Page::makeURI(Page::PAGE_HELP);
 
 $page = InputValidation::validateInt('page', 0, Topiclist::getNumPages(Topics::count()));
 if($page === false) {
