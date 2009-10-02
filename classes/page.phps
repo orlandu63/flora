@@ -1,10 +1,5 @@
 <?php
 class Page extends STemplator {
-	const FORUM_NAME = 'UAMB';
-	
-	const DEFAULT_ANNOUNCEMENT =
-		'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.';
-	
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
 	const PAGE_POST = 'post';
@@ -16,12 +11,11 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 
-	protected $wd, $settings = array();
+	protected $wd;
 
 	public function __construct() {
 		$this->wd = getcwd();
 		$this->setDirExt('templates/', '.phps');
-		$this->settings = parse_ini_file(SETTINGS_FILE, true); #this shouldn't have to be parsed for each request
 		parent::__construct('skeleton');
 		$this->initializeTemplateVars();
 		header('Cache-Control: public, max-age=0');
@@ -30,7 +24,6 @@ class Page extends STemplator {
 	protected function initializeTemplateVars() {
 		$this->page_id = null;
 		$this->site_nav = array();
-		$this->set($this->settings['DEFAULT_TEMPLATE_VARS']);
 	}
 	
 	public function __destruct() {

@@ -1,9 +1,6 @@
 <?php
-define('SOFTWARE', 'flora');
 define('VERSION', '1.4-dev');
-define('BASE_PATH', 'http://scrap.ath.cx:99/uamb/');
 define('CLASS_DIR', 'classes/');
-define('DB_NAME', 'flora');
 define('SETTINGS_FILE', 'settings.ini');
 
 //these are located inside the include path
@@ -22,9 +19,12 @@ function memoize($key, $callback, $overwrite = false) {
 	return $cache[$key];
 }
 
-$essential_classes = array('page', 'user', 'posts', 'topics', 'inputvalidation', 'form');
+$essential_classes = array('settings', 'page', 'user', 'form', 'posts', 'topics', 'inputvalidation');
 array_map('load_class', $essential_classes);
 
+Settings::load(SETTINGS_FILE);
+
 $Page = new Page;
-$DB = new DB(DB_NAME);
+	$Page->set(Settings::get('DEFAULT_TEMPLATE_VARS'));
+$DB = new DB(Settings::get('DB_NAME'));
 User::load();

@@ -68,7 +68,7 @@ if($valid) {
 			$new_topic_id = $new_info['id'];
 			$new_post_id = $new_info['post'];
 		}
-		Page::redirect(BASE_PATH . Topics::makeURI($new_topic_id, $new_post_id), 303);
+		Page::redirect(Settings::get('BASE_PATH') . Topics::makeURI($new_topic_id, $new_post_id), 303);
 		$Page->terminate();
 	}
 }

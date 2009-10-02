@@ -6,7 +6,7 @@
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
- <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
+ <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo $FORUM_NAME ?></a></h1>
  <p id="announcement"><?php echo $ANNOUNCEMENT ?></p>
  <ul id="site-nav" class="float-right inline-list">
  <?php foreach($site_nav as $text => $uri): ?>
@@ -21,7 +21,7 @@
  <p id="footer">
   <code>
    <?php printf('exec(new %s(\'%s\')) → %.2fs allocating %s using %d query(s)',
-	SOFTWARE, VERSION, $time_index, $memory_alloc, DB::$num_queries) ?>
+	Settings::get('SOFTWARE'), VERSION, $time_index, $memory_alloc, DB::$num_queries) ?>
   </code>
   <a class="float-right" href="/">scrap.ath.cx:99</a>
  </p>
