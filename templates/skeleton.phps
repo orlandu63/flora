@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" id="<?php echo $page_id ?>">
 <head>
- <title><?php if(isset($title)) echo $title, ' :: '; echo Page::FORUM_NAME ?> Message Board</title>
+ <title><?php if(isset($title)) echo $title, ' :: '; echo $FORUM_NAME ?> Message Board</title>
  <link rel="stylesheet" href="<?php echo Page::makeFingerprintURI('style.css') ?>" type="text/css"/>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
  <h1 id="header"><a href="<?php echo Page::makeURI(Page::PAGE_INDEX) ?>"><?php echo Page::FORUM_NAME ?></a></h1>
- <p id="announcement"><?php echo $announcement ?></p>
+ <p id="announcement"><?php echo $ANNOUNCEMENT ?></p>
  <ul id="site-nav" class="float-right inline-list">
  <?php foreach($site_nav as $text => $uri): ?>
   <li><a href="<?php echo $uri ?>"><?php echo $text ?></a></li>

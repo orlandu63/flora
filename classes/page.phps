@@ -16,11 +16,12 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 
-	protected $wd;
+	protected $wd, $settings = array();
 
 	public function __construct() {
 		$this->wd = getcwd();
 		$this->setDirExt('templates/', '.phps');
+		$this->settings = parse_ini_file(SETTINGS_FILE, true); #this shouldn't have to be parsed for each request
 		parent::__construct('skeleton');
 		$this->initializeTemplateVars();
 		header('Cache-Control: public, max-age=0');
@@ -28,8 +29,8 @@ class Page extends STemplator {
 	
 	protected function initializeTemplateVars() {
 		$this->page_id = null;
-		$this->announcement = self::DEFAULT_ANNOUNCEMENT;
 		$this->site_nav = array();
+		$this->set($this->settings['DEFAULT_TEMPLATE_VARS']);
 	}
 	
 	public function __destruct() {
@@ -99,42 +100,7 @@ class Page extends STemplator {
 		$this->do_output = false;
 		die;
 	}
-	
-	public function displayPostForm($type, array $form_data = array()) {
-		if(empty($data)) {
-			$form_data = array(
-				'post' => InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
-				'author' => User::$name,
-				'title' => InputValidation::filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
-				'body' => InputValidation::filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
-			);
-		}
-		$params = array();
-		switch($type) {
-			case self::FORM_THREAD:
-				$header = 'Reply';
-				$params['post'] = $form_data['post'];
-				$legend = 'Post Info';
-				$submit_value = 'Post Reply';
-				break;
-			case self::FORM_TOPIC:
-				$header = 'Create a Topic';
-				$legend = 'Topic Info';
-				$submit_value = 'Make Topic';
-				break;
-		}
-		$this->load(new Form('post',
-			$form_data,
-			array(
-				'header' => $header,
-				'params' => $params,
-				'legend' => $legend,
-				'type' => $type,
-				'submit_value' => $submit_value
-			)
-		));
-	}
-	
+
 	//!!!i need to work on my terminology
 	public static function transformDuration($seconds, $max_precision = 2) {
 		$periods = array(

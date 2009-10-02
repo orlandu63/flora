@@ -23,4 +23,4 @@ $Topiclist = new Topiclist(Topics::getList($page, Topiclist::PER_PAGE));
 $Topiclist->render();
 $Topiclist->renderPagination($page, Topics::count());
 
-$Page->displayPostForm(Page::FORM_TOPIC);
+$Page->load(Form::preparePostForm(Form::POST_TOPIC));

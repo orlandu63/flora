@@ -74,4 +74,4 @@ if($valid) {
 }
 
 $Page->title .= ' ' . ($replying_to ? 'Thread' : 'Topic');
-$Page->displayPostForm(($replying_to ? Page::FORM_THREAD : Page::FORM_TOPIC));
+$Page->load(Form::preparePostForm(($replying_to ? Form::POST_THREAD : Form::POST_TOPIC)));
