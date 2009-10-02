@@ -7,6 +7,7 @@ class Form extends STemplate {
 	const POST_TOPIC  = 2;
 
 	public static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
+	public static $textarea_format = '<textarea name="%1$s" rows="%3$d" cols="%4$d">%2$s</textarea>';
 
 	public function __construct($form, array $form_data, array $template_data = array()) {
 		$this->file = 'forms/' . $form;
@@ -49,8 +50,18 @@ class Form extends STemplate {
 			)
 		);
 	}
+	
+	protected function format($format, $name, array $extra_arguments = array()) {
+		$arguments = $extra_arguments;
+		array_unshift($arguments, $name, $this->form_data[$name]);
+		return vsprintf($format, $arguments);
+	}
 
 	public function input($name, $max_length) {
-		return sprintf(self::$input_format, $name, $this->form_data[$name], $max_length);
+		return $this->format(self::$input_format, $name, array($max_length));
+	}
+	
+	public function textarea($name, $rows, $cols) {
+		return $this->format(self::$textarea_format, $name, array($rows, $cols));
 	}
 }

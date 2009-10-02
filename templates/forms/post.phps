@@ -9,7 +9,7 @@
  <label>Title: <?php echo $form->input('title', Topics::MAX_TITLE_LENGTH) ?></label><br/>
  <?php endif ?>
  <label>Body: (you may use Markdown →)<br/>
-  <textarea name="body" cols="80" rows="10"><?php echo $form_data['body'] ?></textarea>
+  <?php echo $form->textarea('body', 10, 80) ?>
  </label><br/>
  <input type="submit" value="<?php echo $submit_value ?>" name="submit"/>
  <input type="submit" value="Preview" name="preview"/>

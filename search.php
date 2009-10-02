@@ -7,7 +7,7 @@ $Page->header = 'Search';
 $Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $Page->load(
-	new Form(Form::FORM_SEARCH, array('query' => 
+	new Form(Form::SEARCH, array('query' => 
 		InputValidation::filter_input(INPUT_POST, 'query', FILTER_SANITIZE_SPECIAL_CHARS),
 	))
 );

@@ -1,7 +1,7 @@
 <?php
 define('VERSION', '1.4-dev');
 define('CLASS_DIR', 'classes/');
-define('SETTINGS_FILE', 'settings.ini');
+define('SETTINGS_FILE', 'settings.phps');
 
 //these are located inside the include path
 require 'db.phps';
@@ -27,6 +27,6 @@ foreach($essential_classes as $essential_class) {
 Settings::load(SETTINGS_FILE);
 
 $Page = new Page;
-	$Page->set(Settings::get('DEFAULT_TEMPLATE_VARS'));
-$DB = new DB(Settings::get('DB_NAME'));
+	$Page->set(Settings::get('default_template_vars'));
+$DB = new DB(Settings::get('db_name'));
 User::load();
