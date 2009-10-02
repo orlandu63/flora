@@ -20,7 +20,9 @@ function memoize($key, $callback, $overwrite = false) {
 }
 
 $essential_classes = array('settings', 'page', 'user', 'form', 'posts', 'topics', 'inputvalidation');
-array_map('load_class', $essential_classes);
+foreach($essential_classes as $essential_class) {
+	load_class($essential_class);
+}
 
 Settings::load(SETTINGS_FILE);
 
