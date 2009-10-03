@@ -1,8 +1,5 @@
 <?php
 abstract class Posts {
-	const MAX_BODY_LENGTH = 8000;
-	const POSTS_PER_SECOND = 0.1;
-	
 	public static function getInfo($id, $what = null) {
 		$post_info = memoize("p-$id", function() use($id) {
 			global $DB;

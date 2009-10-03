@@ -1,7 +1,5 @@
 <?php
 class TopicList {
-	const PER_PAGE = 30;
-	
 	protected $topics = array();
 	
 	public function __construct(array $topics) {
@@ -39,13 +37,13 @@ class TopicList {
 	}
 	
 	public static function getNumPages($total) {
-		return (int)(($total - 1) / self::PER_PAGE);
+		return (int)(($total - 1) / Settings::get('topiclist/per_page'));
 	}
 	
 	public function renderPagination($page, $total) {
 		$num_pages = self::getNumPages($total);
-		$offset = $page * self::PER_PAGE;
-		echo '<ul id="pages" class="inline-list"><li title="', self::PER_PAGE, ' per page">Pages:</li>';
+		$offset = $page * Settings::get('topiclist/per_page');
+		echo '<ul id="pages" class="inline-list"><li title="', Settings::get('topiclist/per_page'), ' per page">Pages:</li>';
 		if($page !== 0 ) {
 			echo '<li><a href="', self::makePaginationURI($page - 1), '">prev</a></li>';
 		}

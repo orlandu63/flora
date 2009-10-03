@@ -7,6 +7,11 @@ abstract class Settings {
 	}
 	
 	public static function get($setting) {
-		return self::$settings[$setting];
+		$settings = explode('/', $setting);
+		$cursor = self::$settings;
+		foreach($settings as $setting) {
+			$cursor = $cursor[$setting];
+		}
+		return $cursor;
 	}
 }

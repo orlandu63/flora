@@ -45,7 +45,10 @@ abstract class InputValidation {
 	public static function validateAuthor($name, $filter = INPUT_POST) {
 		$author = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
 		$author = trim($author);
-		self::validateLength('name', $author, User::MAX_AUTHOR_LENGTH, 0);
+		self::validateLength('name', $author,
+			Settings::get('input_thresholds/author/max_length'),
+			Settings::get('input_thresholds/author/min_length')
+		);
 		return $author;
 	}
 	
@@ -54,7 +57,10 @@ abstract class InputValidation {
 		//validate before and after so that this weak server wont have to parse a huge piece of text
 		$validateLength = function() use($body) {
 			$self = __CLASS__;
-			$self::validateLength('body', $body, Posts::MAX_BODY_LENGTH, 1);
+			$self::validateLength('body', $body,
+				Settings::get('input_thresholds/body/max_length'),
+				Settings::get('input_thresholds/body/min_length')
+			);
 		};
 		$validateLength();
 		$parser = Markdown::getInstance();
@@ -66,7 +72,10 @@ abstract class InputValidation {
 	public static function validateTitle($name, $filter = INPUT_POST) {
 		$title = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
 		$title = trim($title);
-		self::validateLength('title', $title, Topics::MAX_TITLE_LENGTH);
+		self::validateLength('title', $title,
+			Settings::get('input_thresholds/title/max_length'),
+			Settings::get('input_thresholds/title/min_length')
+		);
 		return $title;
 	}
 	

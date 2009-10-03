@@ -1,9 +1,5 @@
 <?php
 abstract class User {
-	const ANON_NAME = 'anon';
-	const MAX_AUTHOR_LENGTH = 10;
-	const ID_LENGTH = 6;
-
 	public static $id, $name;
 	
 	public static function save() {
@@ -15,13 +11,13 @@ abstract class User {
 	public static function display($author, $id, array $classes = array()) {
 		$classes = array_merge(self::generateUserClasses($author, $id), $classes);
 		return sprintf('<span class="%s" title="id: %s">%s</span>',
-			implode(' ', $classes), $id, ($author ?: self::ANON_NAME)
+			implode(' ', $classes), $id, ($author ?: Settings::get('user/anon_name'))
 		);
 	}
 	
 	public static function load() {
-		self::$id = substr(hash('md5', ip2long($_SERVER['REMOTE_ADDR'])), 0, self::ID_LENGTH);
-		self::$name = substr(self::getAuthor(), 0, self::MAX_AUTHOR_LENGTH);
+		self::$id = substr(hash('md5', ip2long($_SERVER['REMOTE_ADDR'])), 0, Settings::get('user/id_length'));
+		self::$name = substr(self::getAuthor(), 0, Settings::get('input_thresholds/author/max_length'));
 		register_shutdown_function(array(__CLASS__, 'save'));
 	}
 	
@@ -30,7 +26,7 @@ abstract class User {
 		return memoize('user-flooding', function() use($id) {
 			global $DB;
 			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
-				$id, (1 / Posts::POSTS_PER_SECOND))->fetchColumn();
+				$id, (1 / Settings::get('input_thresholds/posts_per_second')))->fetchColumn();
 		});
 	}
 	

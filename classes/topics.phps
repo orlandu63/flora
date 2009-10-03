@@ -1,7 +1,5 @@
 <?php
 abstract class Topics {
-	const MAX_TITLE_LENGTH = 80;
-	
 	public static function getInfo($id, $what = null) {
 		$topic_info = memoize("t-$id", function() use($id) {
 			global $DB;
