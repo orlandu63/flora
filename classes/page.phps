@@ -135,6 +135,6 @@ class Page extends STemplator {
 		$seconds = $_SERVER['REQUEST_TIME'] - $timestamp;
 		$durations = self::transformDuration($seconds);
 		
-		return sprintf($html_format, date('r', $timestamp), implode(', ', $durations));
+		return sprintf($html_format, date(Settings::get('date_format'), $timestamp), implode(', ', $durations));
 	}
 }

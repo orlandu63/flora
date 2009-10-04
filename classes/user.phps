@@ -21,6 +21,10 @@ abstract class User {
 		register_shutdown_function(array(__CLASS__, 'save'));
 	}
 	
+	public static function isAdmin($id) {
+		return in_array($id, Settings::get('admin_ids'));
+	}
+	
 	public static function isFlooding() {
 		$id = self::$id;
 		return memoize('user-flooding', function() use($id) {
@@ -32,7 +36,7 @@ abstract class User {
 	
 	public static function generateUserClasses($author, $id) {
 		$classes = array('user');
-		if($id === '63dc48') { //that's me!
+		if(self::isAdmin($id)) {
 			$classes[] = 'admin';
 		}
 		return $classes;

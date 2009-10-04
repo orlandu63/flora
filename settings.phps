@@ -7,6 +7,8 @@ return array(
 		'forum_name' => 'UAMB',
 		'announcement' => 'welcome to UAMB, an <del>unmoderated anonymous</del><ins>uber awesome</ins> message board.',
 	),
+	'date_format' => 'r',
+	'admin_ids' => array('63dc48'),
 	'user' => array(
 		'anon_name' => 'anon',
 		'id_length' => 6,
