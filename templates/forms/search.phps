@@ -6,7 +6,7 @@
   <input type="submit" name="submit" value="Search"/>
  </div>
  <div class="float-right">
-  Query omits words &lt; <?php echo Settings::get('search/min_word_length') ?> characters and common words
+  Query omits words &lt; <?php echo Settings::get('input_thresholds/search/min_word_length') ?> characters and common words
  </div>
 </fieldset>
 </form>

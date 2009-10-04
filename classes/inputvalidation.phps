@@ -82,7 +82,7 @@ abstract class InputValidation {
 	public static function validateQuery($name, $filter = INPUT_POST) {
 		$query = self::filter_input($filter, $name, FILTER_SANITIZE_SPECIAL_CHARS);
 		$query = trim($query);
-		self::validateLength('query', $query, Topics::MAX_TITLE_LENGTH);
+		self::validateLength('query', $query, Settings::get('input_thresholds/title/max_length'));
 		return $query;
 	}
 }

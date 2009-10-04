@@ -6,16 +6,16 @@ abstract class Settings {
 		self::$settings = require $file;
 	}
 	
-	public static function get($setting_string) {
-		if(array_key_exists($setting_string, self::$cache)) {
-			return self::$cache[$setting_string];
+	public static function get($setting_path) {
+		if(array_key_exists($setting_path, self::$cache)) {
+			return self::$cache[$setting_path];
 		}
-		$settings = explode('/', $setting_string);
+		$settings = explode('/', $setting_path);
 		$cursor = self::$settings;
 		foreach($settings as $setting) {
 			$cursor = $cursor[$setting];
 		}
-		self::$cache[$setting_string] = $cursor;
+		self::$cache[$setting_path] = $cursor;
 		return $cursor;
 	}
 }

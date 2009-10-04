@@ -24,10 +24,10 @@ return array(
 			'max_length' => 10,
 			'min_length' => 0,
 		),
+		'search' => array(
+			'min_word_length' => 3,
+		),
 		'posts_per_second' => .1,
-	),
-	'search' => array(
-		'min_word_length' => 3,
 	),
 	'topiclist' => array(
 		'per_page' => 30,
