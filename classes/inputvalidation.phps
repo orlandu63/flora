@@ -53,6 +53,7 @@ abstract class InputValidation {
 	}
 	
 	public static function validateBody($name, $filter = INPUT_POST) {
+		require_once 'markdown.phps';
 		$body = self::filter_input($filter, $name);
 		//validate before and after so that this weak server wont have to parse a huge piece of text
 		$validateLength = function() use($body) {

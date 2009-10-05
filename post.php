@@ -1,6 +1,5 @@
 <?php
 require '_.phps';
-require 'markdown.phps';
 
 $Page->page_id = Page::PAGE_POST;
 $Page->title = $Page->header = 'Post';

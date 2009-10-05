@@ -1,7 +1,7 @@
 <?php
 abstract class Topics {
 	public static function getInfo($id, $what = null) {
-		$topic_info = memoize("t-$id", function() use($id) {
+		$topic_info = Memoizer::memoize("t-$id", function() use($id) {
 			global $DB;
 			return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
 		});
@@ -36,14 +36,14 @@ abstract class Topics {
 	}
 	
 	public static function count() {
-		return memoize('t-count', function() {
+		return Memoizer::memoize('t-count', function() {
 			global $DB;
 			return $DB->q('SELECT COUNT(*) FROM topics')->fetchColumn();
 		});
 	}
 	
 	public static function max() {
-		return memoize('t-max', function() {
+		return Memoizer::memoize('t-max', function() {
 			global $DB;
 			return $DB->q('SELECT MAX(id) FROM topics')->fetchColumn();
 		});

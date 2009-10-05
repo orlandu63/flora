@@ -27,7 +27,7 @@ abstract class User {
 	
 	public static function isFlooding() {
 		$id = self::$id;
-		return memoize('user-flooding', function() use($id) {
+		return Memoizer::memoize('user-flooding', function() use($id) {
 			global $DB;
 			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
 				$id, (1 / Settings::get('input_thresholds/posts_per_second')))->fetchColumn();

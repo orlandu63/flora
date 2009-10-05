@@ -51,7 +51,7 @@ class Form extends STemplate {
 		);
 	}
 	
-	protected function format($format, $name, array $arguments = array()) {
+	public function format($format, $name, array $arguments = array()) {
 		array_unshift($arguments, $name, $this->form_data[$name]);
 		return vsprintf($format, $arguments);
 	}
