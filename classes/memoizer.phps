@@ -5,10 +5,14 @@ abstract class Memoizer { //todo: rename
 
 	//todo: make $cache multidimensional with respect to get_called_class()
 	public static function memoize($key, Closure $callback, $overwrite = false) {
-		$key = get_called_class() . '-' . $key;
-		if(self::$overwrite || $overwrite || !array_key_exists($key, self::$cache)) {
-			self::$cache[$key] = $callback();
+		$domain = get_called_class();
+		if($domain === __CLASS__) {
+			$domain = null; //= global domain
 		}
-		return self::$cache[$key];
+		$cache =& self::$cache[$domain][$key];
+		if(self::$overwrite || $overwrite || $cache === null) {
+			$cache = $callback();
+		}
+		return $cache;
 	}
 }
