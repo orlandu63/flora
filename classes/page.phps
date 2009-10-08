@@ -26,12 +26,6 @@ class Page extends STemplator {
 		$this->site_nav = array();
 	}
 	
-	protected function postProcessSiteNav() { //awesome!
-		if(strpos($this->page_id, Page::PAGE_INDEX) !== 0) {
-			$this->site_nav = array('Topic Index' => Page::makeURI(Page::PAGE_INDEX)) + $this->site_nav; //prepend Topic Index URI if current page isn't topic index
-		}
-	}
-	
 	public function __destruct() {
 		//because the cwd changes during shutdown,
 		//i change the working directory to its previous and then change it back
@@ -52,6 +46,16 @@ class Page extends STemplator {
 		$this->time_index = xdebug_time_index();
 		$this->memory_alloc = (memory_get_peak_usage() >> 10) . 'Kib';
 		parent::output();
+	}
+	
+	public function isPage($id) {
+		return (strpos($this->page_id, $id) === 0);
+	}
+	
+	protected function postProcessSiteNav() { //awesome!
+		if(!$this->isPage(Page::PAGE_INDEX)) {
+			$this->site_nav = array('Topic Index' => Page::makeURI(Page::PAGE_INDEX)) + $this->site_nav; //prepend Topic Index URI if current page isn't topic index
+		}
 	}
 	
 	public static function makeURI($name, array $params = array(), $hash = null, $suffix = self::PAGE_SUFFIX) {
@@ -101,46 +105,11 @@ class Page extends STemplator {
 		die;
 	}
 
-	//!!!i need to work on my terminology
-	public static function transformDuration($seconds, $max_precision = 2) {
-		$periods = array(
-			2629743 => 'mth',
-			604800 => 'wk',
-			86400 => 'day',
-			3600 => 'hr',
-			60 => 'min'
-		);
-		$durations = array();
-		$precision = 0;
-		
-		foreach($periods as $seconds_in_period => $period) {
-			if($seconds >= $seconds_in_period) {
-				$num_periods = (int)($seconds / $seconds_in_period);
-				$durations[] = $num_periods . ' ' . $period . ($num_periods === 1 ? '' : 's');
-				$seconds -= $num_periods * $seconds_in_period;
-			}
-			if(!empty($durations) && ++$precision >= $max_precision) {
-				break;
-			}
-		}
-		
-		if(empty($durations)) {
-			$durations = array('not long');
-		} else {
-			$num_durations = count($durations);
-			if($num_durations > 2) {
-				$durations[$num_durations-1] = 'and ' . $durations[$num_durations-1];
-			}
-		}
-		
-		return $durations;
-	}
-		
 	public static function formatTime($timestamp) {
 		$html_format = '<span class="time" title="%s">%s ago</span>';
 		
 		$seconds = $_SERVER['REQUEST_TIME'] - $timestamp;
-		$durations = self::transformDuration($seconds);
+		$durations = Time::transformDuration($seconds);
 		
 		return sprintf($html_format, date(Settings::get('date_format'), $timestamp), implode(', ', $durations));
 	}

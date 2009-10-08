@@ -6,6 +6,7 @@ define('SETTINGS_FILE', 'settings.phps');
 //these are located inside the include path
 require 'db.phps';
 require 'stemplator.phps';
+require 'time.phps';
 
 function load_class($name) {
 	require_once CLASS_DIR . $name . '.phps';
