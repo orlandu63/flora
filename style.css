@@ -116,8 +116,12 @@ display:inline;
 
 .post-info-wrap {
 background:#eef;
-color:#333;
+color:#666;
 width:100%;
+}
+
+.post-info .user {
+color:#444
 }
 
 .post:target > .post-info-wrap {

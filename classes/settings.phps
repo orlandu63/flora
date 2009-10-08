@@ -1,5 +1,5 @@
 <?php
-abstract class Settings {
+abstract class Settings extends Memoizer {
 	protected static $settings = array();
 	
 	public static function load($file) {
@@ -7,7 +7,7 @@ abstract class Settings {
 	}
 	
 	public static function get($setting_path) {
-		return Memoizer::memoize("setting-$setting_path", function() use($setting_path) {
+		return self::memoize($setting_path, function() use($setting_path) {
 			$self = __CLASS__;
 			return $self::getSettingFromPath($setting_path);
 		});

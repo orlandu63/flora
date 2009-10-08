@@ -20,7 +20,7 @@ class ThreadList {
 		$Page->load('threadlist', array('Threadlist' => $this));
 	}
 	
-	public function renderThread($parent) {
+	protected function renderThread($parent) {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$parent];
 		foreach($children_of_parent as $position => $post_info) {
