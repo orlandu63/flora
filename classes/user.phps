@@ -1,7 +1,13 @@
 <?php
 abstract class User extends Memoizer {
 	public static $id, $name;
-	
+
+	public static function load() {
+		self::$id = substr(hash('md5', ip2long($_SERVER['REMOTE_ADDR'])), 0, Settings::get('user/id_length'));
+		self::$name = substr(self::getAuthor(), 0, Settings::get('input_thresholds/author/max_length'));
+		register_shutdown_function(array(__CLASS__, 'save'));
+	}
+
 	public static function save() {
 		if(self::getAuthor() !== self::$name) {
 			setcookie('author', self::$name, $_SERVER['REQUEST_TIME'] + 60 * 60 * 24 * 365);
@@ -14,13 +20,7 @@ abstract class User extends Memoizer {
 			implode(' ', $classes), $id, ($author ?: Settings::get('user/anon_name'))
 		);
 	}
-	
-	public static function load() {
-		self::$id = substr(hash('md5', ip2long($_SERVER['REMOTE_ADDR'])), 0, Settings::get('user/id_length'));
-		self::$name = substr(self::getAuthor(), 0, Settings::get('input_thresholds/author/max_length'));
-		register_shutdown_function(array(__CLASS__, 'save'));
-	}
-	
+
 	public static function isAdmin($id) {
 		return in_array($id, Settings::get('admin_ids'));
 	}

@@ -4,7 +4,6 @@ load_class('threadlist');
 
 $Page->page_id = Page::PAGE_TOPIC;
 $Page->title = $Page->header = 'Topic';
-$Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $topic = InputValidation::validateInt('id', 1, Topics::max());
 if(!Topics::exists($topic)) {

@@ -4,7 +4,6 @@ load_class('topiclist');
 
 $Page->page_id = Page::PAGE_SEARCH;
 $Page->header = 'Search';
-$Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $Page->load(
 	new Form(Form::SEARCH, array('query' => 

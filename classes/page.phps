@@ -22,8 +22,14 @@ class Page extends STemplator {
 	}
 	
 	protected function initializeTemplateVars() {
-		$this->page_id = null;
+		$this->page_id = '';
 		$this->site_nav = array();
+	}
+	
+	protected function postProcessSiteNav() { //awesome!
+		if(strpos($this->page_id, Page::PAGE_INDEX) !== 0) {
+			$this->site_nav = array('Topic Index' => Page::makeURI(Page::PAGE_INDEX)) + $this->site_nav; //prepend Topic Index URI if current page isn't topic index
+		}
 	}
 	
 	public function __destruct() {
@@ -40,6 +46,7 @@ class Page extends STemplator {
 			ob_clean();
 			return;
 		}
+		$this->postProcessSiteNav();
 		$contents = ob_get_clean();
 		$this->contents = $contents;
 		$this->time_index = xdebug_time_index();

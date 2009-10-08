@@ -4,7 +4,6 @@ require '_.phps';
 
 #$Page->page_id = Page::PAGE_EDIT;
 $Page->title = $Page->header = 'Edit';
-$Page->site_nav['Topic Index'] = Page::makeURI(Page::PAGE_INDEX);
 
 $post = InputValidation::validateInt('post', 1, Posts::max());
 if(!Posts::exists($post)) {
