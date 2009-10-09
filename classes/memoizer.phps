@@ -8,10 +8,10 @@ abstract class Memoizer { //todo: rename
 		if($domain === __CLASS__) {
 			$domain = null; //= global domain
 		}
-		$cache =& self::$cache[$domain][$key];
-		if(self::$overwrite || $overwrite || $cache === null) {
-			$cache = $callback();
+		$cache_entry =& self::$cache[$domain][$key];
+		if(self::$overwrite || $overwrite || $cache_entry === null) {
+			$cache_entry = $callback();
 		}
-		return $cache;
+		return $cache_entry;
 	}
 }

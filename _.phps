@@ -1,5 +1,5 @@
 <?php
-define('VERSION', '1.4');
+define('VERSION', '1.5-dev');
 define('CLASS_DIR', 'classes/');
 define('SETTINGS_FILE', 'settings.phps');
 
