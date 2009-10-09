@@ -48,12 +48,12 @@ class Page extends STemplator {
 		parent::output();
 	}
 	
-	public function isPage($id) {
+	public function is($id) {
 		return (strpos($this->page_id, $id) === 0);
 	}
 	
 	protected function postProcessSiteNav() { //awesome!
-		if(!$this->isPage(Page::PAGE_INDEX)) {
+		if($this->is(Page::PAGE_INDEX)) {
 			$this->site_nav = array('Topic Index' => Page::makeURI(Page::PAGE_INDEX)) + $this->site_nav; //prepend Topic Index URI if current page isn't topic index
 		}
 	}
