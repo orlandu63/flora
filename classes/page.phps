@@ -1,5 +1,8 @@
 <?php
 class Page extends STemplator {
+	const TEMPLATE_DIR = 'templates/', TEMPLATE_EXT = '.phps';
+	const SKELETON_FILE = 'skeleton', OUTPUT_VAR = 'contents';
+
 	const PAGE_TOPIC = 'topic';
 	const PAGE_INDEX = 'index';
 	const PAGE_POST = 'post';
@@ -15,8 +18,7 @@ class Page extends STemplator {
 
 	public function __construct() {
 		$this->wd = getcwd();
-		$this->setDirExt('templates/', '.phps');
-		parent::__construct('skeleton');
+		parent::__construct();
 		$this->initializeTemplateVars();
 		header('Cache-Control: public, max-age=0');
 	}
@@ -41,8 +43,6 @@ class Page extends STemplator {
 			return;
 		}
 		$this->postProcessSiteNav();
-		$contents = ob_get_clean();
-		$this->contents = $contents;
 		$this->time_index = xdebug_time_index();
 		$this->memory_alloc = (memory_get_peak_usage() >> 10) . 'Kib';
 		parent::output();

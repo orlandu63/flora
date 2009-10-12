@@ -14,7 +14,9 @@
  <?php endforeach ?>
  </ul>
  <h2><?php echo $header ?></h2>
+ <!-- start contents -->
  <?php echo $contents ?>
+ <!-- end contents -->
  <p id="who" title="this is your anonymous identity">
   you are <?php echo User::display(User::$name, User::$id) ?> {<?php echo User::$id ?>}
  </p>
