@@ -1,3 +1,3 @@
 <div id="threadlist">
-<?php $Threadlist->renderThread(null); ?>
+<?php $Threadlist->render(); ?>
 </div>

@@ -20,7 +20,7 @@ if($page > 0) {
 $Page->page_id .= $page;
 
 $Topiclist = new Topiclist(Topics::getList($page, Settings::get('topiclist/per_page')));
-$Topiclist->render();
+$Topiclist->load();
 $Topiclist->renderPagination($page, Topics::count());
 
 $Page->load(Form::preparePostForm(Form::POST_TOPIC));

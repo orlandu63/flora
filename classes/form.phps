@@ -10,7 +10,7 @@ class Form extends STemplate {
 	public static $textarea_format = '<textarea name="%1$s" rows="%3$d" cols="%4$d">%2$s</textarea>';
 
 	public function __construct($form, array $form_data, array $template_data = array()) {
-		$this->file = 'forms/' . $form;
+		parent::__construct('forms/' . $form);
 		$this->form = $this;
 		$this->form_data = $form_data;
 		$this->set($template_data);
@@ -19,11 +19,13 @@ class Form extends STemplate {
 	public static function preparePostForm($type, array $form_data = array()) {
 		if(empty($data)) {
 			$form_data = array(
-				'post' => InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT),
 				'author' => User::$name,
 				'title' => InputValidation::filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS),
 				'body' => InputValidation::filter_input(INPUT_POST, 'body', FILTER_SANITIZE_SPECIAL_CHARS)
 			);
+			if($type === self::POST_THREAD) {
+				$form_data['post'] = InputValidation::filter_input(INPUT_GET, 'post', FILTER_VALIDATE_INT);
+			}
 		}
 		$params = array();
 		switch($type) {

@@ -15,12 +15,16 @@ class ThreadList {
 		}
 	}
 	
-	public function render() {
+	public function load() {
 		global $Page;
 		$Page->load('threadlist', array('Threadlist' => $this));
 	}
 	
-	public function renderThread($parent) {
+	public function render() {
+		$this->renderThread(null);
+	}
+	
+	protected function renderThread($parent) {
 		static $sibling_stack = array();
 		$children_of_parent = $this->children[$parent];
 		foreach($children_of_parent as $position => $post_info) {

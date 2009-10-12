@@ -1,6 +1,7 @@
 <?php
 class TopicList {
 	protected $topics = array();
+	public $pagination = array();
 	
 	public function __construct(array $topics) {
 		$this->topics = $topics;
@@ -21,7 +22,7 @@ class TopicList {
 		return $last_post;
 	}
 	
-	public function render() {
+	public function load() {
 		global $Page;
 		$Page->load('topiclist', array(
 			'topics' => $this->topics
@@ -39,7 +40,7 @@ class TopicList {
 	public static function getNumPages($total) {
 		return (int)(($total - 1) / Settings::get('topiclist/per_page'));
 	}
-	
+
 	public function renderPagination($page, $total) {
 		$num_pages = self::getNumPages($total);
 		$offset = $page * Settings::get('topiclist/per_page');

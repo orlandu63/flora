@@ -53,7 +53,7 @@ class Page extends STemplator {
 	}
 	
 	protected function postProcessSiteNav() { //awesome!
-		if($this->is(Page::PAGE_INDEX)) {
+		if(!$this->is(Page::PAGE_INDEX)) {
 			$this->site_nav = array('Topic Index' => Page::makeURI(Page::PAGE_INDEX)) + $this->site_nav; //prepend Topic Index URI if current page isn't topic index
 		}
 	}

@@ -22,4 +22,4 @@ $Page->header = sprintf(
 	$Threadlist->topic['title']
 );
 
-$Threadlist->render();
+$Threadlist->load();

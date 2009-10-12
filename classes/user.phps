@@ -22,11 +22,13 @@ abstract class User extends Memoizer {
 	}
 
 	public static function isAdmin($id) {
-		return in_array($id, Settings::get('admin_ids'));
+		return self::memoize("is_admin-$id", function() use($id) {
+			return in_array($id, Settings::get('admin_ids'));
+		});
 	}
 	
-	public static function isFlooding() {
-		$id = self::$id;
+	public static function isFlooding($id = null) {
+		$id = ($id ?: self::$id);
 		return self::memoize('flooding', function() use($id) {
 			global $DB;
 			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
