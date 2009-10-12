@@ -9,7 +9,7 @@ abstract class User extends Memoizer {
 	}
 
 	public static function save() {
-		if(self::getAuthor() !== self::$name) {
+		if(self::$name !== self::getAuthor()) {
 			setcookie('author', self::$name, $_SERVER['REQUEST_TIME'] + 60 * 60 * 24 * 365);
 		}
 	}
@@ -29,7 +29,7 @@ abstract class User extends Memoizer {
 	
 	public static function isFlooding($id = null) {
 		$id = ($id ?: self::$id);
-		return self::memoize('flooding', function() use($id) {
+		return self::memoize("flooding-$id", function() use($id) {
 			global $DB;
 			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
 				$id, (1 / Settings::get('input_thresholds/posts_per_second')))->fetchColumn();
