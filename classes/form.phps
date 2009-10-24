@@ -6,8 +6,8 @@ class Form extends STemplate {
 	const POST_THREAD = 1;
 	const POST_TOPIC  = 2;
 
-	public static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
-	public static $textarea_format = '<textarea name="%1$s" rows="%3$d" cols="%4$d">%2$s</textarea>';
+	protected static $input_format = '<input type="text" size="%3$d" value="%2$s" name="%1$s" maxlength="%3$d"/>';
+	protected static $textarea_format = '<textarea name="%1$s" rows="%3$d" cols="%4$d">%2$s</textarea>';
 
 	public function __construct($form, array $form_data, array $template_data = array()) {
 		parent::__construct('forms/' . $form);

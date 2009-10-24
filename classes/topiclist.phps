@@ -1,9 +1,7 @@
 <?php
-class TopicList {
-	protected $topics = array();
-	public $pagination = array();
-	
+class TopicList extends STemplate {
 	public function __construct(array $topics) {
+		parent::__construct('topiclist');
 		$this->topics = $topics;
 		if(!empty($this->topics)) {
 			Page::HTTPCache($this->determineLastPost());
@@ -20,13 +18,6 @@ class TopicList {
 			}
 		}
 		return $last_post;
-	}
-	
-	public function load() {
-		global $Page;
-		$Page->load('topiclist', array(
-			'topics' => $this->topics
-		));
 	}
 	
 	protected static function makePaginationURI($page) {

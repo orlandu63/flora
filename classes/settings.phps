@@ -1,5 +1,7 @@
 <?php
-abstract class Settings extends Memoizer {
+abstract class Settings {
+	const CACHE_PREFIX = 's';
+
 	protected static $settings = array();
 	
 	public static function load($file) {
@@ -7,7 +9,7 @@ abstract class Settings extends Memoizer {
 	}
 	
 	public static function get($setting_path) {
-		return self::memoize($setting_path, function() use($setting_path) {
+		return Cache::memoize(array(self::CACHE_PREFIX, $setting_path), function() use($setting_path) {
 			$self = __CLASS__;
 			return $self::getSettingFromPath($setting_path);
 		});

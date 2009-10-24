@@ -1,11 +1,13 @@
 <?php
 //i just realiezd that it's not really a thread list, more like a thread thread.. but am i that
 // pedantic to change it?
-class ThreadList {
-	public $topic = array(), $children = array();
+class ThreadList extends STemplate {
+	protected $topic = array(), $children = array();
 	protected $max_id_length;
 
 	public function __construct($id) {
+		parent::__construct('threadlist');
+		$this->self = $this;
 		$this->topic = Topics::getInfo($id);
 		Page::HTTPCache($this->topic['last_post']);
 		$posts = Posts::getOfTopic($id);
@@ -13,11 +15,6 @@ class ThreadList {
 		foreach($posts as $post) {
 			$this->children[$post['parent']][] = $post;
 		}
-	}
-	
-	public function load() {
-		global $Page;
-		$Page->load('threadlist', array('Threadlist' => $this));
 	}
 	
 	public function render() {

@@ -6,13 +6,14 @@ define('SETTINGS_FILE', 'settings.phps');
 //these are located inside the include path
 require 'db.phps';
 require 'stemplator.phps';
+require 'cache.phps';
 require 'time.phps';
 
 function load_class($name) {
 	require_once CLASS_DIR . $name . '.phps';
 }
 
-$essential_classes = array('memoizer', 'settings', 'page', 'user', 'form', 'posts', 'topics', 'inputvalidation');
+$essential_classes = array('settings', 'page', 'user', 'form', 'posts', 'topics', 'inputvalidation');
 foreach($essential_classes as $essential_class) {
 	load_class($essential_class);
 }

@@ -1,7 +1,9 @@
 <?php
-abstract class Topics extends Memoizer {
+abstract class Topics {
+	const CACHE_PREFIX = 't';
+
 	public static function getInfo($id, $what = null) {
-		$topic_info = self::memoize($id, function() use($id) {
+		$topic_info = Cache::memoize(array(self::CACHE_PREFIX, $id), function() use($id) {
 			global $DB;
 			return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
 		});
@@ -36,14 +38,14 @@ abstract class Topics extends Memoizer {
 	}
 	
 	public static function count() {
-		return self::memoize('count', function() {
+		return Cache::memoize(array(self::CACHE_PREFIX, 'count'), function() {
 			global $DB;
 			return $DB->q('SELECT COUNT(*) FROM topics')->fetchColumn();
 		});
 	}
 	
 	public static function max() {
-		return self::memoize('max', function() {
+		return Cache::memoize(array(self::CACHE_PREFIX, 'max'), function() {
 			global $DB;
 			return $DB->q('SELECT MAX(id) FROM topics')->fetchColumn();
 		});

@@ -1,5 +1,7 @@
 <?php
-abstract class User extends Memoizer {
+abstract class User {
+	const CACHE_PREFIX = 'u';
+
 	public static $id, $name;
 
 	public static function load() {
@@ -22,14 +24,14 @@ abstract class User extends Memoizer {
 	}
 
 	public static function isAdmin($id) {
-		return self::memoize("is_admin-$id", function() use($id) {
+		return Cache::memoize(array(self::CACHE_PREFIX, $id, 'is-admin'), function() use($id) {
 			return in_array($id, Settings::get('admin_ids'));
 		});
 	}
 	
 	public static function isFlooding($id = null) {
 		$id = ($id ?: self::$id);
-		return self::memoize("flooding-$id", function() use($id) {
+		return Cache::memoize(array(self::CACHE_PREFIX, $id, 'flooding'), function() use($id) {
 			global $DB;
 			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
 				$id, (1 / Settings::get('input_thresholds/posts_per_second')))->fetchColumn();

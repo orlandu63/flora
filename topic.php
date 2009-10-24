@@ -13,13 +13,12 @@ if(!Topics::exists($topic)) {
 
 $Page->page_id .= $topic;
 
+$topic_info = Topics::getInfo($topic);
 $Threadlist = new ThreadList($topic);
 
-$Page->title = $Threadlist->topic['title'];
+$Page->title = $topic_info['title'];
 $Page->header = sprintf(
-	'<a href="%s">%s</a>',
-	Topics::makeURI($Threadlist->topic['id'], $Threadlist->topic['post']),
-	$Threadlist->topic['title']
+	'<a href="%s">%s</a>', Topics::makeURI($topic_info['id'], $topic_info['post']), $topic_info['title']
 );
 
-$Threadlist->load();
+$Page->load($Threadlist);

@@ -30,5 +30,5 @@ if(empty($search_results)) {
 } else {
 	echo '<h2>Results</h2>';
 	$Topiclist = new Topiclist($search_results);
-	$Topiclist->render();
+	$Page->load($Topiclist);
 }

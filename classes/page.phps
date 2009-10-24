@@ -14,10 +14,7 @@ class Page extends STemplator {
 	const FORM_THREAD = 1;
 	const FORM_TOPIC = 2;
 
-	protected $wd;
-
 	public function __construct() {
-		$this->wd = getcwd();
 		parent::__construct();
 		$this->initializeTemplateVars();
 		header('Cache-Control: public, max-age=0');
@@ -26,15 +23,6 @@ class Page extends STemplator {
 	protected function initializeTemplateVars() {
 		$this->page_id = '';
 		$this->site_nav = array();
-	}
-	
-	public function __destruct() {
-		//because the cwd changes during shutdown,
-		//i change the working directory to its previous and then change it back
-		$prev_wd = getcwd();
-		chdir($this->wd);
-		$this->output();
-		chdir($prev_wd);
 	}
 	
 	public function output() {
