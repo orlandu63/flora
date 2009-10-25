@@ -1,6 +1,6 @@
 <?php
 require '_.phps';
-load_class('topiclist');
+Loader::load('Topiclist');
 
 $Page->id(Page::PAGE_INDEX);
 $Page->header = 'Topic Index';

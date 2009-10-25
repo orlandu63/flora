@@ -1,6 +1,6 @@
 <?php
 require '_.phps';
-load_class('threadlist');
+Loader::load('Threadlist');
 
 $Page->id(Page::PAGE_TOPIC);
 $Page->title = $Page->header = 'Topic';

@@ -72,18 +72,9 @@ class Page extends STemplator {
 		return $uri;
 	}
 	
-	public static function status($status_code) {
-		header('Status: ' . $status_code);
-	}
-	
-	public static function redirect($uri, $status_code) {
-		self::status($status_code);
-		header('Location: ' . $uri);
-	}
-	
 	public static function error($error, $status_code = null) {
 		if($status_code) {
-			self::status($status_code);
+			HTTP::status($status_code);
 		}
 		echo '<p id="error">', $error, '</p>';
 	}
@@ -96,7 +87,7 @@ class Page extends STemplator {
 	}
 	
 	public static function makeFingerprintURI($file, array $extra_params = array()) {
-		$params = array('v' => base_convert(filemtime($file), 10, 36)) + $extra_params;
+		$params = array('v' => HTTP::fingerprint($file)) + $extra_params;
 		return self::makeURI($file, $params, null, null);
 	}
 	

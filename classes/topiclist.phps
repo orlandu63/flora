@@ -4,7 +4,7 @@ class TopicList extends STemplate {
 		parent::__construct('topiclist');
 		$this->topics = $topics;
 		if(!empty($this->topics)) {
-			Page::HTTPCache($this->determineLastPost());
+			HTTP::cache($this->determineLastPost());
 		}
 	}
 	

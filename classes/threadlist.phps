@@ -9,7 +9,7 @@ class ThreadList extends STemplate {
 		parent::__construct('threadlist');
 		$this->self = $this;
 		$this->topic = Topics::getInfo($id);
-		Page::HTTPCache($this->topic['last_post']);
+		HTTP::cache($this->topic['last_post']);
 		$posts = Posts::getOfTopic($id);
 		$this->max_id_length = strlen($this->topic['last_post_id']);
 		foreach($posts as $post) {

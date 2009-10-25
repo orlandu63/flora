@@ -1,21 +1,20 @@
 <?php
 define('VERSION', '1.5-dev');
 define('CLASS_DIR', 'classes/');
+define('DEPENDANCIES_FILE', 'dependancies.phps');
 define('SETTINGS_FILE', 'settings.phps');
 
 //these are located inside the include path
-require 'db.phps';
-require 'stemplator.phps';
-require 'cache.phps';
-require 'time.phps';
-
-function load_class($name) {
-	require_once CLASS_DIR . $name . '.phps';
+require 'loader.phps';
+Loader::loadDepTree('include-dependancies.phps');
+foreach(array('DB', 'STemplator', 'Cache', 'HTTP', 'Time') as $include) {
+	Loader::load($include);
 }
 
-$essential_classes = array('settings', 'page', 'user', 'form', 'posts', 'topics', 'inputvalidation');
+Loader::loadDepTree(DEPENDANCIES_FILE);
+$essential_classes = array('Settings', 'Page', 'User', 'Form', 'Posts', 'Topics', 'InputValidation');
 foreach($essential_classes as $essential_class) {
-	load_class($essential_class);
+	Loader::load($essential_class);
 }
 
 Settings::load(SETTINGS_FILE);
