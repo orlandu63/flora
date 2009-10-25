@@ -1,8 +1,8 @@
 <?php
 define('VERSION', '1.5-dev');
 define('CLASS_DIR', 'classes/');
-define('DEPENDENCIES_FILE', 'dependencies.phps');
-define('SETTINGS_FILE', 'settings.phps');
+define('DEPENDENCIES_FILE', 'etc/dependencies.phps');
+define('SETTINGS_FILE', 'etc/settings.phps');
 
 //these are located inside the include path
 require 'loader.phps';
