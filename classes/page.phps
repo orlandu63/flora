@@ -16,11 +16,11 @@ class Page extends STemplator {
 
 	public function __construct() {
 		parent::__construct();
-		$this->initializeTemplateVars();
+		$this->defaultTemplateVars();
 		header('Cache-Control: public, max-age=0');
 	}
 	
-	protected function initializeTemplateVars() {
+	protected function defaultTemplateVars() {
 		$this->page_id = '';
 		$this->site_nav = array();
 	}
