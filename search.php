@@ -2,7 +2,7 @@
 require '_.phps';
 load_class('topiclist');
 
-$Page->page_id = Page::PAGE_SEARCH;
+$Page->id(Page::PAGE_SEARCH);
 $Page->header = 'Search';
 
 $Page->load(

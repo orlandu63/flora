@@ -16,13 +16,18 @@ class Page extends STemplator {
 
 	public function __construct() {
 		parent::__construct();
-		$this->defaultTemplateVars();
+		$this->preTemplateVars();
 		header('Cache-Control: public, max-age=0');
 	}
 	
-	protected function defaultTemplateVars() {
+	protected function preTemplateVars() {
 		$this->page_id = '';
 		$this->site_nav = array();
+	}
+	
+	protected function postTemplateVars() {
+		$this->time_index = xdebug_time_index();
+		$this->memory_alloc = (memory_get_peak_usage() >> 10) . 'Kib';
 	}
 	
 	public function output() {
@@ -30,14 +35,21 @@ class Page extends STemplator {
 			ob_clean();
 			return;
 		}
+		$this->postTemplateVars();
 		$this->postProcessSiteNav();
-		$this->time_index = xdebug_time_index();
-		$this->memory_alloc = (memory_get_peak_usage() >> 10) . 'Kib';
 		parent::output();
 	}
 	
-	public function is($id) {
-		return (strpos($this->page_id, $id) === 0);
+	public function id($id, $append = true) {
+		if($append) {
+			$this->page_id[] = $id;
+		} else {
+			$this->page_id = array($id);
+		}
+	}
+	
+	public function is($id, $index = 0) {
+		return ($this->page_id[$index] === $id);
 	}
 	
 	protected function postProcessSiteNav() { //awesome!

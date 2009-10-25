@@ -2,7 +2,7 @@
 require '_.phps';
 load_class('topiclist');
 
-$Page->page_id = Page::PAGE_INDEX;
+$Page->id(Page::PAGE_INDEX);
 $Page->header = 'Topic Index';
 $Page->site_nav['Create a Topic'] = Page::makeURI(Page::PAGE_POST);
 $Page->site_nav['Search Topics'] = Page::makeURI(Page::PAGE_SEARCH);
@@ -17,7 +17,7 @@ if($page === false) {
 if($page > 0) {
 	$Page->header .= sprintf(', page %d', $page + 1);
 }
-$Page->page_id .= $page;
+$Page->id($page);
 
 $Topiclist = new Topiclist(Topics::getList($page, Settings::get('topiclist/per_page')));
 $Page->load($Topiclist);

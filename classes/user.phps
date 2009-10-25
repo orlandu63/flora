@@ -1,6 +1,7 @@
 <?php
 abstract class User {
 	const CACHE_PREFIX = 'u';
+	const AUTHOR_COOKIE = 'author';
 
 	public static $id, $name;
 
@@ -12,7 +13,7 @@ abstract class User {
 
 	public static function save() {
 		if(self::$name !== self::getAuthor()) {
-			setcookie('author', self::$name, $_SERVER['REQUEST_TIME'] + 60 * 60 * 24 * 365);
+			setcookie(self::AUTHOR_COOKIE, self::$name, $_SERVER['REQUEST_TIME'] + 60 * 60 * 24 * 365);
 		}
 	}
 	
@@ -47,6 +48,6 @@ abstract class User {
 	}
 
 	public static function getAuthor() {
-		return InputValidation::filter_input(INPUT_COOKIE, 'author');
+		return InputValidation::filter_input(INPUT_COOKIE, self::AUTHOR_COOKIE);
 	}
 }

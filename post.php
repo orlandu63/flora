@@ -1,7 +1,7 @@
 <?php
 require '_.phps';
 
-$Page->page_id = Page::PAGE_POST;
+$Page->id(Page::PAGE_POST);
 $Page->title = $Page->header = 'Post';
 
 $replying_to = InputValidation::validateInt('post', 1, Posts::max());
@@ -14,7 +14,7 @@ $form_submitted = $submit || $preview;
 if($replying_to && Posts::exists($replying_to)) {
 	$post_info = Posts::getInfo($replying_to);
 	$topic_info = Topics::getInfo($post_info['topic']);
-	$Page->page_id .= $replying_to;
+	$Page->id($replying_to);
 	$Page->site_nav['Back to Post'] = Topics::makeURI($topic_info['id'], $replying_to);
 	echo '<h3>Replying to: <a href="', Topics::makeURI($topic_info['id'], $topic_info['post']), '">',
 		$topic_info['title'],

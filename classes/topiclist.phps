@@ -21,11 +21,12 @@ class TopicList extends STemplate {
 	}
 	
 	protected static function makePaginationURI($page) {
+		global $Page;
 		$query_args = array();
 		if($page !== 0) {
 			$query_args['page'] = $page;
 		}
-		return Page::makeURI(Page::PAGE_INDEX, $query_args);
+		return Page::makeURI($Page->page_id[0], $query_args);
 	}
 	
 	public static function getNumPages($total) {
