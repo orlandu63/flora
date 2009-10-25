@@ -1,7 +1,5 @@
 <?php
 abstract class Settings {
-	const CACHE_PREFIX = 's';
-
 	protected static $settings = array();
 	
 	public static function load($file) {
@@ -9,8 +7,7 @@ abstract class Settings {
 	}
 	
 	public static function get($setting_path) {
-		return Cache::memoize(array(self::CACHE_PREFIX, $setting_path), function() use($setting_path) {
-			$self = __CLASS__;
+		return Cache::memoize(array(__CLASS__, $setting_path), function($self = __CLASS__) use($setting_path) {
 			return $self::getSettingFromPath($setting_path);
 		});
 	}

@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.0
+-- version 3.2.2.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 11, 2009 at 05:02 PM
--- Server version: 5.1.38
+-- Generation Time: Oct 25, 2009 at 07:33 PM
+-- Server version: 5.1.39
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -58,24 +58,20 @@ CREATE TABLE `post_info` (
   KEY `user_id/toc` (`user_id`,`toc`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `post_info2`
+-- Triggers `post_info`
 --
-
-CREATE TABLE `post_info2` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `topic` int(10) unsigned NOT NULL,
-  `parent` int(10) unsigned DEFAULT NULL,
-  `author` char(10) DEFAULT NULL,
-  `toc` int(10) unsigned NOT NULL,
-  `ip` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `topic` (`topic`),
-  KEY `ip/toc` (`ip`,`toc`),
-  KEY `parent` (`parent`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+DROP TRIGGER IF EXISTS `update_topic_info`;
+DELIMITER //
+CREATE TRIGGER `update_topic_info` AFTER INSERT ON `post_info`
+ FOR EACH ROW BEGIN
+UPDATE topic_info SET last_post_id = NEW.id, replies = replies + 1 WHERE id = NEW.topic;
+IF NEW.parent IS NULL THEN
+UPDATE topic_info SET post = NEW.id WHERE id = NEW.topic;
+END IF;
+  END
+//
+DELIMITER ;
 
 -- --------------------------------------------------------
 

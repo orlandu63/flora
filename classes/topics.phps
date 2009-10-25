@@ -1,21 +1,17 @@
 <?php
 abstract class Topics {
-	const CACHE_PREFIX = 't';
-
 	public static function getInfo($id, $what = null) {
-		$topic_info = Cache::memoize(array(self::CACHE_PREFIX, $id), function() use($id) {
-			global $DB;
-			return $DB->q('SELECT * FROM topics WHERE id = ?', $id)->fetch();
-		});
+		global $DB;
+		$topic_info = $DB->q1('SELECT * FROM topics WHERE id = ?', $id);
 		return ($what ? $topic_info[$what] : $topic_info);
 	}
 	
 	public static function getList($page, $per_page) {
 		global $DB;
 		$per_page = (int)$per_page;
-		return $DB->q('SELECT * FROM topics
+		return $DB->qa('SELECT * FROM topics
 			ORDER BY is_sticky DESC, last_post_id DESC
-			LIMIT ' . ($page * $per_page) . ', ' . $per_page)->fetchAll();
+			LIMIT ' . ($page * $per_page) . ', ' . $per_page);
 	}
 	
 	public static function make($title, $author, $body) {
@@ -23,14 +19,12 @@ abstract class Topics {
 			$DB->q('INSERT INTO topic_info (title) VALUES(?)', $title);
 			$topic_id = $DB->lastInsertId();
 			$new_post = Posts::make(null, $author, $body, $topic_id);
-			$DB->q('UPDATE topic_info SET post = ? WHERE id = ?', $new_post['id'], $topic_id);
 		return self::getInfo($topic_id);
 	}
 	
 	public static function search($text) {
 		global $DB;
-		return $DB->q('SELECT * FROM topics WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)', $text)
-			->fetchAll();
+		return $DB->qa('SELECT * FROM topics WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)', $text);
 	}
 	
 	public static function exists($id) {
@@ -38,17 +32,13 @@ abstract class Topics {
 	}
 	
 	public static function count() {
-		return Cache::memoize(array(self::CACHE_PREFIX, 'count'), function() {
-			global $DB;
-			return $DB->q('SELECT COUNT(*) FROM topics')->fetchColumn();
-		});
+		global $DB;
+		return $DB->qc('SELECT COUNT(*) FROM topics');
 	}
 	
 	public static function max() {
-		return Cache::memoize(array(self::CACHE_PREFIX, 'max'), function() {
-			global $DB;
-			return $DB->q('SELECT MAX(id) FROM topics')->fetchColumn();
-		});
+		global $DB;
+		return $DB->qc('SELECT MAX(id) FROM topics');
 	}
 
 	public static function htmlId($id) {

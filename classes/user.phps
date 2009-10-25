@@ -1,6 +1,5 @@
 <?php
 abstract class User {
-	const CACHE_PREFIX = 'u';
 	const AUTHOR_COOKIE = 'author';
 
 	public static $id, $name;
@@ -25,18 +24,16 @@ abstract class User {
 	}
 
 	public static function isAdmin($id) {
-		return Cache::memoize(array(self::CACHE_PREFIX, $id, 'is-admin'), function() use($id) {
+		return Cache::memoize(array(__CLASS__, $id, 'is-admin'), function() use($id) {
 			return in_array($id, Settings::get('admin_ids'));
 		});
 	}
 	
 	public static function isFlooding($id = null) {
+		global $DB;
 		$id = ($id ?: self::$id);
-		return Cache::memoize(array(self::CACHE_PREFIX, $id, 'flooding'), function() use($id) {
-			global $DB;
-			return (bool)$DB->q('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
-				$id, (1 / Settings::get('input_thresholds/posts_per_second')))->fetchColumn();
-		});
+		return (bool)$DB->qc('SELECT 1 FROM posts WHERE user_id = ? AND toc >= UNIX_TIMESTAMP() - ? LIMIT 1',
+			array($id, (1 / Settings::get('input_thresholds/posts_per_second'))));
 	}
 	
 	public static function generateUserClasses($author, $id) {

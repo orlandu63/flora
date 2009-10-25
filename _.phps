@@ -7,7 +7,7 @@ define('SETTINGS_FILE', 'etc/settings.phps');
 //these are located inside the include path
 require 'loader.phps';
 Loader::loadDepTree('include-dependancies.phps');
-foreach(array('DB', 'STemplator', 'Cache', 'HTTP', 'Time') as $include) {
+foreach(array('Cache', 'DB', 'STemplator', 'HTTP', 'Time') as $include) {
 	Loader::load($include);
 }
 
