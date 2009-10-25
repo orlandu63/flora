@@ -1,7 +1,7 @@
 <?php
 define('VERSION', '1.5-dev');
 define('CLASS_DIR', 'classes/');
-define('DEPENDANCIES_FILE', 'dependancies.phps');
+define('DEPENDENCIES_FILE', 'dependencies.phps');
 define('SETTINGS_FILE', 'settings.phps');
 
 //these are located inside the include path
@@ -11,7 +11,7 @@ foreach(array('DB', 'STemplator', 'Cache', 'HTTP', 'Time') as $include) {
 	Loader::load($include);
 }
 
-Loader::loadDepTree(DEPENDANCIES_FILE);
+Loader::loadDepTree(DEPENDENCIES_FILE);
 $essential_classes = array('Settings', 'Page', 'User', 'Form', 'Posts', 'Topics', 'InputValidation');
 foreach($essential_classes as $essential_class) {
 	Loader::load($essential_class);
